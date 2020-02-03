@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.friend.mapper.FriShareMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.friend.model.FriShare">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="share_point" jdbcType="VARCHAR" property="sharePoint" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, flag, share_point, user_id, create_date, remark
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.sharePoint != null and entity.sharePoint!='' ">
+        		and share_point=#{entity.sharePoint}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.friend.model.FriShare" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from fri_share
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.friend.model.FriShare" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from fri_share 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.friend.model.FriShare" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from fri_share 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.friend.model.FriShare">
+    	update fri_share set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.friend.model.FriShare">
+		insert into fri_share
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="sharePoint != null">
+	    		share_point,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="sharePoint != null">
+	   			#{sharePoint,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.friend.model.FriShare">
+    	update fri_share
+    	<set>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="sharePoint != null">
+	   			share_point = #{sharePoint,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!--获取某人的分享次数-->
+    <select id="findCountByDay" parameterType="com.mpri.aio.friend.model.FriShare" resultType="java.util.HashMap">
+        select
+       		COUNT(0) as shareTimes,user_id as userId
+        from fri_share
+        <where>
+            date_format(create_date ,'%Y-%m-%d')= (select DATE_FORMAT(#{createDate},'%Y-%m-%d'))
+            and flag= #{FLAG_NORMAL}
+            and user_id is not null and user_id != ""
+        </where>
+        group by user_id
+    </select>
+</mapper>

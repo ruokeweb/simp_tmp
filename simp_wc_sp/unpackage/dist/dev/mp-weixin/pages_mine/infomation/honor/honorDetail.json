@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "荣誉成果编辑",
+  "usingComponents": {
+    "multiple-linkage": "/components/multipleLlinkage/multiple-linkage"
+  }
+}

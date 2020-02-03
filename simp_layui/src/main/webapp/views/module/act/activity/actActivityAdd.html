@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>活动管理</title>
+	<link rel='stylesheet' href='../../../../static/css/cropperjs-master/cropper.css' media='all' />
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/act/activity/activityadd.js"></script>
+	<style>
+		.ck-content {
+			min-height: 300px;
+		}
+	</style>
+</head>
+
+<body class="childrenBody">
+	<form class="layui-form" style="width:90%;margin-top:15px;">
+		<input type="hidden" class="layui-input id" name='id' id='associationid'>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-col-md6 layui-col-xs12">
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<div class="magb15 layui-col-md12 layui-col-xs12">
+						<label class="layui-form-label">举办校友会<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+						<input type="text" class="layui-input" id="id" style="display: none;">
+							<input type="text" class="layui-input parentId"  id="parentId" style="display: none;">
+							<input type="text" class="layui-input parentName"  id="parentName" lay-verify="required" readonly="readonly">
+							
+						</div>
+					</div>			
+				</div>
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<div class="magb15 layui-col-md12 layui-col-xs12">
+					<label class="layui-form-label">活动名称<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input"  id="name" lay-verify="required" 
+							placeholder="请输入活动名称(最大长度64位)" 
+							maxlength ="64">
+						</div>
+				</div>
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">人数上限<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input"  id="limitNo" lay-verify="required|personNum" 
+							placeholder="请输入最大报名人数" maxlength ="7">
+						</div>
+					</div>
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<!--<label class="layui-form-label">活动状态<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<select class="layui-form" name='status' id='status' lay-filter="status">
+								<option value=""></option>
+							</select>
+						</div>-->
+						<label class="layui-form-label">举办地<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input class="layui-input" id="area" lay-verify="required"  placeholder="请输入举办地址(最大长度64位)" maxlength ="64">
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">开始时间<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input class="layui-input" id="startDate"  placeholder="yyyy-MM-dd" lay-verify="required|start_date"  readonly="readonly">
+						</div>
+					</div>	
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">结束时间<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input class="layui-input" id="endDate"  placeholder="yyyy-MM-dd" lay-verify="required|end_date|act_end_date"  readonly="readonly">
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">报名开始<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input class="layui-input" id="signStartDate"  placeholder="yyyy-MM-dd"lay-verify="required|start_date|sing_start_date"   readonly="readonly">
+						</div>
+					</div>
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">报名结束<span class="span-required">*<span></label>
+						<div class="layui-input-block">
+							<input class="layui-input" id="signEndDate"  placeholder="yyyy-MM-dd" lay-verify="required|end_date|sing_end_date"  readonly="readonly">
+						</div>
+					</div>
+				</div>
+				<!--<div class="layui-col-md12 layui-col-xs12">
+				
+
+				
+				</div>-->
+			</div>
+			</div>
+			<div class="layui-col-md6 layui-col-xs12">
+				<div class="layui-upload" style="display: flex;justify-content: center;align-items: center;">
+					<div class="layui-upload-list" style="margin-top: 60px;">
+						<img class="layui-upload-img" id="photo"  src="../../../../static/images/default.jpg" 
+							onerror="this.src='../../../../static/images/default.jpg'" style="width:300px;height:150px;" />
+						<input  type="text" id="image" style="display: none;"/>
+					</div>
+				</div>
+				<button type="button" class="layui-btn" id="selectphoto">活动首图</button>
+			</div>
+		</div>
+		
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">活动简介</label>
+			<div class="layui-input-block">
+				<textarea namen="content" id="content" class="ck-content" lay-verify="content">
+				</textarea>
+			</div>
+		</div>
+		
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="add">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+</body>
+	
+</html>

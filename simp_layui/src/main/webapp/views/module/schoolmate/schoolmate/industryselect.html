@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<HTML style="height: 100%;">
+<HEAD>
+	<title>行业选择</title>
+	<meta charset="utf-8">
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_ztree.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>	
+	<script type="text/javascript">	
+		var layer;
+		var ztreeObj;
+		var idStr;
+		var infotype;
+		layui.config({
+			base : "../../../../static/js/"
+		}).extend({
+			"application" : "application",
+			"publicUtil" : "publicUtil"
+		})
+		layui.use(['layer','application',"publicUtil",'application'],function(){
+			layer = parent.layer,
+			application = layui.application,
+			publicUtil  = layui.publicUtil,
+			_$ = layui.jquery;
+			//ztree设置
+			var setting = {
+					view: {
+						selectedMulti: false
+					},
+
+					data: {
+						simpleData: {
+							enable: true,
+							idKey: "id",
+							pIdKey: "parentId"
+							// rootPId: 0									
+						}
+					},
+					check: {
+						enable: true,
+						chkStyle: "radio",  //单选框
+						radioType: "all"   //对所有节点设置单选
+					}
+			};
+
+			$(document).ready(function(){
+				
+				_$.ajax({
+					url: application.SERVE_URL+'/sys/industry/tree',
+					success: function (data) {	
+						ztreeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data);  //加载数据
+						//获取根节点个数,getNodes获取的是根节点的集合
+						var nodeList = ztreeObj.getNodes();
+			　　　　　　	//展开第一个根节点
+						ztreeObj.expandNode(nodeList[0], true);
+						//回填机构的
+						if(infotype == "HONOR"){
+							publicUtil.setTreeSel($("#honor_industry_"+idStr,parent.document).val(),ztreeObj);	
+						}else{
+							publicUtil.setTreeSel($("#profession_industry_"+idStr,parent.document).val(),ztreeObj);	
+						}												
+						
+					}
+				 });	
+				 
+				 $("#getSelectData").click(function(){
+					 if(ztreeObj.getCheckedNodes() != null && ztreeObj.getCheckedNodes().length != 0){
+						if(infotype == "HONOR"){
+							publicUtil.setAcrossName(ztreeObj.getCheckedNodes(),"#honor_industry_"+idStr,"#honor_industryName_"+idStr)
+						}else{
+							publicUtil.setAcrossName(ztreeObj.getCheckedNodes(),"#profession_industry_"+idStr,"#profession_industryName_"+idStr)
+						}
+					 }else{
+						top.layer.msg("请选择行业");
+					 }
+				 });
+				$("#reset").click(function(){
+					ztreeObj.checkNode(ztreeObj.getCheckedNodes());
+				});								  
+			});
+
+ 		});
+		function child(d,type) {
+			idStr = d;
+			infotype = type;
+		}
+	</script>
+</HEAD>
+
+<BODY style="height: 99%;">
+	<form class="layui-form" style="height: 99%;">
+		<div style="margin-bottom: 32px; height: 93%; overflow: auto;">
+			<ul id="treeDemo" class="ztree" style="height: 97%;"></ul>
+		</div>
+		<div class="layui-input-block" style="position:fixed;bottom:0;margin-left:90px;background:#f8f8f8;">
+			<a class="layui-btn layui-btn-sm" lay-submit="" lay-filter="getSelectData" id="getSelectData">确认</a>
+			<a  class="layui-btn layui-btn-sm layui-btn-primary" id="reset">重置</a>	
+		</div>
+	</form>
+</BODY>
+</HTML>

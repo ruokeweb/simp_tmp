@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.wxdata.mapper.WxdataTemplateSendMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.app.wxdata.model.WxdataTemplateSend">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="touser" jdbcType="VARCHAR" property="touser" />
+			<result column="template_id" jdbcType="VARCHAR" property="templateId" />
+			<result column="page" jdbcType="VARCHAR" property="page" />
+			<result column="form_id" jdbcType="VARCHAR" property="formId" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="emphasis_keyword" jdbcType="VARCHAR" property="emphasisKeyword" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="valid_period" jdbcType="TIMESTAMP" property="validPeriod" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="event_id" jdbcType="VARCHAR" property="eventId" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, touser, template_id, page, form_id, create_date, emphasis_keyword, remark, valid_period, flag, event_id
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.touser != null and entity.touser!='' ">
+        		and touser=#{entity.touser}
+      		</if>	      	
+			<if test="entity.templateId != null and entity.templateId!='' ">
+        		and template_id=#{entity.templateId}
+      		</if>	      	
+			<if test="entity.page != null and entity.page!='' ">
+        		and page=#{entity.page}
+      		</if>	      	
+			<if test="entity.formId != null and entity.formId!='' ">
+        		and form_id=#{entity.formId}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.emphasisKeyword != null and entity.emphasisKeyword!='' ">
+        		and emphasis_keyword=#{entity.emphasisKeyword}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.validPeriod != null and entity.validPeriod!='' ">
+        		and valid_period=#{entity.validPeriod}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.eventId != null and entity.eventId!='' ">
+        		and event_id=#{entity.eventId}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from wxdata_template_send
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+	<!-- 根据id查询 -->
+	<select id="getOne" parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wxdata_template_send
+		<where>
+			<include refid="query_where"></include>
+		</where>
+	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from wxdata_template_send 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from wxdata_template_send 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend">
+    	update wxdata_template_send set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend">
+		insert into wxdata_template_send
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="touser != null">
+	    		touser,
+	  		</if>   			
+	   		<if test="templateId != null">
+	    		template_id,
+	  		</if>   			
+	   		<if test="page != null">
+	    		page,
+	  		</if>   			
+	   		<if test="formId != null">
+	    		form_id,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="emphasisKeyword != null">
+	    		emphasis_keyword,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="validPeriod != null">
+	    		valid_period,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="eventId != null">
+	    		event_id,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="touser != null">
+	   			#{touser,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="templateId != null">
+	   			#{templateId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="page != null">
+	   			#{page,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="formId != null">
+	   			#{formId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="emphasisKeyword != null">
+	   			#{emphasisKeyword,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="validPeriod != null">
+	   			#{validPeriod,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eventId != null">
+	   			#{eventId,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.app.wxdata.model.WxdataTemplateSend">
+    	update wxdata_template_send
+    	<set>
+			<if test="touser != null">
+	   			touser = #{touser,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="templateId != null">
+	   			template_id = #{templateId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="page != null">
+	   			page = #{page,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="formId != null">
+	   			form_id = #{formId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="emphasisKeyword != null">
+	   			emphasis_keyword = #{emphasisKeyword,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="validPeriod != null">
+	   			valid_period = #{validPeriod,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="eventId != null">
+	   			event_id = #{eventId,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

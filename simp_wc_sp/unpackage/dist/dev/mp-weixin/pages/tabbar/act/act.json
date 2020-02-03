@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "uni-swiper-dot": "/components/uni-swiper-dot/uni-swiper-dot",
+    "segmented-control": "/components/uni-act-segmented-control/uni-act-segmented-control",
+    "m-search": "/components/act-mehaotian-search/mehaotian-search",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

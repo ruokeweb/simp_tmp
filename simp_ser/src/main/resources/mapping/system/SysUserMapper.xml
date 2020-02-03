@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.system.mapper.SysUserMapper">
+  
+  <!-- 基础返回值定义 -->
+  <resultMap id="BaseResultMap" type="com.mpri.aio.system.model.SysUser">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="safecode" jdbcType="VARCHAR" property="safecode" />
+    <result column="virtual_name" jdbcType="VARCHAR" property="virtualName" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="virtual_photo" jdbcType="VARCHAR" property="virtualPhoto" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="user_source" jdbcType="VARCHAR" property="userSource" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <collection property="roleList" ofType="com.mpri.aio.system.model.SysRole">
+		<id property="id" column="roleList.id" />
+        <result column="roleList.name" jdbcType="VARCHAR" property="name" />
+        <result column="roleList.code" jdbcType="VARCHAR" property="code" />
+        <result column="roleList.type" jdbcType="VARCHAR" property="type" />
+	</collection>
+	<collection property="asList" ofType="com.mpri.aio.association.model.AsAssociation">
+		<id property="id" column="asList.id" />
+	</collection>  
+  </resultMap>
+  
+  <!-- 基础字段定义 -->
+  <sql id="Base_Column_List">
+    a.id,  a.username, a.password, a.safecode, a.virtual_name, a.idcard, a.virtual_photo, a.mobile, a.email,a.user_type,a.user_source, a.create_date,
+    a.remark, a.flag
+  </sql>
+  
+  <!-- 基础字段定义 -->
+  <sql id="Column_List">
+    a.id,  a.username, a.virtual_name,a.virtual_photo, a.mobile, a.email,a.user_type,a.user_source, a.create_date,
+    a.remark, a.flag
+  </sql>
+  
+  <!-- 查询条件定义 -->
+  <sql id="query_where" >
+    <if test="entity!=null">
+       <if test="entity.id!=null and entity.id!='' ">
+           and id=#{entity.id}
+       </if>
+       <if test="entity.username!=null and entity.username!='' ">
+           and username LIKE concat('%', #{entity.username},'%')
+       </if>
+       <if test="entity.password!=null and entity.password!='' ">
+           and password=#{entity.password}
+       </if>
+       <if test="entity.virtualName!=null and entity.virtualName!='' ">
+           and virtual_name LIKE concat('%', #{entity.virtualName},'%')
+       </if>
+       <if test="entity.idcard!=null and entity.idcard!='' ">
+           and idcard=#{entity.idcard}
+       </if>
+       <if test="entity.mobile!=null and entity.mobile!='' ">
+           and mobile=#{entity.mobile}
+       </if>
+       <if test="entity.email!=null and entity.email!='' ">
+           and email=#{entity.email}
+       </if>
+       <if test="entity.queryBeginDate!=null ">
+           and create_date &gt;= #{entity.queryBeginDate}
+       </if>
+        <if test="entity.queryEndDate!=null  ">
+           and create_date &lt;= #{entity.queryEndDate}
+       </if>
+       <if test="entity.userType!=null and entity.userType!='' ">
+           and user_type=#{entity.userType}
+       </if>
+       <if test="entity.userSource!=null and entity.userSource!='' ">
+           and user_source=#{entity.userSource}
+       </if>
+       <if test="entity.fromSchool!=null and entity.fromSchool!='' ">
+           and from_school=#{entity.fromSchool}
+       </if>
+       <if test="entity.updateFlag!=null and entity.updateFlag!='' ">
+           and update_flag=#{entity.updateFlag}
+       </if>
+           and flag= #{entity.FLAG_NORMAL}
+	</if>
+  </sql>
+
+   <!-- 查询条件分页定义 -->
+  <sql id="query_where_page" >
+    <if test="entity!=null">
+
+       <if test="entity.username!=null and entity.username!='' ">
+           and username LIKE concat('%', #{entity.username},'%')
+       </if>
+       <if test="entity.password!=null and entity.password!='' ">
+           and password=#{entity.password}
+       </if>
+       <if test="entity.virtualName!=null and entity.virtualName!='' ">
+           and virtual_name LIKE concat('%', #{entity.virtualName},'%')
+       </if>
+       <if test="entity.idcard!=null and entity.idcard!='' ">
+           and idcard=#{entity.idcard}
+       </if>
+       <if test="entity.mobile!=null and entity.mobile!='' ">
+           and mobile=#{entity.mobile}
+       </if>
+       <if test="entity.email!=null and entity.email!='' ">
+           and email=#{entity.email}
+       </if>
+       <if test="entity.queryBeginDate!=null and entity.queryBeginDate!=''">
+           and create_date &gt;= #{queryBeginDate}  
+       </if>
+	     <if test="entity.queryEndDate!=null and entity.queryEndDate!='' ">
+           and create_date &lt;= #{queryEndDate}  
+       </if>
+       <if test="entity.userType!=null and entity.userType!='' ">
+           and user_type=#{entity.userType}
+       </if>
+       <if test="entity.userSource!=null and entity.userSource!='' ">
+           and user_source=#{entity.userSource}
+       </if>
+        <if test="entity.asId!=null and entity.asId!='' ">
+           <!-- and sua.as_id in (SELECT as_a.id FROM as_association as_a WHERE find_in_set(#{entity.asId}, as_a.parent_ids) or as_a.id = #{entity.asId}) -->
+           and sua.as_id in (SELECT as_a.id FROM as_association as_a WHERE as_a.id = #{entity.asId})
+       </if>
+           and flag= #{entity.FLAG_NORMAL}
+	</if>
+  </sql>
+ 
+  <!-- 根据username查询对象 -->
+  <select id="getSysUserByUsername" parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user a
+    where username = #{username,jdbcType=VARCHAR} and flag=#{FLAG_NORMAL}
+  </select>
+ 
+ 
+   <!-- 查询user数量 -->
+  <select id="getUserNum" parameterType="com.mpri.aio.system.model.SysUser" resultType = "Integer">
+    select 
+    	count(a.id)
+    from sys_user a
+    where username = #{username,jdbcType=VARCHAR} and flag=#{FLAG_NORMAL}
+  </select>
+ 
+  <!-- 根据id查询对象-->
+  <select id="get" parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,rul.role_id AS "roleList.id"
+    ,rl.name AS "roleList.name"
+    ,rl.type AS "roleList.type"
+    ,rl.code AS "roleList.code"
+    ,sua.as_id as "asList.id"
+    from sys_user a
+    LEft JOIN  sys_user_asso sua ON sua.user_id = a.id
+    LEFT JOIN sys_user_role rul ON rul.user_id = a.id
+    LEFT JOIN sys_role rl ON rul.role_id = rl.id
+    where a.id = #{id,jdbcType=VARCHAR} and a.flag = #{FLAG_NORMAL}
+  </select>
+  
+  <!-- 插入对象 -->
+  <insert id="insert" parameterType="com.mpri.aio.system.model.SysUser">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="safecode != null">
+        safecode,
+      </if>
+      <if test="virtualName != null">
+        virtual_name,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="virtualPhoto != null">   
+        virtual_photo,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+       <if test="createDate != null">
+        create_date,
+      </if>     
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="userSource != null">
+        user_source,
+      </if>
+      <if test="fromSchool != null">
+        from_school,
+      </if>
+      <if test="updateFlag != null">
+        update_flag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="safecode != null">
+        #{safecode,jdbcType=VARCHAR},
+      </if>
+      <if test="virtualName != null">
+        #{virtualName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="virtualPhoto != null">
+        #{virtualPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if> 
+      <if test="userType != null">
+        #{userType,jdbcType=CHAR},
+      </if>
+       <if test="userSource != null">
+        #{userSource,jdbcType=CHAR},
+      </if> 
+      <if test="fromSchool != null">
+        #{fromSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="updateFlag != null">
+         #{updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 更新对象 -->
+  <update id="update" parameterType="com.mpri.aio.system.model.SysUser">
+    update sys_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="safecode != null">
+        safecode = #{safecode,jdbcType=VARCHAR},
+      </if>
+      <if test="virtualName != null">
+        virtual_name = #{virtualName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="virtualPhoto != null">
+        virtual_photo = #{virtualPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="userSource != null">
+        user_source = #{userSource,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSchool != null">
+        from_school = #{fromSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="updateFlag != null">
+        update_flag = #{updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>      
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 删除对象 -->
+  <update id="delete" parameterType="com.mpri.aio.system.model.SysUser">
+    update sys_user set flag = #{FLAG_DELETE} where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 更新为未更新状态 -->
+  <update id="updateSynchronizedUser" parameterType="com.mpri.aio.system.model.SysUser">
+    update sys_user set update_flag = #{updateFlag} where  update_flag != #{updateFlag}
+  </update>
+  
+  <!-- 分页查询对象 -->
+  <select id="loadByPage" parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap" >
+    select 
+    <include refid="Column_List" />
+    from sys_user a 
+    LEFT JOIN  sys_user_asso sua ON sua.user_id = a.id
+    <where>
+	  <include refid="query_where_page"></include>
+       <if test="entity.id!=null and entity.id!='' ">
+           and id !=#{entity.id}
+       </if>
+    </where>
+    order by a.create_date DESC
+    <!--  -->
+  </select>
+  
+  <!-- 依照条件查询所有对象 -->
+  <select id="loadAllListBy"  parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap" >
+    select
+    <include refid="Column_List" />
+    from sys_user a
+	<where>
+	  <include refid="query_where"></include>
+    </where>
+  </select>
+
+  <!-- 依照条件查询所有对象 -->
+  <select id="loadAllByUpdate"  parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_user a
+	<where>
+	  <include refid="query_where"></include>
+    </where>
+  </select>
+
+    <!-- 依照条件查询所有对象 -->
+    <select id="loadAllUpdatePassword"  parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from sys_user a
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        and username <![CDATA[!= ]]> 'admin' and username <![CDATA[!= ]]> 'guest' and password = ''
+    </select>
+	<!--保存角色和用户关系  -->
+	<insert id="insertUserRole">
+		INSERT INTO sys_user_role(user_id, role_id)
+		<foreach collection="roleList" item="sysrole" separator=" union all ">
+			SELECT #{id}, #{sysrole.id}
+			FROM dual
+		</foreach>
+	</insert>
+	
+	<!--保存角色和用户关系  -->
+	<insert id="insertDfAs">
+		INSERT INTO sys_user_asso(user_id, as_id) VALUES (#{id},'root');
+	</insert>	
+  
+	
+	<!--删除角色和用户的关系中间表-->
+	<delete id="deleteUserRole">
+		DELETE FROM sys_user_role WHERE user_id = #{id}
+	</delete>
+  
+    <!--数据传输  -->
+	<insert id ="transferSave" >  
+	  <selectKey keyProperty="count" resultType="int" order="BEFORE">
+	    select count(*) as count from sys_user where flag =#{FLAG_NORMAL} and id = #{id}
+	  </selectKey>
+	  <if test="count > 0">
+	    update sys_user
+	    <set>
+	      <if test="username != null">
+	        username = #{username,jdbcType=VARCHAR},
+	      </if>
+	      <if test="password != null">
+	        password = #{password,jdbcType=VARCHAR},
+	      </if>
+	      <if test="safecode != null">
+	        safecode = #{safecode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="virtualName != null">
+	        virtual_name = #{virtualName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="idcard != null">
+	        idcard = #{idcard,jdbcType=VARCHAR},
+	      </if>
+	      <if test="virtualPhoto != null">
+	        virtual_photo = #{virtualPhoto,jdbcType=VARCHAR},
+	      </if>
+	      <if test="mobile != null">
+	        mobile = #{mobile,jdbcType=VARCHAR},
+	      </if>
+	      <if test="email != null">
+	        email = #{email,jdbcType=VARCHAR},
+	      </if>
+	      <if test="userType != null">
+	        user_type = #{userType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="userSource != null">
+	        user_source = #{userSource,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fromSchool != null">
+	        from_school = #{fromSchool,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateFlag != null">
+	        update_flag = #{updateFlag,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createDate != null">
+	        create_date = #{createDate,jdbcType=TIMESTAMP},
+	      </if>      
+	      <if test="remark != null">
+	        remark = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="flag != null">
+	        flag = #{flag,jdbcType=VARCHAR},
+	      </if>
+	    </set>
+	    where id = #{id,jdbcType=VARCHAR}
+	  </if>
+	  <if test="count==0">
+	    insert into sys_user
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        id,
+	      </if>
+	      <if test="username != null">
+	        username,
+	      </if>
+	      <if test="password != null">
+	        password,
+	      </if>
+	      <if test="safecode != null">
+	        safecode,
+	      </if>
+	      <if test="virtualName != null">
+	        virtual_name,
+	      </if>
+	      <if test="idcard != null">
+	        idcard,
+	      </if>
+	      <if test="virtualPhoto != null">   
+	        virtual_photo,
+	      </if>
+	      <if test="mobile != null">
+	        mobile,
+	      </if>
+	      <if test="email != null">
+	        email,
+	      </if>
+	       <if test="createDate != null">
+	        create_date,
+	      </if>     
+	      <if test="userType != null">
+	        user_type,
+	      </if>
+	      <if test="userSource != null">
+	        user_source,
+	      </if>
+	      <if test="fromSchool != null">
+	        from_school,
+	      </if>
+	      <if test="updateFlag != null">
+	        update_flag,
+	      </if>
+	      <if test="remark != null">
+	        remark,
+	      </if>
+	      <if test="flag != null">
+	        flag,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="username != null">
+	        #{username,jdbcType=VARCHAR},
+	      </if>
+	      <if test="password != null">
+	        #{password,jdbcType=VARCHAR},
+	      </if>
+	      <if test="safecode != null">
+	        #{safecode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="virtualName != null">
+	        #{virtualName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="idcard != null">
+	        #{idcard,jdbcType=VARCHAR},
+	      </if>
+	      <if test="virtualPhoto != null">
+	        #{virtualPhoto,jdbcType=VARCHAR},
+	      </if>
+	      <if test="mobile != null">
+	        #{mobile,jdbcType=VARCHAR},
+	      </if>
+	      <if test="email != null">
+	        #{email,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createDate != null">
+	        #{createDate,jdbcType=TIMESTAMP},
+	      </if> 
+	      <if test="userType != null">
+	        #{userType,jdbcType=CHAR},
+	      </if>
+	       <if test="userSource != null">
+	        #{userSource,jdbcType=CHAR},
+	      </if> 
+	      <if test="fromSchool != null">
+	        #{fromSchool,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateFlag != null">
+	         #{updateFlag,jdbcType=VARCHAR},
+	      </if>
+	      <if test="remark != null">
+	        #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="flag != null">
+	        #{flag,jdbcType=CHAR},
+	      </if>
+	    </trim>
+	  </if>
+	</insert>
+</mapper>

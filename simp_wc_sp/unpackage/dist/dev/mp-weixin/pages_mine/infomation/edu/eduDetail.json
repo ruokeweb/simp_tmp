@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "教育经历编辑",
+  "usingComponents": {
+    "multiple-linkage": "/components/multipleLlinkage/multiple-linkage"
+  }
+}

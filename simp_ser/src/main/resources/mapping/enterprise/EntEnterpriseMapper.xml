@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.enterprise.mapper.EntEnterpriseMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.enterprise.model.EntEnterprise">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="address" jdbcType="VARCHAR" property="address" />
+			<result column="content" jdbcType="VARCHAR" property="content" />	
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="email" jdbcType="VARCHAR" property="email" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="industry" jdbcType="VARCHAR" property="industry" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="phone" jdbcType="VARCHAR" property="phone" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="web_site" jdbcType="VARCHAR" property="webSite" />
+			<result column="wechat" jdbcType="VARCHAR" property="wechat" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	address, content, create_date, email, flag, id, industry, name, phone, remark, type, web_site, wechat
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.address != null and entity.address!='' ">
+        		and address=#{entity.address}
+      		</if>	      	
+			<if test="entity.content != null and entity.content!='' ">
+        		and content=#{entity.content}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.email != null and entity.email!='' ">
+        		and email=#{entity.email}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.industry != null and entity.industry!='' ">
+        		and industry=#{entity.industry}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+				and( name like   replace (#{entity.name},'*','%%')
+				or name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.phone != null and entity.phone!='' ">
+        		and phone=#{entity.phone}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.webSite != null and entity.webSite!='' ">
+        		and web_site=#{entity.webSite}
+      		</if>	      	
+			<if test="entity.wechat != null and entity.wechat!='' ">
+        		and wechat=#{entity.wechat}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.enterprise.model.EntEnterprise" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from ent_enterprise
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+
+	<!-- 根据id查询 -->
+	<select id="getname" parameterType="com.mpri.aio.enterprise.model.EntEnterprise" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ent_enterprise
+		where name = #{name,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+	</select>
+
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.enterprise.model.EntEnterprise" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from ent_enterprise 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+		order by create_date DESC
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy" parameterType="com.mpri.aio.enterprise.model.EntEnterprise" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from ent_enterprise 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+		order by create_date DESC
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.enterprise.model.EntEnterprise">
+    	update ent_enterprise set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.enterprise.model.EntEnterprise">
+		insert into ent_enterprise
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="address != null">
+	    		address,
+	  		</if>   			
+	   		<if test="content != null">
+	    		content,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="email != null">
+	    		email,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="industry != null">
+	    		industry,
+	  		</if>   			
+	   		<if test="name != null">
+	    		name,
+	  		</if>   			
+	   		<if test="phone != null">
+	    		phone,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="type != null">
+	    		type,
+	  		</if>   			
+	   		<if test="webSite != null">
+	    		web_site,
+	  		</if>   			
+	   		<if test="wechat != null">
+	    		wechat,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="address != null">
+	   			#{address,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="email != null">
+	   			#{email,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="industry != null">
+	   			#{industry,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="phone != null">
+	   			#{phone,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="webSite != null">
+	   			#{webSite,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="wechat != null">
+	   			#{wechat,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.enterprise.model.EntEnterprise">
+    	update ent_enterprise
+    	<set>
+			<if test="address != null">
+	   			address = #{address,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="email != null">
+	   			email = #{email,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="industry != null">
+	   			industry = #{industry,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="phone != null">
+	   			phone = #{phone,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="webSite != null">
+	   			web_site = #{webSite,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="wechat != null">
+	   			wechat = #{wechat,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

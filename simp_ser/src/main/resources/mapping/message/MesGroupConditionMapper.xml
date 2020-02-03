@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.message.mapper.MesGroupConditionMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.message.model.MesGroupCondition">
+				<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="field" jdbcType="VARCHAR" property="field" />
+			<result column="group_id" jdbcType="VARCHAR" property="groupId" />
+			<result column="value" jdbcType="VARCHAR" property="value" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	field, group_id, id, value
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.field != null and entity.field!='' ">
+        		and field=#{entity.field}
+      		</if>	      	
+			<if test="entity.groupId != null and entity.groupId!='' ">
+        		and group_id=#{entity.groupId}
+      		</if>	      	
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.value != null and entity.value!='' ">
+        		and value=#{entity.value}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.message.model.MesGroupCondition" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from mes_group_condition
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.message.model.MesGroupCondition" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_group_condition 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.message.model.MesGroupCondition" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_group_condition 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.message.model.MesGroupCondition">
+    	delete from  mes_group_condition  where group_id = #{groupId,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.message.model.MesGroupCondition">
+		insert into mes_group_condition
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="field != null">
+	    		field,
+	  		</if>   			
+	   		<if test="groupId != null">
+	    		group_id,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="value != null">
+	    		value,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="field != null">
+	   			#{field,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="groupId != null">
+	   			#{groupId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="value != null">
+	   			#{value,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.message.model.MesGroupCondition">
+    	update mes_group_condition
+    	<set>
+			<if test="field != null">
+	   			field = #{field,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="groupId != null">
+	   			group_id = #{groupId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="value != null">
+	   			value = #{value,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

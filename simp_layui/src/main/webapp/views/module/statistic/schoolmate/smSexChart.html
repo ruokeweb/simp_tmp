@@ -1,0 +1,220 @@
+<html>
+    <head>
+        <title>校友统计</title>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+        <script src="../../../../static/js/g2/data-set.min.js"></script>
+        <script src="../../../../static/js/g2/g2.min.js"></script>
+        <script src="../../../../static/js/jquery.min.js"></script>
+        <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+    </head>
+    <body class="childrenBody">
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-xs11" style="position: absolute;background: #fff;z-index: 15; ">
+                <div class="magb15 layui-col-md5 layui-col-xs12">
+                    <label class="layui-form-label">院系/专业：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="department" lay-filter="department" class="layui-input">
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md5 layui-col-xs12">
+                    <label class="layui-form-label">起止年：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input " id="rangYear" placeholder="yyyy" readonly="readonly">
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md2 layui-col-xs12">
+                    <a class="layui-btn" lay-submit="" class="layui-btn search_btn" id="search">查询</a>
+                </div>
+            </div>
+            <div class="layui-row" id="xySexChart">
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        layui.config({
+            base: "../../../../static/js/"
+        }).extend({
+            "application": "application",
+            "publicUtil": "publicUtil",
+            "treeSelect": "treeSelect"
+        })
+        layui.use(['layer', 'application', "publicUtil", 'application', 'laydate', 'jquery', 'treeSelect'], function() {
+            layer = parent.layer,
+                laydate = layui.laydate,
+                application = layui.application,
+                publicUtil = layui.publicUtil,
+                treeSelect = layui.treeSelect;
+            _$ = layui.jquery;
+
+            // var treeSelect;
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true,
+                    chkStyle: "radio",
+                    radioType: "all"
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "parentId"
+                    }
+                }
+            }
+            var chart = new G2.Chart({
+                container: 'xySexChart',
+                forceFit: true,
+                height: window.innerHeight,
+                padding: [60, 20, 50, 10]
+            });
+
+            initFormSelect();
+            laydate.render({
+                elem: '#rangYear',
+                theme: 'molv',
+                type: 'year',
+                trigger: 'click',
+                range: true
+            });
+
+            $("#search").click(function() {
+                var value = $("#rangYear").val();
+                var enddate = null;
+                var startdate = null;
+                if (null != value && value.length > 0) {
+                    var strs = new Array();
+                    strs = value.split("-");
+                    enddate = strs[1].trim()+"-01-01";
+                    startdate = strs[0].trim()+"-01-01";
+                }
+                var department = $("#department").val();
+                _$.ajax({
+                    url: application.SERVE_URL + "/chart/statistic/schoolmate/sex/smCountBySex",
+                    data: {
+                        enddate: enddate,
+                        startdate: startdate,
+                        paramB: department
+                    },
+                    success: function(res) {
+                        chart.changeData(res);
+                        chart.repaint();
+                    }
+                })
+            })
+
+            function initFormSelect() {
+                treeSelect.render({
+                    // 选择器
+                    elem: '#department',
+                    // 数据
+                    data: application.SERVE_URL + '/settings/settingDepartment/tree',
+                    type: 'post',
+                    // 占位符
+                    placeholder: '请选院系/专业',
+                    // 是否开启搜索功能：true/false，默认false
+                    search: false,
+                    setting: setting,
+                    // 点击回调
+                    click: function(d) {
+                        document.getElementById("department").value = d.current.id;
+                    },
+                    check: function(d) {
+                        var value = "";
+                        for (var i = 0; i < d.current.length; i++) {
+                            value += d.current[i].id;
+                            if (i < d.current.length - 1) {
+                                value += ","
+                            }
+                        }
+                        document.getElementById("department").value = value;
+                    },
+                    // 加载完成后的回调函数
+                    success: function(d) {
+                        var treeObj = treeSelect.zTree('department');
+                    }
+                })
+            }
+            initPieChart();
+
+            function initPieChart() {
+                var loadingindex = layer.msg("数据获取中", {
+                    icon: 16,
+                    shade: 0.3,
+                    time: 7000 
+                });
+                _$.ajax({
+                    url: application.SERVE_URL + "/chart/statistic/schoolmate/sex/smCountBySex",
+                    success: function(data) {
+                        // var max = 0;
+                        // data.forEach(function(obj) {
+                        //     if (obj.value > max) {
+                        //         max = obj.value;
+                        //     }
+                        // });
+                        // // 自定义 other 的图形，增加两条线
+                        // G2.Shape.registerShape('interval', 'sliceShape', {
+                        //     draw: function draw(cfg, container) {
+                        //         var points = cfg.points;
+                        //         var origin = cfg.origin._origin;
+                        //         var percent = origin.value / max;
+                        //         var xWidth = points[2].x - points[1].x;
+                        //         var width = xWidth * percent;
+                        //         var path = [];
+                        //         path.push(['M', points[0].x, points[0].y]);
+                        //         path.push(['L', points[1].x, points[1].y]);
+                        //         path.push(['L', points[0].x + width, points[2].y]);
+                        //         path.push(['L', points[0].x + width, points[3].y]);
+                        //         path.push('Z');
+                        //         path = this.parsePath(path);
+                        //         return container.addShape('path', {
+                        //             attrs: {
+                        //                 fill: cfg.color,
+                        //                 path: path
+                        //             }
+                        //         });
+                        //     }
+                        // });
+                        // var COLORS = ['#1890FF', '#13C2C2','#6DD48C'];
+                        // chart.source(data);
+                        // chart.coord('theta', {
+                        //     radius: 0.8
+                        // });
+                        // // chart.coord('polar', {
+                        // //     innerRadius: 0.2
+                        // // });
+                        // //zhengyuan  platelet
+                        // chart.intervalStack().position('value').color('property',COLORS).shape('sliceShape').style('black').label(
+                        //     'property', {
+                        //         offset: -20,
+                        //         textStyle: {
+                        //           textAlign: 'center', // 文本对齐方向，可取值为： start center end
+                        //           fill: '#404040'// 文本的颜色
+                        //         }
+                        // });
+
+                        chart.source(data);
+                        chart.coord('polar', {
+                            innerRadius: 0.3
+                        });
+                        chart.legend({
+                            position: 'right',
+                            offsetY: -window.innerHeight / 2 + 180,
+                            offsetX: -140
+                        });
+                        chart.axis(false);
+                        chart.interval().position('property*value').color('property', G2.Global.colors_pie_18).style({
+                            lineWidth: 1,
+                            stroke: '#fff'
+                        }).label('property');
+                        chart.render();
+                        layer.close(loadingindex);
+                    }
+                })
+            }
+        });
+    </script>
+</html>

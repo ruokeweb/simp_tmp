@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.message.mapper.MesMediaMessageMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.message.model.MesMediaMessage">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="appendix" jdbcType="VARCHAR" property="appendix" />
+			<result column="send_user_id" jdbcType="VARCHAR" property="sendUserId" />
+			<result column="del_date" jdbcType="TIMESTAMP" property="delDate" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="title" jdbcType="VARCHAR" property="title" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="cover_image" jdbcType="VARCHAR" property="coverImage" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="content" jdbcType="VARCHAR" property="content" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, appendix, send_user_id, del_date, status, type, create_date, title, remark, cover_image, flag, content
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.appendix != null and entity.appendix!='' ">
+        		and appendix=#{entity.appendix}
+      		</if>	      	
+			<if test="entity.sendUserId != null and entity.sendUserId!='' ">
+        		and send_user_id=#{entity.sendUserId}
+      		</if>	      	
+			<if test="entity.delDate != null and entity.delDate!='' ">
+        		and del_date=#{entity.delDate}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.title != null and entity.title!='' ">
+        		and title   LIKE concat('%', #{entity.title},'%') 
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.coverImage != null and entity.coverImage!='' ">
+        		and cover_image=#{entity.coverImage}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.content != null and entity.content!='' ">
+        		and content  = #{entity.content} 
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.message.model.MesMediaMessage" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from mes_media_message
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.message.model.MesMediaMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_media_message 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.message.model.MesMediaMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_media_message 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+
+  	<!-- 获取首页展示的通知 -->
+  	<select id="getIndexMesMediaMessage"  parameterType="com.mpri.aio.message.model.MesMediaMessage" resultMap="BaseResultMap" >
+    	select
+    		id,title,cover_image
+    	from mes_media_message 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date DESC limit 1
+  	</select>
+
+
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.message.model.MesMediaMessage">
+    	update mes_media_message set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.message.model.MesMediaMessage">
+		insert into mes_media_message
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="appendix != null">
+	    		appendix,
+	  		</if>   			
+	   		<if test="sendUserId != null">
+	    		send_user_id,
+	  		</if>   			
+	   		<if test="delDate != null">
+	    		del_date,
+	  		</if>   			
+	   		<if test="status != null">
+	    		status,
+	  		</if>   			
+	   		<if test="type != null">
+	    		type,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="title != null">
+	    		title,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="coverImage != null">
+	    		cover_image,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="content != null">
+	    		content,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="appendix != null">
+	   			#{appendix,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="sendUserId != null">
+	   			#{sendUserId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="delDate != null">
+	   			#{delDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="title != null">
+	   			#{title,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="coverImage != null">
+	   			#{coverImage,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.message.model.MesMediaMessage">
+    	update mes_media_message
+    	<set>
+			<if test="appendix != null">
+	   			appendix = #{appendix,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="sendUserId != null">
+	   			send_user_id = #{sendUserId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="delDate != null">
+	   			del_date = #{delDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="title != null">
+	   			title = #{title,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="coverImage != null">
+	   			cover_image = #{coverImage,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

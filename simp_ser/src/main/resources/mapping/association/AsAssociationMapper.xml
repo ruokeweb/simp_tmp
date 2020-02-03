@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.association.mapper.AsAssociationMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.association.model.AsAssociation">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="constitution" jdbcType="VARCHAR" property="constitution" />
+		<result column="logo" jdbcType="VARCHAR" property="logo" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+		<result column="country" jdbcType="VARCHAR" property="country" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="record_flag" jdbcType="VARCHAR" property="recordFlag" />
+		<result column="flag" jdbcType="VARCHAR" property="flag" />
+		<result column="next_periods_date" jdbcType="TIMESTAMP" property="nextPeriodsdate" />
+		<result column="region_type" jdbcType="VARCHAR" property="regionType" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="has_blog_flag" jdbcType="VARCHAR" property="hasBlogflag" />
+		<result column="open_date" jdbcType="TIMESTAMP" property="openDate" />
+		<result column="register_flag" jdbcType="VARCHAR" property="registerFlag" />
+		<result column="authorize_flag" jdbcType="VARCHAR" property="authorizeFlag" />
+		<result column="has_office_flag" jdbcType="VARCHAR" property="hasOfficeflag" />
+		<result column="operator" jdbcType="VARCHAR" property="operator" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="certificate_flag" jdbcType="VARCHAR" property="certificateFlag" />
+		<result column="has_web_flag" jdbcType="VARCHAR" property="hasWebflag" />
+		<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		<result column="has_wechat_flag" jdbcType="VARCHAR" property="hasWechatflag" />
+		<result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
+		<result column="sum" jdbcType="INTEGER" property="sum" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="periods" jdbcType="VARCHAR" property="periods" />
+		<result column="summary" jdbcType="VARCHAR" property="summary" />
+	</resultMap>
+
+	<!-- 校友会和校友关系返回 -->
+	<resultMap id="schoolResultMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="complete" jdbcType="INTEGER" property="complete" />
+		<result column="mark_ids" jdbcType="VARCHAR" property="markIds" />
+		<result column="pos_lat" jdbcType="VARCHAR" property="posLat" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="marks" jdbcType="VARCHAR" property="marks" />
+		<result column="pos_long" jdbcType="VARCHAR" property="posLong" />
+		<result column="don_fee" jdbcType="DECIMAL" property="donFee" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+		<result column="eg_name" jdbcType="VARCHAR" property="egName" />
+		<result column="nation" jdbcType="VARCHAR" property="nation" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+		<result column="flag" jdbcType="VARCHAR" property="flag" />
+		<result column="openid" jdbcType="VARCHAR" property="openid" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="card_num" jdbcType="VARCHAR" property="cardNum" />
+		<result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+		<result column="true_photo" jdbcType="VARCHAR" property="truePhoto" />
+		<result column="card_status" jdbcType="VARCHAR" property="cardStatus" />
+		<result column="is_show" jdbcType="VARCHAR" property="isShow" />
+		<result column="point" jdbcType="INTEGER" property="point" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="card_type" jdbcType="VARCHAR" property="cardType" />
+		<result column="level" jdbcType="INTEGER" property="level" />
+		<result column="pos_city" jdbcType="VARCHAR" property="posCity" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+	</resultMap>
+
+
+	<resultMap id="sysUserAssoMap" type="com.mpri.aio.association.model.SysUserAsso">
+		<result column="as_id" jdbcType="VARCHAR" property="asId" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+	</resultMap>
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, constitution, logo, province, country,type, create_date, name, record_flag, flag, next_periods_date, region_type, address, has_blog_flag, open_date, register_flag, authorize_flag, has_office_flag, operator, remark, certificate_flag, has_web_flag, parent_id, has_wechat_flag, parent_ids, sum, city, periods, summary
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.constitution != null and entity.constitution!='' ">
+        		and constitution=#{entity.constitution}
+      		</if>	      	
+			<if test="entity.logo != null and entity.logo!='' ">
+        		and logo=#{entity.logo}
+      		</if>	      	
+			<if test="entity.province != null and entity.province!='' ">
+        		and province=#{entity.province}
+      		</if>
+      		<if test="entity.country != null and entity.country!='' ">
+        		and country=#{entity.country}
+      		</if>	     	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.createDate != null ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+				and( name like   replace (#{entity.name},'*','%%')
+				or name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.recordFlag != null and entity.recordFlag!='' ">
+        		and record_flag=#{entity.recordFlag}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.nextPeriodsdate != null">
+        		and next_periods_date=#{entity.nextPeriodsdate}
+      		</if>	      	
+			<if test="entity.regionType != null and entity.regionType!='' ">
+        		and region_type=#{entity.regionType}
+      		</if>	      	
+			<if test="entity.address != null and entity.address!='' ">
+        		and address=#{entity.address}
+      		</if>	      	
+			<if test="entity.hasBlogflag != null and entity.hasBlogflag!='' ">
+        		and has_blog_flag=#{entity.hasBlogflag}
+      		</if>	      	
+			<if test="entity.openDate != null ">
+        		and open_date=#{entity.openDate}
+      		</if>	      	
+			<if test="entity.registerFlag != null and entity.registerFlag!='' ">
+        		and register_flag=#{entity.registerFlag}
+      		</if>	      	
+			<if test="entity.authorizeFlag != null and entity.authorizeFlag!='' ">
+        		and authorize_flag=#{entity.authorizeFlag}
+      		</if>	      	
+			<if test="entity.hasOfficeflag != null and entity.hasOfficeflag!='' ">
+        		and has_office_flag=#{entity.hasOfficeflag}
+      		</if>	      	
+			<if test="entity.operator != null and entity.operator!='' ">
+        		and operator=#{entity.operator}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.certificateFlag != null and entity.certificateFlag!='' ">
+        		and certificate_flag=#{entity.certificateFlag}
+      		</if>	      	
+			<if test="entity.hasWebflag != null and entity.hasWebflag!='' ">
+        		and has_web_flag=#{entity.hasWebflag}
+      		</if>	      	
+			<if test="entity.parentId != null and entity.parentId!='' ">
+        		and parent_id=#{entity.parentId}
+      		</if>	      	
+			<if test="entity.hasWechatflag != null and entity.hasWechatflag!='' ">
+        		and has_wechat_flag=#{entity.hasWechatflag}
+      		</if>	      	
+			<if test="entity.parentIds != null and entity.parentIds!='' ">
+        		and parent_ids=#{entity.parentIds}
+      		</if>	      	
+			<if test="entity.sum != null and entity.sum!='' ">
+        		and sum=#{entity.sum}
+      		</if>	      	
+			<if test="entity.city != null and entity.city!='' ">
+        		and city=#{entity.city}
+      		</if>	      	
+			<if test="entity.periods != null and entity.periods!='' ">
+        		and periods=#{entity.periods}
+      		</if>	      	
+			<if test="entity.summary != null and entity.summary!='' ">
+        		and summary=#{entity.summary}
+      		</if>	      	
+		</if>
+		order by create_date DESC
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.association.model.AsAssociation" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from as_association
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.association.model.AsAssociation" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from as_association 
+    	<where>
+			1=1
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.association.model.AsAssociation" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from as_association 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 依照条件查询所有对象 -->
+	<select id="loadChildsListBy"  parameterType="com.mpri.aio.association.model.AsAssociation" resultType="java.lang.Integer" >
+		select
+		count(1)
+		from as_association
+		<where>
+			 flag= #{entity.FLAG_NORMAL}
+			and parent_id=#{entity.id}
+		</where>
+	</select>
+	<!--通过管理员ID 获取该管理员所在的校友会id  -->
+	<select id="findAsIdByUser" parameterType="java.lang.String" resultType="String">
+		select 
+			as_id
+		from sys_user_asso
+		where user_id = #{userId}
+	</select>
+
+	<select id="findAsByUser" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from as_association as_a
+		<where>
+			as_a.flag = 'NORMAL'
+			and as_a.id in (
+				select
+				as_id
+				from sys_user_asso
+				where user_id = #{userId}
+			)
+		</where>
+	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.association.model.AsAssociation">
+    	update as_association set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+
+	<!-- 新增校友和校友关系 -->
+	<insert id="addSysAs" >
+		INSERT INTO sys_user_asso(user_id, as_id) value(#{userId}, #{asId})
+
+	</insert>
+	<!-- 删除校友和校友关系 -->
+	<delete id="deleteSysAs" >
+		DELETE FROM sys_user_asso WHERE  
+		<if test="userId != null and userId!='' ">
+       		user_id=#{userId}
+   		</if>
+   		<if test="asId != null and asId!='' ">
+ 			and as_id=#{asId}
+   		</if>	    
+	</delete>
+
+	<!-- 查询是否存在校友和校友关系 -->
+	<select id="selectSysAs"  resultType="java.lang.Boolean">
+		SELECT EXISTS
+		(select 1 FROM sys_user_asso WHERE  user_id=#{userId} and as_id=#{asId})
+	</select>
+
+	<!-- 根据校友会分页查询 校友会和校友关系 -->
+	<select id="loadSysAs"  parameterType="com.mpri.aio.association.model.AsAssociation" resultMap="schoolResultMap" >
+		select distinct
+		sm_s.id, sm_s.complete, sm_s.mark_ids, sm_s.pos_lat, sm_s.create_date, sm_s.marks, sm_s.pos_long, sm_s.don_fee, sm_s.name, sm_s.remark, sm_s.birthday, sm_s.eg_name,
+		sm_s.nation, sm_s.sex, sm_s.card_id, sm_s.flag, sm_s.openid, sm_s.status, sm_s.card_num, sm_s.pinyin, sm_s.true_photo, sm_s.card_status,
+		sm_s.is_show, sm_s.point, sm_s.type, sm_s.card_type, sm_s.level, sm_s.pos_city, sm_s.user_id
+		from as_association aa
+		inner join sys_user_asso sua
+		INNER JOIN sm_schoolmate sm_s
+		where
+		 sua.user_id = sm_s.user_id
+		<if test="entity.id!=null and entity.id!='' ">
+			and sua.as_id =#{entity.id}
+		</if>
+		<if test="entity.paramA != null and entity.paramA!='' ">
+			and (sm_s.name like   replace (#{entity.paramA},'*','%%')
+			or sm_s.name like concat('%', #{entity.paramA},'%'))
+		</if>
+		<if test="entity.flag != null and entity.flag!='' ">
+			and aa.flag= #{entity.FLAG_NORMAL}
+		</if>
+		and sm_s.flag = 'NORMAL'
+	</select>
+
+
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.association.model.AsAssociation">
+		insert into as_association
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="constitution != null">
+	    		constitution,
+	  		</if>
+	   		<if test="logo != null">
+	    		logo,
+	  		</if>
+	   		<if test="province != null">
+	    		province,
+	  		</if>
+	  		<if test="country != null">
+	    		country,
+	  		</if>
+	   		<if test="type != null">
+	    		type,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="name != null">
+	    		name,
+	  		</if>
+	   		<if test="recordFlag != null">
+	    		record_flag,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="nextPeriodsdate != null">
+	    		next_periods_date,
+	  		</if>
+	   		<if test="regionType != null">
+	    		region_type,
+	  		</if>
+	   		<if test="address != null">
+	    		address,
+	  		</if>
+	   		<if test="hasBlogflag != null">
+	    		has_blog_flag,
+	  		</if>
+	   		<if test="openDate != null">
+	    		open_date,
+	  		</if>
+	   		<if test="registerFlag != null">
+	    		register_flag,
+	  		</if>
+	   		<if test="authorizeFlag != null">
+	    		authorize_flag,
+	  		</if>
+	   		<if test="hasOfficeflag != null">
+	    		has_office_flag,
+	  		</if>
+	   		<if test="operator != null">
+	    		operator,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="certificateFlag != null">
+	    		certificate_flag,
+	  		</if>
+	   		<if test="hasWebflag != null">
+	    		has_web_flag,
+	  		</if>
+	   		<if test="parentId != null">
+	    		parent_id,
+	  		</if>
+	   		<if test="hasWechatflag != null">
+	    		has_wechat_flag,
+	  		</if>
+	   		<if test="parentIds != null">
+	    		parent_ids,
+	  		</if>
+	   		<if test="sum != null">
+	    		sum,
+	  		</if>
+	   		<if test="city != null">
+	    		city,
+	  		</if>
+	   		<if test="periods != null">
+	    		periods,
+	  		</if>
+	   		<if test="summary != null">
+	    		summary,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="constitution != null">
+	   			#{constitution,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="logo != null">
+	   			#{logo,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="province != null">
+	   			#{province,jdbcType=VARCHAR},
+	  		</if>
+	  		<if test="country != null">
+	   			#{country,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="recordFlag != null">
+	   			#{recordFlag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="nextPeriodsdate != null">
+	   			#{nextPeriodsdate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="regionType != null">
+	   			#{regionType,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="address != null">
+	   			#{address,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="hasBlogflag != null">
+	   			#{hasBlogflag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="openDate != null">
+	   			#{openDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="registerFlag != null">
+	   			#{registerFlag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="authorizeFlag != null">
+	   			#{authorizeFlag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="hasOfficeflag != null">
+	   			#{hasOfficeflag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="operator != null">
+	   			#{operator,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="certificateFlag != null">
+	   			#{certificateFlag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="hasWebflag != null">
+	   			#{hasWebflag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="parentId != null">
+	   			#{parentId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="hasWechatflag != null">
+	   			#{hasWechatflag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="parentIds != null">
+	   			#{parentIds,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="sum != null">
+	   			#{sum,jdbcType=INTEGER},
+	  		</if>
+	   		<if test="city != null">
+	   			#{city,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="periods != null">
+	   			#{periods,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="summary != null">
+	   			#{summary,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.association.model.AsAssociation">
+    	update as_association
+    	<set>
+			<if test="constitution != null">
+	   			constitution = #{constitution,jdbcType=VARCHAR},
+	  		</if>
+			<if test="logo != null">
+	   			logo = #{logo,jdbcType=VARCHAR},
+	  		</if>
+			<if test="province != null">
+	   			province = #{province,jdbcType=VARCHAR},
+	  		</if>
+	  		<if test="country != null">
+	   			country = #{country,jdbcType=VARCHAR},
+	  		</if>
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+			<if test="recordFlag != null">
+	   			record_flag = #{recordFlag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="nextPeriodsdate != null">
+	   			next_periods_date = #{nextPeriodsdate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="regionType != null">
+	   			region_type = #{regionType,jdbcType=VARCHAR},
+	  		</if>
+			<if test="address != null">
+	   			address = #{address,jdbcType=VARCHAR},
+	  		</if>
+			<if test="hasBlogflag != null">
+	   			has_blog_flag = #{hasBlogflag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="openDate != null">
+	   			open_date = #{openDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="registerFlag != null">
+	   			register_flag = #{registerFlag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="authorizeFlag != null">
+	   			authorize_flag = #{authorizeFlag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="hasOfficeflag != null">
+	   			has_office_flag = #{hasOfficeflag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="operator != null">
+	   			operator = #{operator,jdbcType=VARCHAR},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="certificateFlag != null">
+	   			certificate_flag = #{certificateFlag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="hasWebflag != null">
+	   			has_web_flag = #{hasWebflag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="parentId != null">
+	   			parent_id = #{parentId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="hasWechatflag != null">
+	   			has_wechat_flag = #{hasWechatflag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="parentIds != null">
+	   			parent_ids = #{parentIds,jdbcType=VARCHAR},
+	  		</if>
+			<if test="sum != null">
+	   			sum = #{sum,jdbcType=INTEGER},
+	  		</if>
+			<if test="city != null">
+	   			city = #{city,jdbcType=VARCHAR},
+	  		</if>
+			<if test="periods != null">
+	   			periods = #{periods,jdbcType=VARCHAR},
+	  		</if>
+			<if test="summary != null">
+	   			summary = #{summary,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+	<insert id="insertAsUsers">
+		INSERT INTO sys_user_asso(user_id, as_id)
+		<foreach collection="asList" item="as" separator=" union all ">
+			SELECT #{id}, #{as.id}
+			FROM dual
+		</foreach>
+	</insert>	
+</mapper>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "校友认证",
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

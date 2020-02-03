@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>标签管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+</head>
+
+<body class="childrenBody">
+	<form class="layui-form" style="width:98%; margin-top:15px;">
+		<input type="hidden" class="layui-input id" name='id' id='markid'>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md11 layui-col-xs12">
+				<label class="layui-form-label">标签名称<span class='span-required'>*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input name" name='name' id='name' lay-verify="required" placeholder="请输入标签名称(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md11 layui-col-xs12">
+				<label class="layui-form-label">标签编码<span class='span-required'>*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input code" name='code' id='code' lay-verify="required" placeholder="请输入标签编码(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md11 layui-col-xs12">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input remark" id="remark"  placeholder="请输入备注(最大长度512位)" maxlength ="512">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addMark">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="../../../../static/js/modules/schoolmate/mark/markadd.js"></script>
+</body>
+
+</html>

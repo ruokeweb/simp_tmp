@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppCardRankingMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.app.mine.vo.AppCardRankingVo">
+			<result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+			<result column="joint_card_no" jdbcType="VARCHAR" property="jointCardNo" />
+			<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="ranking" jdbcType="INTEGER" property="ranking" />
+		  <association property="smSchoolmate" column="user_id" select="getSchoolmate"></association>
+	</resultMap>
+
+	<resultMap id="schoolmateMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="sex" jdbcType="VARCHAR" property="sex" />
+			<result column="truePhoto" jdbcType="VARCHAR" property="true_photo" />
+	</resultMap>
+	
+	<select id="getSchoolmate" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="schoolmateMap">
+		select name,sex,true_photo from sm_schoolmate
+		where user_id = #{entity.userId} 
+		<!-- and flag = 'NORMAL' -->
+	</select>
+
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	 card_no, joint_card_no,   card_id,  user_id, status, ranking
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			flag = "NORMAL"
+			<if test="entity.cardNo != null and entity.cardNo!='' ">
+        		and card_no=#{entity.cardNo}
+      		</if>
+			<if test="entity.jointCardNo != null and entity.jointCardNo!='' ">
+        		and joint_card_no=#{entity.jointCardNo}
+      		</if>
+			<if test="entity.cardId != null and entity.cardId!='' ">
+        		and card_id=#{entity.cardId}
+      		</if>
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>
+			<if test="entity.ranking != null and entity.ranking!='' ">
+        		and ranking=#{entity.ranking}
+      		</if>
+		</if>
+	</sql>
+
+	<!-- 前后N个人的记录 -->
+	<select id="getCardRanking" parameterType="com.mpri.aio.app.mine.vo.AppCardRankingVo" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from setting_user_card
+		where
+		flag = "NORMAL"
+		<if test="entity!=null">
+			<if test="entity.cardId != null and entity.cardId!='' ">
+				and card_id=#{entity.cardId}
+			</if>
+<!--			<if test="entity.ranking != null and entity.ranking!='' and entity.perNum != null and entity.perNum!='' ">-->
+<!--			&lt;!&ndash; 这一块 需要判断当前排名的位置 &ndash;&gt;-->
+<!--				and  ranking  BETWEEN (entity.ranking - entity.perNum) and (entity.ranking + entity.perNum)-->
+<!--			</if>-->
+			<if test="entity.max != null and entity.max!='' and entity.min != null and entity.min!='' ">
+					AND ranking BETWEEN #{entity.min} AND #{entity.max}
+			</if>
+		</if>
+		ORDER BY  ranking  ASC
+	</select>
+
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.app.mine.vo.AppCardRankingVo" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_user_card
+		where id !=""  and flag = "NORMAL"
+		ORDER BY  ranking  ASC
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.app.mine.vo.AppCardRankingVo" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_user_card 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+<!--	查询最大排名-->
+	<select id="getMaxRanking"  parameterType="com.mpri.aio.app.mine.vo.AppCardRankingVo" resultType="java.lang.Integer" >
+		SELECT MAX(ranking) AS 'max' FROM setting_user_card
+		where flag = "NORMAL"
+	</select>
+</mapper>

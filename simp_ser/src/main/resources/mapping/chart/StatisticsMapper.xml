@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.chart.mapper.StatisticsMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.chart.vo.DataSetForG2">
+			<result column="property" jdbcType="VARCHAR" javaType="string" property="property" />
+			<result column="value" jdbcType="VARCHAR" javaType="long" property="value" />
+			<result column="percent" jdbcType="DOUBLE" javaType="double" property="percent" />
+	</resultMap>
+	
+    <!-- 日期格式化 -->
+    <sql id="date_format">
+        DATE_FORMAT(
+        <!-- 通过参数选择不同的需要格式化的列 -->
+        <choose>
+            <when test="'${column}' == 'dateSequence'">
+                <include refid="date_column"/>
+            </when>
+            <otherwise>
+                ${dateColumn}
+            </otherwise>
+        </choose>
+        ,
+        <!-- 通过参数选择不同的格式 -->
+        <choose>
+            <when test="groupType == 'day'">
+                '%Y-%m-%d'
+            </when>
+            <when test="groupType == 'month'">
+                '%Y-%m'
+            </when>
+            <when test="groupType == 'year'">
+                '%Y'
+            </when>
+            <otherwise>
+                '%Y'
+            </otherwise>
+        </choose>
+        )
+    </sql>
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="date_column"> 
+        <choose>
+            <when test="enddate != null">
+<!--                DATE_SUB(STR_TO_DATE(to_char(${enddate}),'%a %b %e %T GMT+08:00 %Y %Y %Y'),INTERVAL @i :=@i + 1  -->
+               DATE_SUB('${enddate}',INTERVAL @i :=@i + 1 
+            </when>
+            <otherwise>
+                DATE_SUB(CURDATE(),INTERVAL @i :=@i + 1 
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="groupType == 'day'">
+                DAY)
+            </when>
+            <when test="groupType == 'month'">
+                MONTH)
+            </when>
+            <when test="groupType == 'year'">
+                YEAR)
+            </when>
+            <otherwise>
+                YEAR)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="querySQL!=null">
+            querySQL
+        </if>
+    </sql>
+    
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="count_column">
+        <choose>
+            <when test="countColumn != null and countColumn!='' and countColumn!='id'">
+                count(${countColumn})
+            </when>
+            <otherwise>
+                COUNT(id)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 通过createDate列统计数据 -->
+    <select id="groupByData" resultType="java.util.HashMap">
+        SELECT <include refid="count_column"/> count,tmp_date.date date FROM ${tableName} RIGHT JOIN (
+            SELECT 
+            <include refid="date_format">
+                <property name="column" value="dateSequence"/>
+            </include>
+            AS date 
+            FROM(
+                <!-- 构造连续的日期数据 -->
+                <foreach collection="num" separator="UNION ALL" >
+                    SELECT 1
+                </foreach>
+            ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON 
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <if test="querySQL!=null and querySQL!=''">
+            and ${querySQL}
+        </if>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    
+    <!-- 通过createDate列统计数据 -->
+    <select id="smCountByArea" resultType="com.mpri.aio.chart.vo.SmCountByArea">
+		select count(id) as value,SUBSTRING_INDEX(sm.pos_city, ',', 2) as name
+		from 
+		sm_schoolmate sm 
+		where sm.flag = "NORMAL"
+		and sm.pos_city != ""
+		GROUP BY SUBSTRING_INDEX(sm.pos_city, ',', 2)
+    </select>    
+    
+    
+	<!-- 根据项目统计金额 -->
+	<select id="getAllDonProFee" parameterType="com.mpri.aio.donation.model.DonProject" resultType="com.mpri.aio.donation.model.DonProject">
+		select id ,name,ifnull(got_money,0)  as gotMoney, ifnull(donating_num,0) as donatingNum from 
+		don_project 
+		where flag = #{flag}
+	</select>
+	
+	<select id="smCountBarChart" resultType="java.util.HashMap">  
+        SELECT <include refid="count_column"/> count,tmp_date.date date FROM ${tableName} RIGHT JOIN (
+            SELECT 
+            <include refid="date_format">
+                <property name="column" value="dateSequence"/>
+            </include>
+            AS date 
+            FROM(
+                <!-- 构造连续的日期数据 -->
+                <foreach collection="num" separator="UNION ALL" >
+                    SELECT 1
+                </foreach>
+            ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON 
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+        	flag = #{entity.FLAG_NORMAL}
+			<if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+	      		and school=#{entity.paramB} or series=#{entity.paramB} or 
+	      		college=#{entity.paramB} or specialty=#{entity.paramB}
+			</if>	
+       	</where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+	</select>  
+	
+	<!-- 校友性别统计 -->
+	<select id="smCountBySex" resultMap="BaseResultMap">
+		select count(id) as value,sex as property from 
+		(select id ,user_id,sex from sm_schoolmate
+            where flag='NORMAL'
+            <if test="(entity.paramB != null and entity.paramB!='') or (entity.startdate != null) or (entity.enddate != null)">
+            and  user_id in (select user_id from sm_education
+            <where>
+					flag = #{entity.FLAG_NORMAL}
+					<if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+			      		and school=#{entity.paramB} or series=#{entity.paramB} or 
+			      		college=#{entity.paramB} or specialty=#{entity.paramB}
+					</if>	
+	                <if test="entity.startdate != null">
+	                    and   DATE_FORMAT(startdate,'%Y')  &lt;=  DATE_FORMAT(#{entity.startdate},'%Y') 
+	                </if>
+	                <if test="entity.enddate != null" >
+	                	and   DATE_FORMAT(enddate,'%Y')  &gt;=  DATE_FORMAT(#{entity.enddate},'%Y') 
+	                </if>
+				</where>
+				)
+			</if>
+		) temp_sm_s
+		GROUP BY sex
+	</select>
+
+    <!-- 校友政治面貌统计 -->
+    <select id="loadListByStaticCondition" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultType="java.util.HashMap">
+        SELECT
+        PoliticsType,
+        PoliticsSum,
+        PoliticsSum /
+        IF (totalsum = '0', 0, totalsum) politicPercent
+        FROM
+        (
+        SELECT
+        politics AS PoliticsType,
+        count(userid) AS PoliticsSum
+        FROM
+        (
+        SELECT DISTINCT
+        politics,
+        sm_s.user_id AS userid
+        FROM
+        sm_schoolmate sm_s
+        WHERE
+        sm_s.flag = 'NORMAL'
+        <if test="entity.smEducation.endYearInternalFirst != null   or entity.smEducation.endYearInternalSencond != null  or entity.smEducation.startYearInternalFirst != null or entity.smEducation.startYearInternalSencond != null  or entity.smEducation.school != null or entity.smEducation.college != null or entity.smEducation.series != null or entity.smEducation.specialty != null">
+        AND sm_s.user_id IN (
+        SELECT DISTINCT
+        user_id
+        FROM
+        sm_education sm_edu
+        <where>
+            and  flag = 'NORMAL'
+            <if test="entity.smEducation != null">
+                <if test="entity.smEducation.school != null and entity.smEducation.school!='' ">
+                    and sm_edu.school=#{entity.smEducation.school}
+                </if>
+                <if test="entity.smEducation.college != null and entity.smEducation.college!='' ">
+                    and sm_edu.college=#{entity.smEducation.college}
+                </if>
+                <if test="entity.smEducation.series != null and entity.smEducation.series!='' ">
+                    and sm_edu.series=#{entity.smEducation.series}
+                </if>
+                <if test="entity.smEducation.specialty != null and entity.smEducation.specialty!='' ">
+                    and sm_edu.specialty=#{entity.smEducation.specialty}
+                </if>
+                <if test="entity.smEducation.startYearInternalFirst != null and entity.smEducation.startYearInternalSencond != null  and entity.smEducation.startYearInternalFirst!=''  and  entity.smEducation.startYearInternalSencond != '' ">
+                    and left(str_to_date(sm_edu.startdate, '%Y-%m-%d'),4) between #{entity.smEducation.startYearInternalFirst}  and  #{entity.smEducation.startYearInternalSencond}
+                </if>
+                <if test="entity.smEducation.endYearInternalFirst != null and entity.smEducation.endYearInternalFirst!=''  and entity.smEducation.endYearInternalSencond != null and entity.smEducation.endYearInternalSencond!='' ">
+                    and left(str_to_date(sm_edu.enddate, '%Y-%m-%d'),4)  between #{entity.smEducation.endYearInternalFirst}  and  #{entity.smEducation.endYearInternalSencond}
+                </if>
+            </if>
+        </where>
+        )
+        </if>
+        ) aa
+        GROUP BY
+        politics
+        ) dd
+        LEFT JOIN (
+        SELECT
+        count(sms.user_id) AS totalsum
+        FROM
+        sm_schoolmate sms
+        WHERE
+        sms.flag = 'NORMAL'
+        ) cc ON 1 = 1
+
+    </select>
+
+    <!--校友学历统计 -->
+    <select id="loadEducationListByStaticCondition" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultType="java.util.HashMap">
+        select count(1) smSum ,sm_edu.edu_record SmRecord from sm_education sm_edu
+        <where>
+            and sm_edu.flag = 'NORMAL'
+            <if test="entity.smEducation != null">
+                <if test="entity.smEducation.school != null and entity.smEducation.school!='' ">
+                    and sm_edu.school=#{entity.smEducation.school}
+                </if>
+                <if test="entity.smEducation.college != null and entity.smEducation.college!='' ">
+                    and sm_edu.college=#{entity.smEducation.college}
+                </if>
+                <if test="entity.smEducation.series != null and entity.smEducation.series!='' ">
+                    and sm_edu.series=#{entity.smEducation.series}
+                </if>
+                <if test="entity.smEducation.specialty != null and entity.smEducation.specialty!='' ">
+                    and sm_edu.specialty=#{entity.smEducation.specialty}
+                </if>
+                <if test="entity.smEducation.startYearInternalFirst != null and entity.smEducation.startYearInternalSencond != null  and entity.smEducation.startYearInternalFirst!=''  and  entity.smEducation.startYearInternalSencond != '' ">
+                    and left(str_to_date(sm_edu.startdate, '%Y-%m-%d'),4) between #{entity.smEducation.startYearInternalFirst}  and  #{entity.smEducation.startYearInternalSencond}
+                </if>
+                <if test="entity.smEducation.endYearInternalFirst != null and entity.smEducation.endYearInternalFirst!=''  and entity.smEducation.endYearInternalSencond != null and entity.smEducation.endYearInternalSencond!='' ">
+                    and left(str_to_date(sm_edu.enddate, '%Y-%m-%d'),4)  between #{entity.smEducation.endYearInternalFirst}  and  #{entity.smEducation.endYearInternalSencond}
+                </if>
+            </if>
+
+        </where>
+        GROUP BY sm_edu.edu_record
+
+    </select>
+
+    <!-- 校友单位性质统计 -->
+    <select id="loadNatureListByStaticCondition" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultType="java.util.HashMap">
+
+        select  nature ,count(user_id) natureSum from sm_profession sm_p where sm_p.status = 'JOIN_IN'  and sm_p.flag = 'NORMAL'
+
+        and user_id in (select distinct user_id from sm_education sm_edu
+
+        <where>
+            <if test="entity.smEducation != null">
+                <if test="entity.smEducation.school != null and entity.smEducation.school!='' ">
+                    and sm_edu.school=#{entity.smEducation.school}
+                </if>
+                <if test="entity.smEducation.college != null and entity.smEducation.college!='' ">
+                    and sm_edu.college=#{entity.smEducation.college}
+                </if>
+                <if test="entity.smEducation.series != null and entity.smEducation.series!='' ">
+                    and sm_edu.series=#{entity.smEducation.series}
+                </if>
+                <if test="entity.smEducation.specialty != null and entity.smEducation.specialty!='' ">
+                    and sm_edu.specialty=#{entity.smEducation.specialty}
+                </if>
+                <if test="entity.smEducation.startYearInternalFirst != null and entity.smEducation.startYearInternalSencond != null  and entity.smEducation.startYearInternalFirst!=''  and  entity.smEducation.startYearInternalSencond != '' ">
+                    and left(str_to_date(sm_edu.startdate, '%Y-%m-%d'),4) between #{entity.smEducation.startYearInternalFirst}  and  #{entity.smEducation.startYearInternalSencond}
+                </if>
+                <if test="entity.smEducation.endYearInternalFirst != null and entity.smEducation.endYearInternalFirst!=''  and entity.smEducation.endYearInternalSencond != null and entity.smEducation.endYearInternalSencond!='' ">
+                    and left(str_to_date(sm_edu.enddate, '%Y-%m-%d'),4)  between #{entity.smEducation.endYearInternalFirst}  and  #{entity.smEducation.endYearInternalSencond}
+                </if>
+            </if>
+            and flag = 'NORMAL'
+        </where>
+        ) group by nature
+
+    </select>
+</mapper>

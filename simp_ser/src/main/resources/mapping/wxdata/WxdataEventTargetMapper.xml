@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.wxdata.mapper.WxdataEventTargetMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.wxdata.model.WxdataEventTarget">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="pointed_id" jdbcType="VARCHAR" property="pointedId" />
+			<result column="event_key" jdbcType="VARCHAR" property="eventKey" />
+			<result column="event_value" jdbcType="VARCHAR" property="eventValue" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, remark, flag, pointed_id, event_key, event_value, create_date
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.pointedId != null and entity.pointedId!='' ">
+        		and pointed_id=#{entity.pointedId}
+      		</if>	      	
+			<if test="entity.eventKey != null and entity.eventKey!='' ">
+        		and event_key=#{entity.eventKey}
+      		</if>	      	
+			<if test="entity.eventValue != null and entity.eventValue!='' ">
+        		and event_value=#{entity.eventValue}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.wxdata.model.WxdataEventTarget" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from wxdata_event_target
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.wxdata.model.WxdataEventTarget" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from wxdata_event_target 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.wxdata.model.WxdataEventTarget" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from wxdata_event_target 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.wxdata.model.WxdataEventTarget">
+    	update wxdata_event_target set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.wxdata.model.WxdataEventTarget">
+		insert into wxdata_event_target
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="pointedId != null">
+	    		pointed_id,
+	  		</if>   			
+	   		<if test="eventKey != null">
+	    		event_key,
+	  		</if>   			
+	   		<if test="eventValue != null">
+	    		event_value,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="pointedId != null">
+	   			#{pointedId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eventKey != null">
+	   			#{eventKey,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eventValue != null">
+	   			#{eventValue,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.wxdata.model.WxdataEventTarget">
+    	update wxdata_event_target
+    	<set>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="pointedId != null">
+	   			pointed_id = #{pointedId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="eventKey != null">
+	   			event_key = #{eventKey,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="eventValue != null">
+	   			event_value = #{eventValue,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

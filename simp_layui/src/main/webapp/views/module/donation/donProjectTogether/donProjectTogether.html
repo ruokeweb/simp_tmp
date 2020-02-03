@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>捐赠项目管理</title>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	</head>
+	<body class="childrenBody">
+		<div class="layui-fluid">
+
+			<blockquote class="layui-elem-quote ">
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input searchVal" placeholder="请输入搜索的关键字" />
+					</div>
+					<a class="layui-btn search_btn" data-type="reload">搜索</a>
+				</div>
+			</blockquote>
+			<!--操作-->
+			<div layui-inline class="layui-but-per">
+				<div class="layui-btn-group" id="but_per">
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs8">
+					<table id="donProjectTogether" lay-filter="donProjectTogether"></table>
+				</div>
+				<div class="layui-col-xs4">
+					<table id="recordList" lay-filter="recordList"></table>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../../../static/js/modules/donation/donProjectTogether/donProjectTogether.js"></script>
+	</body>
+</html>

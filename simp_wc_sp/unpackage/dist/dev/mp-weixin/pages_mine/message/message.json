@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "通知消息",
+  "usingComponents": {
+    "segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}

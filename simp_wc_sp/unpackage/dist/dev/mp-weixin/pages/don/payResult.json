@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "回馈结果",
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

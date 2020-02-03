@@ -1,0 +1,32 @@
+
+view {
+    line-height: 1.4;
+}
+.image_noc {
+    width: 90vw;
+    height: 51.8vw;
+    margin: 0 auto;
+    margin-top: 50rpx;
+    display: block;
+}
+.text-con {
+    padding: 50rpx 60rpx;
+    color: #666666;
+}
+.text-con view {
+    font-size: 24rpx;
+}
+.card_bg_top {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.title_h3 {
+    color: #666666;
+    font-size: 30rpx !important;
+    font-weight: bold;
+    padding-bottom: 20rpx;
+}
+

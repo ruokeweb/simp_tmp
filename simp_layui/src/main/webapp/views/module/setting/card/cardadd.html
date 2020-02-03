@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>校友卡管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+</head>
+
+<body class="childrenBody">
+	<form class="layui-form" style="width:98%; margin-top:15px;">
+		<input type="hidden" class="layui-input id" name='id' id='cardid'>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md6 layui-col-xs12">
+				<label class="layui-form-label">卡片名称 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input name" name='name' lay-verify="required" placeholder="请输入卡片名称(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+			<div class="magb15 layui-col-md6 layui-col-xs12">
+				<label class="layui-form-label">卡片类型 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<select class="layui-form" name='type' id='type' lay-verify="required" lay-filter="type">
+						<option value=""></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md12 layui-col-xs12">
+				<label class="layui-form-label">所属校友会<span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<select class="layui-form" name='asId' id="asId" lay-verify="required" lay-filter="asId">
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md6 layui-col-xs12">
+				<label class="layui-form-label">开始等级 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input startLevel" lay-verify="required|level" placeholder="适用开始等级(只能是数字最大长度10位)" maxlength ="10">
+				</div>
+			</div>
+			<div class="magb15 layui-col-md6 layui-col-xs12">
+				<label class="layui-form-label">结束等级 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input endLevel" lay-verify="required|level|endlevel" placeholder="适用结束等级(只能是数字最大长度10位)" maxlength ="10">
+				</div>
+			</div>
+		</div>
+		<!--<div class="layui-row">
+			<div class="magb15 layui-col-md5 layui-col-xs12">
+				<label class="layui-form-label">正面字体</label>
+				<div class="layui-input-block">
+				  <select id="frontFont">
+					<option value="SimSun">宋体</option>
+					<option value="SimHei">黑体</option>
+					<option value="Microsoft YaHei">微软雅黑</option>
+					<option value="Microsoft JhengHei">微软正黑体</option>
+					<option value="NSimSun">新宋体</option>
+					<option value="FangSong">仿宋</option>
+					<option value="KaiTi">楷体</option>
+					<option value="FangSong_GB2312">仿宋_GB2312</option>
+					<option value="KaiTi_GB2312">楷体_GB2312</option>
+				  </select>					
+				</div>
+			</div>
+			<div class="magb15 layui-col-md2 layui-col-xs12">
+				<label class="layui-form-label">字体颜色</label>
+				<div class="layui-input-block" >
+					<div id="frontFontColor"></div>
+				</div>									
+			</div>
+			<div class="magb15 layui-col-md5 layui-col-xs12">
+				<label class="layui-form-label">字体样式</label>
+				<div class="layui-input-block">
+				  <input name="frontFontStyle" value="normal" title="默认" checked="" type="radio">
+				  <input name="frontFontStyle" value="italic" title="斜体" type="radio">
+				  <input name="frontFontStyle" value="oblique" title="倾斜" type="radio">				  
+				</div>
+			</div>
+		</div>-->
+		<!--<div class="layui-row">
+			<div class="magb15 layui-col-md5 layui-col-xs12">
+				<label class="layui-form-label">反面字体</label>
+				<div class="layui-input-block">
+					<select id="backFont">
+						<option value="SimSun">宋体</option>
+						<option value="SimHei">黑体</option>
+						<option value="Microsoft YaHei">微软雅黑</option>
+						<option value="Microsoft JhengHei">微软正黑体</option>
+						<option value="NSimSun">新宋体</option>
+						<option value="FangSong">仿宋</option>
+						<option value="KaiTi">楷体</option>
+						<option value="FangSong_GB2312">仿宋_GB2312</option>
+						<option value="KaiTi_GB2312">楷体_GB2312</option>
+					</select>	
+				</div>
+			</div>
+			<div class="magb15 layui-col-md2 layui-col-xs12">
+				<label class="layui-form-label">字体颜色</label>
+				<div class="layui-input-block">
+					<div id="backFontColor"></div>
+				</div>	
+			</div>
+			<div class="magb15 layui-col-md5 layui-col-xs12">
+				<label class="layui-form-label">字体样式</label>
+				<div class="layui-input-block">
+				  <input name="backFontStyle" value="normal" title="默认" checked="" type="radio">
+				  <input name="backFontStyle" value="italic" title="斜体" type="radio">
+				  <input name="backFontStyle" value="oblique" title="倾斜" type="radio">				  
+				</div>
+			</div>
+		</div>-->
+ 		<div class="layui-row">
+			<div class="magb15 layui-col-md4 layui-col-xs12">
+				<label class="layui-form-label">卡片边线 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input cardStyleLine"  lay-verify="required" placeholder="请输入卡片边线(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+			<div class="magb15 layui-col-md4 layui-col-xs12">
+				<label class="layui-form-label">卡片边角 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input cardStyleRadius"  lay-verify="required" placeholder="请输入卡片边角(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+			<div class="magb15 layui-col-md4 layui-col-xs12">
+				<label class="layui-form-label">卡片透明度 <span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input cardStyleOpacity"  lay-verify="required" placeholder="请输入卡片透明度(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md3 layui-col-xs12">
+				<label class="layui-form-label">正面图片</label>
+				<div class="layui-upload" style="display: flex;justify-content: center;align-items: center;">
+					<div class="layui-upload-list">
+						<img class="layui-upload-img" id="front_photo"
+						src="../../../../static/images/def_card.png"
+						onerror="this.src='../../../../static/images/def_card.png'"
+						 style="width:200px;height:100px;">
+						<p id="front_photoPath" name="front_photo" style="display: none;"></p>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md3 layui-col-xs12" >
+				<button type="button" class="layui-btn selectphoto" data-phototype="front" style="float: inherit;">上传图片</button>
+			</div>
+			<div class="magb15 layui-col-md3 layui-col-xs12">
+				<label class="layui-form-label">背面图片</label>
+				<div class="layui-upload" style="display: flex;justify-content: center;align-items: center;">
+					<div class="layui-upload-list">
+						<img class="layui-upload-img" id="behind_photo" 
+						src="../../../../static/images/def_card.png" 
+						onerror="this.src='../../../../static/images/def_card.png'"
+						style="width:200px;height:100px;">
+						<p id="behind_photoPath" name="behind_photo" style="display: none;"></p>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md3 layui-col-xs12">
+				<button type="button" class="layui-btn selectphoto" data-phototype="behind" style="float: inherit;">上传图片</button>
+			</div>			
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addCard">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+
+	<script type="text/javascript" src="../../../../static/layui/layui.js"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/setting/card/cardadd.js"></script>
+</body>
+
+</html>

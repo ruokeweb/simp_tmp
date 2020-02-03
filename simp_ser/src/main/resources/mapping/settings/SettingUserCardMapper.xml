@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.settings.mapper.SettingUserCardMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.settings.model.SettingUserCard">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+			<result column="joint_card_no" jdbcType="VARCHAR" property="jointCardNo" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="ranking" jdbcType="INTEGER" property="ranking" />
+	</resultMap>
+
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="CardResultMap" type="com.mpri.aio.settings.model.SettingUserCard">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+			<result column="joint_card_no" jdbcType="VARCHAR" property="jointCardNo" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="ranking" jdbcType="INTEGER" property="ranking" />
+			<association property="settingCard" column="card_id" select="getCard"></association>
+	</resultMap>
+
+	  	<!-- 基础返回值定义 -->
+	<resultMap id="CardDetailMap" type="com.mpri.aio.settings.model.SettingCard">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="back_background" jdbcType="VARCHAR" property="backBackground" />
+			<result column="card_style_line" jdbcType="VARCHAR" property="cardStyleLine" />
+			<result column="card_style_opacity" jdbcType="VARCHAR" property="cardStyleOpacity" />
+			<result column="card_style_radius" jdbcType="VARCHAR" property="cardStyleRadius" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="end_level" jdbcType="INTEGER" property="endLevel" />
+			<result column="as_id" jdbcType="VARCHAR" property="asId" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="front_background" jdbcType="VARCHAR" property="frontBackground" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="start_level" jdbcType="INTEGER" property="startLevel" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+	</resultMap>
+	
+	<select id="getCard" parameterType="com.mpri.aio.settings.model.SettingUserCard" resultMap="CardDetailMap">
+		select back_background, card_style_line, card_style_opacity, as_id,card_style_radius, 
+		create_date, end_level, flag, front_background, id, name, remark, start_level, type
+		from setting_card
+		
+		where id = #{entity.cardId} and flag = 'NORMAL'
+	</select>
+	
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, card_no, joint_card_no, create_date, remark, card_id, flag, user_id, status, ranking
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.cardNo != null and entity.cardNo!='' ">
+        		and card_no=#{entity.cardNo}
+      		</if>	      	
+			<if test="entity.jointCardNo != null and entity.jointCardNo!='' ">
+        		and joint_card_no=#{entity.jointCardNo}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.cardId != null and entity.cardId!='' ">
+        		and card_id=#{entity.cardId}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.ranking != null and entity.ranking!='' ">
+        		and ranking=#{entity.ranking}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.settings.model.SettingUserCard" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from setting_user_card
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.settings.model.SettingUserCard" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_user_card 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.settings.model.SettingUserCard" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_user_card 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.settings.model.SettingUserCard">
+    	update setting_user_card set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!--退出校友会时删除该校友在此校友会下的所有校友卡-->
+  	<delete id="deleteUserCard" parameterType="com.mpri.aio.settings.model.SettingUserCard">
+  		delete from setting_user_card where user_id = #{userId} and  card_id in (select id from setting_card where as_id = #{asId})
+  	</delete>
+
+
+
+	<!--通过用户id获取用户的校友卡列表-->
+  	<select id="loadCardListByUserId"  parameterType="com.mpri.aio.settings.model.SettingUserCard" resultMap="CardResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_user_card 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.settings.model.SettingUserCard">
+		insert into setting_user_card
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="cardNo != null">
+	    		card_no,
+	  		</if>   			
+	   		<if test="jointCardNo != null">
+	    		joint_card_no,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="cardId != null">
+	    		card_id,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+	   		<if test="status != null">
+	    		status,
+	  		</if>   			
+	    		ranking,			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="cardNo != null">
+	   			#{cardNo,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="jointCardNo != null">
+	   			#{jointCardNo,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="cardId != null">
+	   			#{cardId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>   			
+				(SELECT ranking	FROM
+					(SELECT (IFNULL((SELECT max(ranking) FROM setting_user_card AS b WHERE card_id in 
+											(SELECT
+														a.card_id
+													FROM
+														(
+															SELECT
+																id AS card_id
+															FROM
+																setting_card
+															WHERE
+																as_id = 'root'
+														) AS a
+												)
+										),0) + 1
+								) AS ranking
+						) AS max_ranking
+				)
+			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.settings.model.SettingUserCard">
+    	update setting_user_card
+    	<set>
+			<if test="cardNo != null">
+	   			card_no = #{cardNo,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="jointCardNo != null">
+	   			joint_card_no = #{jointCardNo,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="cardId != null">
+	   			card_id = #{cardId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="ranking != null">
+	   			ranking = #{ranking,jdbcType=INTEGER},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

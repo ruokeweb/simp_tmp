@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>校友卡管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+</head>
+
+<body class="childrenBody">
+	<form class="layui-form" style="width:98%; margin-top:15px;">
+		<input type="hidden" class="layui-input"  id='id'>
+		<input type="hidden" class="layui-input"  id='activityId'>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md12 layui-col-xs12"> 
+				<label class="layui-form-label">名称<span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id='name' lay-verify="required" placeholder="请输入名称(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+		</div>
+		
+		<div class="layui-row">
+			<div class="magb15 layui-col-md12 layui-col-xs12"> 
+				<label class="layui-form-label">编码<span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id="code" lay-verify="required" placeholder="请输入编码(最大长度64位)" maxlength ="64">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md12 layui-col-xs12"> 
+				<label class="layui-form-label">类型<span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<select class="layui-form" id='formType' lay-verify="required" lay-filter="formType">
+						<option value=""></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md12 layui-col-xs12"> 
+				<label class="layui-form-label">默认值</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id='defaultValue'  placeholder="默认值(选择类型请用半角','隔开数据，最大长度512位)" maxlength ="512">
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="magb15 layui-col-md12 layui-col-xs12"> 
+				<label class="layui-form-label">排序<span class="span-required">*<span></label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id='sort' lay-verify="required|sortNum" placeholder="排序(只能是数字最大长度8位)" maxlength ="8">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="add">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+
+	<script type="text/javascript" src="../../../../static/layui/layui.js"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/act/setting/settingadd.js"></script>
+</body>
+
+</html>

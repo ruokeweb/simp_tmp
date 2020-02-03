@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.wish.mapper.AppWishMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmWish">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="isshow" jdbcType="VARCHAR" property="isshow" />
+			<result column="information" jdbcType="VARCHAR" property="information" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, create_date, remark, flag, user_id, name, isshow, information
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>
+			<if test="entity.queryBeginDate!=null">
+				and create_date &gt;= #{entity.queryBeginDate}
+			</if>
+			<if test="entity.queryEndDate!=null">
+				and create_date &lt;= #{entity.queryEndDate}
+			</if>
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and name = #{entity.name} 
+	       	</if>		
+			<if test="entity.isshow != null and entity.isshow!='' ">
+        		and isshow=#{entity.isshow}
+      		</if>	      	
+			<if test="entity.information != null and entity.information!='' ">
+        		and information=#{entity.information}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmWish" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_wish
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.schoolmate.model.SmWish" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_wish 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date desc
+  	</select>
+	<!--获取祝福列表-->
+	<select id="getThankslist" parameterType="com.mpri.aio.schoolmate.model.SmWish" resultMap="BaseResultMap" >
+		select
+		information
+		from sm_wish
+		<where>
+			<include refid="query_where"></include>
+		</where>
+		ORDER BY create_date desc LIMIT #{pageSize,jdbcType=INTEGER}
+	</select>
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmWish" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_wish 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.schoolmate.model.SmWish">
+    	update sm_wish set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmWish">
+		insert into sm_wish
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+	   		<if test="name != null">
+	    		name,
+	  		</if>   			
+	   		<if test="isshow != null">
+	    		isshow,
+	  		</if>   			
+	   		<if test="information != null">
+	    		information,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="isshow != null">
+	   			#{isshow,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="information != null">
+	   			#{information,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmWish">
+    	update sm_wish
+    	<set>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="isshow != null">
+	   			isshow = #{isshow,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="information != null">
+	   			information = #{information,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

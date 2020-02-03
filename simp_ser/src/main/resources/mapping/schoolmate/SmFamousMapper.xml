@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.SmFamousMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmFamous">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="weight" jdbcType="INTEGER" property="weight" />
+			<result column="photo" jdbcType="VARCHAR" property="photo" />
+			<result column="information" jdbcType="VARCHAR" property="information" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="sort" jdbcType="INTEGER" property="sort" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, user_id, weight,photo, information,create_date, flag, remark, sort
+	</sql>
+    <!-- 基础字段定义 -->
+	<sql id="User_Base_Column_List">
+    	s_s.name,
+    	s_f.id, s_f.user_id, s_f.weight, s_f.create_date, s_f.flag , s_f.sort,s_f.photo,s_f.information
+
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.weight != null and entity.weight!='' ">
+        		and weight=#{entity.weight}
+      		</if>
+			<if test="entity.photo != null and entity.photo!='' ">
+				and photo=#{entity.photo}
+			</if>
+			<if test="entity.information != null and entity.information!='' ">
+				and information=#{entity.information}
+			</if>
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.sort != null and entity.sort!='' ">
+        		and sort=#{entity.sort}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmFamous" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="User_Base_Column_List" />
+    	from sm_famous s_f
+		left JOIN sm_schoolmate s_s on s_f.user_id =s_s.user_id
+		where s_f.id = #{id,jdbcType=VARCHAR} and s_f.flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.schoolmate.model.SmFamous" resultMap="BaseResultMap" >
+		select
+		   <include refid="User_Base_Column_List" />
+		from sm_famous s_f
+		left JOIN sm_schoolmate s_s on s_f.user_id =s_s.user_id and s_f.flag= #{entity.FLAG_NORMAL}
+		<where>
+			<if test="entity!=null">
+				<if test="entity.id != null and entity.id!='' ">
+					and s_f.id=#{entity.id}
+				</if>
+				<if test="entity.userId != null and entity.userId!='' ">
+					and s_f.user_id=#{entity.userId}
+				</if>
+				<if test="entity.weight != null and entity.weight!='' ">
+					and s_f.weight=#{entity.weight}
+				</if>
+				<if test="entity.photo != null and entity.photo!='' ">
+					and s_f.photo=#{entity.photo}
+				</if>
+				<if test="entity.information != null and entity.information!='' ">
+					and s_f.information=#{entity.information}
+				</if>
+				<if test="entity.createDate != null and entity.createDate!='' ">
+					and s_f.create_date=#{entity.createDate}
+				</if>
+				<if test="entity.flag != null and entity.flag!='' ">
+					and s_f.flag= #{entity.FLAG_NORMAL}
+				</if>
+				<if test="entity.remark != null and entity.remark!='' ">
+					and s_f.remark=#{entity.remark}
+				</if>
+				<if test="entity.sort != null and entity.sort!='' ">
+					and s_f.sort=#{entity.sort}
+				</if>
+				<if test="entity.name!=null">
+                    and ( s_s.name like   replace (#{entity.name},'*','%%')
+                    or s_s.name like concat('%', #{entity.name},'%')
+                    or s_s.pinyin = #{entity.name})
+				</if>
+				<if test="entity.egName!=null">
+					and ( s_s.eg_name like   replace (#{entity.egName},'*','%%')
+					or s_s.eg_name like concat('%', #{entity.egName},'%'))
+				</if>
+			</if>
+		</where>
+  	</select>
+
+	<!-- 根据权重随机获取条数 -->
+	<select id="getRandList" parameterType="com.mpri.aio.schoolmate.model.SmFamous" resultMap="BaseResultMap" >
+		select
+		<include refid="User_Base_Column_List" />
+		,RAND() * s_f.weight as we
+		from sm_famous s_f
+		left JOIN sm_schoolmate s_s on s_f.user_id =s_s.user_id
+		<where>
+			<if test="entity!=null">
+				<if test="entity.id != null and entity.id!='' ">
+					and s_f.id=#{entity.id}
+				</if>
+				<if test="entity.userId != null and entity.userId!='' ">
+					and s_f.user_id=#{entity.userId}
+				</if>
+				<if test="entity.weight != null and entity.weight!='' ">
+					and s_f.weight=#{entity.weight}
+				</if>
+				<if test="entity.photo != null and entity.photo!='' ">
+					and s_f.photo=#{entity.photo}
+				</if>
+				<if test="entity.information != null and entity.information!='' ">
+					and s_f.information=#{entity.information}
+				</if>
+				<if test="entity.createDate != null and entity.createDate!='' ">
+					and s_f.create_date=#{entity.createDate}
+				</if>
+				<if test="entity.flag != null and entity.flag!='' ">
+					and s_f.flag= #{entity.FLAG_NORMAL}
+				</if>
+				<if test="entity.remark != null and entity.remark!='' ">
+					and s_f.remark=#{entity.remark}
+				</if>
+				<if test="entity.sort != null and entity.sort!='' ">
+					and s_f.sort=#{entity.sort}
+				</if>
+				<if test="entity.name!=null">
+					and ( s_s.name like   replace (#{entity.name},'*','%%')
+					or s_s.name like concat('%', #{entity.name},'%')
+					or s_s.pinyin = #{entity.name} )
+				</if>
+				<if test="entity.egName!=null">
+					and ( s_s.eg_name like   replace (#{entity.egName},'*','%%')
+					or s_s.eg_name like concat('%', #{entity.egName},'%'))
+				</if>
+			</if>
+		</where>
+		ORDER BY we desc
+	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmFamous" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_famous 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.schoolmate.model.SmFamous">
+    	update sm_famous set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmFamous">
+		insert into sm_famous
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+	   		<if test="weight != null">
+	    		weight,
+	  		</if>
+			<if test="photo != null">
+				photo,
+			</if>
+			<if test="information != null">
+				information,
+			</if>
+			<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="sort != null">
+	    		sort,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="weight != null">
+	   			#{weight,jdbcType=INTEGER},
+	  		</if>
+			<if test="photo != null">
+				#{photo,jdbcType=VARCHAR},
+			</if>
+			<if test="information != null">
+				#{information,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="sort != null">
+	   			#{sort,jdbcType=INTEGER},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmFamous">
+    	update sm_famous
+    	<set>
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="weight != null">
+	   			weight = #{weight,jdbcType=INTEGER},
+	  		</if>
+			<if test="photo != null">
+				photo=#{photo,jdbcType=VARCHAR},
+			</if>
+			<if test="information != null">
+				information=#{information,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="sort != null">
+	   			sort = #{sort,jdbcType=INTEGER},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

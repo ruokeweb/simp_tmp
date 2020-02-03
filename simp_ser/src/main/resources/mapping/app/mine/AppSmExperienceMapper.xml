@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppSmExperienceMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmExperience">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="position" jdbcType="VARCHAR" property="position" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="content" jdbcType="VARCHAR" property="content" />
+			<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, name, position, remark, content, start_date, create_date, user_id, end_date, flag
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and name = #{entity.name} 
+	       	</if>		
+			<if test="entity.position != null and entity.position!='' ">
+        		and position=#{entity.position}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.content != null and entity.content!='' ">
+        		and content=#{entity.content}
+      		</if>	      	
+			<if test="entity.startDate != null ">
+        		and start_date=#{entity.startDate}
+      		</if>	      	
+			<if test="entity.createDate != null ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.endDate != null ">
+        		and end_date=#{entity.endDate}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmExperience" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_experience
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+	<!-- 根据id查询 -->
+	<select id="getOne" parameterType="com.mpri.aio.schoolmate.model.SmExperience" resultMap="BaseResultMap">
+		select
+		id, name, position, content, start_date, user_id, end_date
+		from sm_experience
+		where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+	</select>
+ 
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="getExperiences"  parameterType="com.mpri.aio.schoolmate.model.SmExperience" resultMap="BaseResultMap" >
+    	select
+		id, name, position
+    	from sm_experience 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date desc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="deleteExperience" parameterType="com.mpri.aio.schoolmate.model.SmExperience">
+    	update sm_experience set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmExperience">
+		insert into sm_experience
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="name != null">
+	    		name,
+	  		</if>
+	   		<if test="position != null">
+	    		position,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="content != null">
+	    		content,
+	  		</if>
+	   		<if test="startDate != null">
+	    		start_date,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>
+	   		<if test="endDate != null">
+	    		end_date,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="position != null">
+	   			#{position,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="startDate != null">
+	   			#{startDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="endDate != null">
+	   			#{endDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmExperience">
+    	update sm_experience
+    	<set>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+			<if test="position != null">
+	   			position = #{position,jdbcType=VARCHAR},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>
+
+	   			start_date = #{startDate,jdbcType=TIMESTAMP},
+
+
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>
+
+	   			end_date = #{endDate,jdbcType=TIMESTAMP},
+
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

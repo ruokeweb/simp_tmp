@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "校友卡说明",
+  "usingComponents": {
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}

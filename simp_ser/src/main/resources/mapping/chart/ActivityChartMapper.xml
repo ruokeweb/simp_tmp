@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.chart.mapper.ActivityChartMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.chart.vo.DataSetForG2">
+			<result column="property" jdbcType="VARCHAR" javaType="string" property="property" />
+			<result column="value" jdbcType="VARCHAR" javaType="long" property="value" />
+			<result column="percent" jdbcType="DOUBLE" javaType="double" property="percent" />
+	</resultMap>
+	
+    <!-- 日期格式化 -->
+    <sql id="date_format">
+        DATE_FORMAT(
+        <!-- 通过参数选择不同的需要格式化的列 -->
+        <choose>
+            <when test="'${column}' == 'dateSequence'">
+                <include refid="date_column"/>
+            </when>
+            <otherwise>
+                ${dateColumn}
+            </otherwise>
+        </choose>
+        ,
+        <!-- 通过参数选择不同的格式 -->
+        <choose>
+            <when test="groupType == 'day'">
+                '%Y-%m-%d'
+            </when>
+            <when test="groupType == 'month'">
+                '%Y-%m'
+            </when>
+            <when test="groupType == 'year'">
+                '%Y'
+            </when>
+            <otherwise>
+                '%Y'
+            </otherwise>
+        </choose>
+        )
+    </sql>
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="date_column"> 
+        <choose>
+            <when test="enddate != null">
+<!--                DATE_SUB(STR_TO_DATE(to_char(${enddate}),'%a %b %e %T GMT+08:00 %Y %Y %Y'),INTERVAL @i :=@i + 1  -->
+               DATE_SUB('${enddate}',INTERVAL @i :=@i + 1 
+            </when>
+            <otherwise>
+                DATE_SUB(CURDATE(),INTERVAL @i :=@i + 1 
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="groupType == 'day'">
+                DAY)
+            </when>
+            <when test="groupType == 'month'">
+                MONTH)
+            </when>
+            <when test="groupType == 'year'">
+                YEAR)
+            </when>
+            <otherwise>
+                YEAR)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="querySQL!=null">
+            querySQL
+        </if>
+    </sql>
+    
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="count_column">
+        <choose>
+            <when test="countColumn != null and countColumn!='' and countColumn!='id'">
+                count(${countColumn})
+            </when>
+            <otherwise>
+                COUNT(id)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 活动报名统计 -->
+    <select id="actSignChart" resultType="java.util.HashMap">
+        SELECT
+        count(tmp.act_id) count,tmp.name
+        from (
+        select   user_id, act_id ,act.name from act_content  maintab
+        left join act_activity act on maintab.act_id = act.id and act.flag =#{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.user_id is not null
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.status != null and entity.status!='' ">
+                and  act.status = #{entity.status}
+            </if>
+            <if test="entity.assoId != null and entity.assoId!='' ">
+                and  act.asso_id = #{entity.assoId}
+            </if>
+        </where>
+        GROUP BY act_id ,user_id
+        )as tmp
+        where tmp.name is not null
+        group by tmp.act_id
+    </select>
+
+    <!--值年返校统计-->
+    <select id="actBackChart" resultType="java.util.HashMap">
+        SELECT
+        count(tmp.act_selforg_id) count,tmp.name
+        from (
+        select   maintab.user_id, maintab.act_selforg_id ,act.name from act_selforg_content  maintab
+        left join act_selforg act on maintab.act_selforg_id = act.id and act.flag =#{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.user_id is not null
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.status != null and entity.status!='' ">
+                and  act.status = #{entity.status}
+            </if>
+        </where>
+        GROUP BY maintab.act_selforg_id ,maintab.user_id
+        )as tmp
+        where tmp.name is not null
+        group by tmp.act_selforg_id
+    </select>
+
+    <!--活动人数排行-->
+    <select id="getSignActNum" resultType="java.util.HashMap">
+        select name,ready_no as field from act_activity where flag ='NORMAL' and  ready_no is not null
+        <if test="entity.field !=null and entity.field != ''  ">
+            order by
+            ${entity.field }
+        </if>
+        <if test="entity.field !=null and entity.field != '' and entity.type != null and entity.type != ''">
+            ${entity.type}
+        </if>
+    </select>
+    <!--值年返校人数排行-->
+    <select id="getSignActBackNum" resultType="java.util.HashMap">
+        select name,ready_no as field from act_selforg where flag ='NORMAL' and status ='SUCCESS' and  ready_no is not null
+        <if test="entity.field !=null and entity.field != ''  ">
+            order by
+            ${entity.field }
+        </if>
+        <if test="entity.field !=null and entity.field != '' and entity.type != null and entity.type != ''">
+            ${entity.type}
+        </if>
+    </select>
+</mapper>

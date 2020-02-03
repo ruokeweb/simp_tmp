@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.SmEducationMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmEducation">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="degree_type" jdbcType="VARCHAR" property="degreeType" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="temp_specialty" jdbcType="VARCHAR" property="tempSpecialty" />
+			<result column="edu_model" jdbcType="VARCHAR" property="eduModel" />
+			<result column="school" jdbcType="VARCHAR" property="school" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+			<result column="schoollen" jdbcType="VARCHAR" property="schoollen" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="academy" jdbcType="VARCHAR" property="academy" />
+			<result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+			<result column="series" jdbcType="VARCHAR" property="series" />
+			<result column="classes" jdbcType="VARCHAR" property="classes" />
+			<result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+			<result column="specialty" jdbcType="VARCHAR" property="specialty" />
+			<result column="college" jdbcType="VARCHAR" property="college" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+			<result column="degree" jdbcType="VARCHAR" property="degree" />
+			<result column="is_default" jdbcType="VARCHAR" property="isDefault" />
+			<result column="temp_series" jdbcType="VARCHAR" property="tempSeries" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, degree_type, remark, temp_specialty, edu_model, school, type, edu_record, schoollen, user_id, academy, edu_type, series, classes, enddate, specialty, college, flag, startdate, create_date, student_no, degree, is_default, temp_series
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.degreeType != null and entity.degreeType!='' ">
+        		and degree_type=#{entity.degreeType}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.tempSpecialty != null and entity.tempSpecialty!='' ">
+        		and temp_specialty=#{entity.tempSpecialty}
+      		</if>	      	
+			<if test="entity.eduModel != null and entity.eduModel!='' ">
+        		and edu_model=#{entity.eduModel}
+      		</if>	      	
+			<if test="entity.school != null and entity.school!='' ">
+        		and school=#{entity.school}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.eduRecord != null and entity.eduRecord!='' ">
+        		and edu_record=#{entity.eduRecord}
+      		</if>	      	
+			<if test="entity.schoollen != null and entity.schoollen!='' ">
+        		and schoollen=#{entity.schoollen}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.academy != null and entity.academy!='' ">
+        		and academy=#{entity.academy}
+      		</if>	      	
+			<if test="entity.eduType != null and entity.eduType!='' ">
+        		and edu_type=#{entity.eduType}
+      		</if>	      	
+			<if test="entity.series != null and entity.series!='' ">
+        		and series=#{entity.series}
+      		</if>	      	
+			<if test="entity.classes != null and entity.classes!='' ">
+        		and classes=#{entity.classes}
+      		</if>	      	
+			<if test="entity.enddate != null">
+        		and enddate=#{entity.enddate}
+      		</if>	      	
+			<if test="entity.specialty != null and entity.specialty!='' ">
+        		and specialty=#{entity.specialty}
+      		</if>	      	
+			<if test="entity.college != null and entity.college!='' ">
+        		and college=#{entity.college}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.startdate != null">
+        		and startdate=#{entity.startdate}
+      		</if>	      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.studentNo != null and entity.studentNo!='' ">
+        		and student_no=#{entity.studentNo}
+      		</if>	      	
+			<if test="entity.degree != null and entity.degree!='' ">
+        		and degree=#{entity.degree}
+      		</if>	      	
+			<if test="entity.isDefault != null and entity.isDefault!='' ">
+        		and is_default=#{entity.isDefault}
+      		</if>	      	
+			<if test="entity.tempSeries != null and entity.tempSeries!='' ">
+        		and temp_series=#{entity.tempSeries}
+      		</if>	      	
+		</if>
+	</sql>
+	
+	<!-- 查询所有结果集 -->
+	<select id="getCount" parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultType = "java.lang.Integer">
+		select count(id) from sm_education where flag = #{FLAG_NORMAL} 
+	</select>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_education
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_education 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_education 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by startdate asc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.schoolmate.model.SmEducation">
+    	update sm_education set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 删除对象ByUserId -->
+  	<update id="deleteByUserId" parameterType="com.mpri.aio.schoolmate.model.SmEducation">
+    	update sm_education set flag = #{FLAG_HOLD} where user_id = #{userId,jdbcType=VARCHAR}
+  	</update>
+  	
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmEducation">
+		insert into sm_education
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="degreeType != null">
+	    		degree_type,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="tempSpecialty != null">
+	    		temp_specialty,
+	  		</if>   			
+	   		<if test="eduModel != null">
+	    		edu_model,
+	  		</if>   			
+	   		<if test="school != null">
+	    		school,
+	  		</if>   			
+	   		<if test="type != null">
+	    		type,
+	  		</if>   			
+	   		<if test="eduRecord != null">
+	    		edu_record,
+	  		</if>   			
+	   		<if test="schoollen != null">
+	    		schoollen,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+	   		<if test="academy != null">
+	    		academy,
+	  		</if>   			
+	   		<if test="eduType != null">
+	    		edu_type,
+	  		</if>   			
+	   		<if test="series != null">
+	    		series,
+	  		</if>   			
+	   		<if test="classes != null">
+	    		classes,
+	  		</if>   			
+	   		<if test="enddate != null">
+	    		enddate,
+	  		</if>   			
+	   		<if test="specialty != null">
+	    		specialty,
+	  		</if>   			
+	   		<if test="college != null">
+	    		college,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="startdate != null">
+	    		startdate,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="studentNo != null">
+	    		student_no,
+	  		</if>   			
+	   		<if test="degree != null">
+	    		degree,
+	  		</if>   			
+	   		<if test="isDefault != null">
+	    		is_default,
+	  		</if>   			
+	   		<if test="tempSeries != null">
+	    		temp_series,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="degreeType != null">
+	   			#{degreeType,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="tempSpecialty != null">
+	   			#{tempSpecialty,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eduModel != null">
+	   			#{eduModel,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="school != null">
+	   			#{school,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eduRecord != null">
+	   			#{eduRecord,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="schoollen != null">
+	   			#{schoollen,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="academy != null">
+	   			#{academy,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eduType != null">
+	   			#{eduType,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="series != null">
+	   			#{series,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="classes != null">
+	   			#{classes,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="enddate != null">
+	   			#{enddate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="specialty != null">
+	   			#{specialty,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="college != null">
+	   			#{college,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="startdate != null">
+	   			#{startdate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="studentNo != null">
+	   			#{studentNo,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="degree != null">
+	   			#{degree,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="isDefault != null">
+	   			#{isDefault,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="tempSeries != null">
+	   			#{tempSeries,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmEducation">
+    	update sm_education
+    	<set>
+
+	   			degree_type = #{degreeType,jdbcType=VARCHAR},
+
+	   			remark = #{remark,jdbcType=VARCHAR},
+
+	   			temp_specialty = #{tempSpecialty,jdbcType=VARCHAR},
+
+	   			edu_model = #{eduModel,jdbcType=VARCHAR},
+
+	   			school = #{school,jdbcType=VARCHAR},
+
+	   			type = #{type,jdbcType=VARCHAR},
+
+	   			edu_record = #{eduRecord,jdbcType=VARCHAR},
+
+	   			schoollen = #{schoollen,jdbcType=VARCHAR},
+
+	   			user_id = #{userId,jdbcType=VARCHAR},
+
+	   			academy = #{academy,jdbcType=VARCHAR},
+
+	   			edu_type = #{eduType,jdbcType=VARCHAR},
+
+	   			series = #{series,jdbcType=VARCHAR},
+
+	   			classes = #{classes,jdbcType=VARCHAR},
+
+	   			enddate = #{enddate,jdbcType=TIMESTAMP},
+
+	   			specialty = #{specialty,jdbcType=VARCHAR},
+
+	   			college = #{college,jdbcType=VARCHAR},
+
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+
+	   			startdate = #{startdate,jdbcType=TIMESTAMP},
+	 
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+
+	   			student_no = #{studentNo,jdbcType=VARCHAR},
+
+
+	   			degree = #{degree,jdbcType=VARCHAR},
+
+			<if test="isDefault != null">
+	   			is_default = #{isDefault,jdbcType=VARCHAR},
+	  		</if>  
+
+	   			temp_series = #{tempSeries,jdbcType=VARCHAR},
+
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!--设置默认 -->
+	<update id ="setDefault" parameterType="com.mpri.aio.schoolmate.model.SmEducation">
+		update sm_education
+			set
+			IS_DEFAULT = #{isDefault,jdbcType=VARCHAR}
+		where
+		 id = #{id}	
+	</update>
+	
+	<!--清除默认 -->
+	<update id="clearDefault" parameterType="com.mpri.aio.schoolmate.model.SmEducation">
+		update sm_education
+			set
+			IS_DEFAULT = #{isDefault,jdbcType=VARCHAR}
+		where user_id = #{userId,jdbcType=VARCHAR}
+			
+	</update>
+	<!--查询有2条之上的教育经历的所有人-->
+	<select id="getUserId"  parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultMap="BaseResultMap" >
+		select user_id from sm_education where flag='NORMAL' GROUP BY user_id having count(user_id)>1
+	</select>
+</mapper>

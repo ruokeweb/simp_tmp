@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>校友会管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/association/asso/associationadd.js"></script>
+	<style>
+		.ck-content {
+			min-height: 150px;
+		}
+	</style>
+</head>
+
+<body class="childrenBody">
+	<form class="layui-form" style="width:90%;margin-top:15px;">
+		<input type="hidden" class="layui-input id" name='id' id='associationid'>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="magb15 layui-col-md6 layui-col-xs12">
+					<label class="layui-form-label">上级校友会<span class="span-required">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input parentId"  id="parentId"  style="display: none;">
+						<input type="text" class="layui-input parentName" id="parentName" lay-verify="required" readonly="readonly">
+					</div>
+				</div>	
+			</div>			
+			
+			<div class="layui-col-md6 layui-col-xs12">
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">校友会名称<span class="span-required">*</span></label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input name" name='name' id="name" lay-verify="required" 
+							placeholder="请输入校友会名称(最大长度64位)" 
+							maxlength ="64">
+						</div>
+					</div>
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">成立时间</label>
+						<div class="layui-input-block">
+							<input class="layui-input open_date" id="open_date" name='open_date' placeholder="yyyy-MM-dd" readonly="readonly">
+						</div>
+					</div>					
+				</div>
+				
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">校友会类型</label>
+						<div class="layui-input-block">
+							<select class="layui-form" name='type' id='type' lay-filter="type">
+								<option value=""></option>
+							</select>
+						</div>
+					</div>
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">地域级别</label>
+						<div class="layui-input-block">
+							<select class="layui-form" name='region_type' id='region_type' lay-filter="region_type">
+								<option value=""></option>
+							</select>
+						</div>
+					</div>
+					
+				</div>
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">当前届次</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input periods" id="periods" name='periods' 
+							placeholder="请输入当前届次(最大长度64位)"
+							maxlength ="64">
+						</div>
+					</div>
+					<div class="magb15 layui-col-md6 layui-col-xs12">
+						<label class="layui-form-label">换届时间</label>
+						<div class="layui-input-block">
+							<input class="layui-input next_periods_date" id="next_periods_date" name='next_periods_date' placeholder="yyyy-MM-dd" readonly="readonly">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md12 layui-col-xs12">
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<label class="layui-form-label">所在地<span class="span-required">*</span></label>
+					<div class="layui-col-xs3">
+						<select  id='country' name='country' lay-filter="country" lay-verify="required">
+							<option value="">请选择国家</option>
+						</select>
+					</div> 
+					<div class="layui-col-xs3">
+						<select  id='province' name='province' lay-filter="province" lay-verify="required">
+							<option value="">请选择省市</option>
+						</select>
+					</div> 
+					<div class="layui-col-xs3">
+						<select  id='city' name='city' lay-filter="city" lay-verify="required">
+							<option value="">请选择市区</option>
+						</select>
+					</div> 
+				</div>
+				<div class="layui-form-item layui-row  layui-col-xs12">
+					<label class="layui-form-label">详细地址</label>
+					<div class="layui-col-xs9">
+						<input class="layui-input" id="address" name='address' placeholder="请输入地址(最大长度512位)" maxlength ="512">
+					</div> 
+				</div>
+			</div>
+			</div>
+			
+			<div class="layui-col-md6 layui-col-xs12">
+				<div class="layui-upload" style="display: flex;justify-content: center;align-items: center;">
+					<div class="layui-upload-list">
+						<img class="layui-upload-img" id="photo"  src="../../../../static/images/default.jpg" 
+							onerror="this.src='../../../../static/images/default.jpg'" style="width:250px;height:250px;" />
+						<input  type="text" id="logo" style="display: none;"/>
+					</div>
+				</div>
+				<button type="button" class="layui-btn" id="selectphoto">上传图片</button>
+			</div>
+		</div>
+		
+		
+		<div class="layui-col-md12 layui-col-xs12">
+			<div class="layui-form-item layui-row  layui-col-xs12">
+				<label class="layui-form-label">授旗状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='authorize_flag' name='authorize_flag' lay-filter="authorize_flag" lay-verify="required">
+						<option value="">是否授旗</option>
+					</select>
+				</div> 
+				<label class="layui-form-label">证书状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='certificate_flag' name='certificate_flag' lay-filter="certificate_flag" lay-verify="required">
+						<option value="">是否颁发认证书</option>
+					</select>
+				</div> 
+				<label class="layui-form-label">注册状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='register_flag' name='register_flag' lay-filter="register_flag" lay-verify="required">
+						<option value="">是否当地注册</option>
+					</select>
+				</div> 
+			</div>
+		</div>
+		
+		
+		<div class="layui-col-md12 layui-col-xs12">
+			<div class="layui-form-item layui-row  layui-col-xs12">
+				<label class="layui-form-label">备案状态<span class="span-required">*</span></label>
+					<div class="layui-col-xs3">
+						<select  id='record_flag' name='record_flag' lay-filter="record_flag" lay-verify="required">
+							<option value="">是否备案</option>
+						</select>
+					</div> 
+				<label class="layui-form-label">办公室状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='has_office_flag' name='has_office_flag' lay-filter="has_office_flag" lay-verify="required">
+						<option value="">是否有固定办公室</option>
+					</select>
+				</div> 
+				<label class="layui-form-label">网站状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='has_web_flag' name='has_web_flag' lay-filter="has_web_flag" lay-verify="required">
+						<option value="">是否有网站</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12 layui-col-xs12">
+			<div class="layui-form-item layui-row  layui-col-xs12">
+				<label class="layui-form-label">公众号状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='has_wechat_flag' name='has_wechat_flag' lay-filter="has_wechat_flag" lay-verify="required">
+						<option value="">是否有微信公众号</option>
+					</select>
+				</div> 
+				<label class="layui-form-label">微博状态<span class="span-required">*</span></label>
+				<div class="layui-col-xs3">
+					<select  id='has_blog_flag' name='has_blog_flag' lay-filter="has_blog_flag" lay-verify="required">
+						<option value="">是否有微博</option>
+					</select>
+				</div> 
+				<label class="layui-form-label">成员数量</label>
+				<div class="layui-col-xs3">
+					<input class="layui-input" id="sum" name='sum' placeholder="0" readonly="readonly" >
+				</div> 
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">简介</label>
+			<div class="layui-input-block">
+				<textarea namen="summary" id="summary" class="ck-content" lay-verify="summary">
+				</textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">校友会章程</label>
+			<div class="layui-input-block">
+				<textarea namen="constitution" id="constitution" class="ck-content" lay-verify="constitution"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addAssociation">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+
+</body>
+	
+</html>

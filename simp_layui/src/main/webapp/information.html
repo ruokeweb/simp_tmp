@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+    <head>
+        <meta charset="utf-8">
+        <title>校友个人信息</title>
+        <script type="text/javascript" charset="UTF-8" src="static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="static/js/header_com.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="static/js/information.js"></script>
+    </head>
+    <body class="childrenBody" style="height: 100%;">
+        <form style="height: 100%;">
+            <div class="layui-row" style="height: 92%; position: absolute; width: 100%;">
+                <div id="info" class="layui-col-md6 info"></div>
+                <div id="detail" class="layui-col-md6  detail-body">
+                    <text id="tip">请选择左下角的校友，该校友可能是是同一个人哦!</text>
+                </div>
+                <div class="merge_but" id="merge" style="display: none;">立即合并</div>
+            </div>
+            <div class="butDiv">
+                <input class="layui-btn  but layui-btn-danger no" value="驳回" type="button" />
+                <input class="layui-btn  but yes" value="审核" type="button" />
+            </div>
+        </form>
+    </body>
+<script id="demo" type="text/html">
+        <input type="text" class="layui-input" id="likeSmId" style="display: none;">
+    <fieldset  class="layui-elem-field">
+        <legend>基本信息</legend>
+            <li>
+                <span>姓名:</span>{{d.smSchoolmate.name}}
+                <span>出生年月:</span>{{d.smSchoolmate.birthday}}
+            </li>
+            <li>
+                <span>性别:</span>{{d.smSchoolmate.sex}}
+                <span>校友类型:</span>{{d.smSchoolmate.type}}
+            </li>
+    </fieldset>
+    <fieldset  class="layui-elem-field">
+        <legend>联系方式</legend>
+            <ul>
+                {{#  layui.each(d.smSchoolmate.smContacts, function(index, item){ }}
+                <li>
+                    <span>{{ item.type }}:</span>
+                    <span>{{ item.contact }}</span>
+                </li>
+                {{#  }); }}
+                {{#  if(d.smSchoolmate.smContacts.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    
+    <fieldset  class="layui-elem-field">    
+        <legend>教育经历</legend>
+            <ul>
+                {{#  layui.each(d.smSchoolmate.smEducations, function(index, item){ }}
+                <li>
+                    <span>学历:</span>{{ item.eduRecord }}  
+                </li>
+                <li>
+                    <span>学校:</span>{{ item.school }}
+                    <span>学院:</span>{{ item.college }}
+                    <span>系:</span>{{ item.series }}
+                    <span>专业:</span>{{ item.specialty }}     
+                </li>            
+                {{#  }); }}
+                {{#  if(d.smSchoolmate.smEducations.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>     
+    <fieldset  class="layui-elem-field">          
+        <legend>职业经历</legend>
+            <ul>
+                {{#  layui.each(d.smSchoolmate.smProfessions, function(index, item){ }}
+                <li>
+                    <span>工作单位:</span>{{ item.workplace }}
+                    <span>职务:</span>{{ item.workplace }}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smSchoolmate.smProfessions.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>  
+   <fieldset  class="layui-elem-field">           
+          <legend>可能是：</legend>
+              <ul>
+                  {{#  layui.each(d.likeSmschoolmate, function(index, item){ }}
+                        <li>
+                            <span>姓名:</span><a  class='goDetil' style="color: #01AAED;" id='{{item.userId}}'>{{item.name}}</a>
+                            <span>出生年月:</span>{{item.birthday}}
+                            <span>性别:</span>{{item.sex}}
+                            <span>校友类型:</span>{{item.type}} </li>
+                        <li>
+                  {{#  }); }}  
+                  {{#  if(d.likeSmschoolmate.length === 0){ }}
+                  无数据
+                  {{#  } }} 
+              </ul>           
+      </fieldset>    
+</script>
+    <script id="likeDetail" type="text/html">
+        <fieldset  class="layui-elem-field">
+        <legend>基本信息</legend>
+            <li>
+                <span>姓名:</span>{{d.name}}
+                <span>出生年月:</span>{{d.birthday}}
+            </li>
+            <li>
+                <span>性别:</span>{{d.sex}}
+                <span>校友类型:</span>{{d.type}}
+            </li>
+    </fieldset>
+    <fieldset  class="layui-elem-field">
+        <legend>联系方式</legend>
+            <ul>
+                {{#  layui.each(d.smContacts, function(index, item){ }}
+                <li>
+                    <span>{{ item.type ||" "}}:</span>
+                    <span>{{ item.contact||" " }}</span>
+                </li>
+                {{#  }); }}
+                {{#  if(d.smContacts.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    
+    <fieldset  class="layui-elem-field">    
+        <legend>教育经历</legend>
+            <ul>
+                {{#  layui.each(d.smEducations, function(index, item){ }}
+                <li>
+                    <span>学校:</span>{{ item.school ||" "}}
+                    <span>学院:</span>{{ item.college ||" "}}
+                    <span>系:</span>{{ item.series||" " }}
+                    <span>专业:</span>{{ item.specialty ||" "}}     
+                </li>   
+                <li>
+                    <span>学科:</span>{{ item.degreeType ||" "}}
+                    <span>学位类型:</span>{{ item.degree ||" "}}
+                    <span>学制:</span>{{ item.schoollen||" " }}          
+                </li>
+                <li>
+                    <span>学历:</span>{{ item.eduRecord ||" "}}
+                    <span>教育方式:</span>{{ item.eduModel||" " }}
+                    <span>培养方式:</span>{{ item.eduType ||" "}}              
+                </li>         
+                {{#  }); }}
+                {{#  if(d.smEducations.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>     
+    <fieldset  class="layui-elem-field">       
+        <legend>通讯地址</legend>
+            <ul>
+                {{#  layui.each(d.smAddresses, function(index, item){ }}
+                <li>
+                    <span>{{ item.country||" " }}</span> 
+                    <span>{{ item.province ||" "}}</span>
+                    <span>{{ item.city ||" "}}</span>
+                    <span>{{ item.district ||" "}}</span>
+                    <span>详细地址:</span>{{ item.detail ||" "}}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smAddresses.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    
+<!--    <fieldset  class="layui-elem-field">           
+        <legend>政治面貌</legend>
+            <ul>
+                {{#  layui.each(d.smPolitics, function(index, item){ }}
+                <li>
+                    <span>{{ item.startdate }}</span> -
+                    <span>{{ item.enddate }}</span>
+                    <span>名称:</span>{{ item.name }}
+                    <span>职务:</span>{{ item.position }}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smPolitics.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    -->
+<!--    <fieldset  class="layui-elem-field">          
+        <legend>校园经历</legend>
+            <ul>
+                {{#  layui.each(d.smExperiences, function(index, item){ }}
+                <li>
+                    <span>{{ item.startDate }}</span> -
+                    <span>{{ item.endDate }}</span>
+                    <span>名称:</span>{{ item.name }}
+                    <span>职务:</span>{{ item.position }}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smExperiences.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    -->
+    <fieldset  class="layui-elem-field">           
+        <legend>荣誉成果</legend>
+            <ul>
+                {{#  layui.each(d.smHonors, function(index, item){ }}
+                <li>
+                    <span>{{ item.date||" " }}</span>
+                    <span>名称:</span>{{ item.name||" " }}
+                    <!-- <span>类型:</span>{{ item.type }} -->
+                    <span>行业:</span>{{ item.industry ||" "}}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smHonors.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    
+    <fieldset  class="layui-elem-field">           
+        <legend>社会经历</legend>
+            <ul>
+                {{#  layui.each(d.smSocials, function(index, item){ }}
+                <li>
+                    <span>{{ item.startdate||" " }}</span> -
+                    <span>{{ item.enddate ||" "}}</span>
+                    <span>名称:</span>{{ item.name ||" "}}
+                    <span>职务:</span>{{ item.position ||" "}}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smSocials.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul> 
+    </fieldset>    
+    <fieldset  class="layui-elem-field">          
+        <legend>职业经历</legend>
+            <ul>
+                {{#  layui.each(d.smProfessions, function(index, item){ }}
+                <li>
+                    <span>{{ item.startDate ||" "}}</span> -
+                    <span>{{ item.endDate ||" "}}</span>
+                    <span>工作单位:</span>{{ item.workplace ||" "}}
+                    <span>职务:</span>{{ item.workplace||" " }}
+                </li>       
+                <li>
+                    <span>地址:</span>{{ item.country ||" "}}{{ item.province ||" "}}{{ item.city||" " }}{{ item.district||" "}}
+                    <span>电话:</span>{{ item.telephone ||" "}}
+                </li>
+                {{#  }); }}
+                {{#  if(d.smProfessions.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>
+    </fieldset>    
+<!--    <fieldset  class="layui-elem-field">           
+        <legend>家庭成员</legend>
+            <ul>
+                {{#  layui.each(d.smFamilies, function(index, item){ }}
+                <li>
+                    <span>姓名:</span>{{ item.name }}
+                    <span>关系:</span>{{ item.relation }}
+                </li>       
+                {{#  }); }}
+                {{#  if(d.smFamilies.length === 0){ }}
+                无数据
+                {{#  } }} 
+            </ul>           
+    </fieldset> -->
+</script>
+</html>
+
+<style>
+    .merge_but {
+        width: 56px;
+        height: 56px;
+        position: absolute;
+        z-index: 999999999999;
+        bottom: 40px;
+        right: 50px;
+        background-color: #1AA094;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 28px;
+        margin: auto;
+        color: #FFFFFF;
+        border-radius: 28px;
+    }
+
+    .introduction {
+        height: 100%;
+
+    }
+
+    text {
+        margin-left: 60px;
+        text-align: center !important;
+        line-height: 100px !important;
+        font-size: 18px !important;
+        font-weight: bold;
+        color: #0C0C0C;
+    }
+
+    .info {
+        height: 100%;
+        overflow-y: auto;
+        /* margin-left: 15px; */
+    }
+
+    .detail-body {
+        height: 100%;
+        overflow-y: auto;
+        /* position: absolute; */
+        /* margin-left: 30px; */
+    }
+
+    .but {
+        width: 100px;
+        margin-left: 140px;
+    }
+
+
+    span {
+        margin-left: 3px;
+        font: 15px arial, sans-serif;
+        font-weight: bold;
+    }
+
+    legend {
+        font-weight: 900;
+        margin-top: 8px;
+    }
+
+    li {
+        margin-top: 8px;
+    }
+
+    .butDiv {
+        position: fixed;
+        bottom: 0;
+        background-color: #F8F8F8;
+        width: 100%;
+        padding: 5px 0px;
+        margin-bottom: 0px;
+    }
+</style>

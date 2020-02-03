@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.settings.mapper.SettingCardMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.settings.model.SettingCard">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="back_background" jdbcType="VARCHAR" property="backBackground" />
+			<result column="card_style_line" jdbcType="VARCHAR" property="cardStyleLine" />
+			<result column="card_style_opacity" jdbcType="VARCHAR" property="cardStyleOpacity" />
+			<result column="card_style_radius" jdbcType="VARCHAR" property="cardStyleRadius" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="end_level" jdbcType="INTEGER" property="endLevel" />
+			<result column="as_id" jdbcType="VARCHAR" property="asId" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="front_background" jdbcType="VARCHAR" property="frontBackground" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="start_level" jdbcType="INTEGER" property="startLevel" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	back_background, card_style_line, card_style_opacity, as_id,card_style_radius, create_date, end_level, flag, front_background, id, name, remark, start_level, type
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.backBackground != null and entity.backBackground!='' ">
+        		and back_background=#{entity.backBackground}
+      		</if>	      	
+			<if test="entity.cardStyleLine != null and entity.cardStyleLine!='' ">
+        		and card_style_line=#{entity.cardStyleLine}
+      		</if>	      	
+			<if test="entity.cardStyleOpacity != null and entity.cardStyleOpacity!='' ">
+        		and card_style_opacity=#{entity.cardStyleOpacity}
+      		</if>	      	
+			<if test="entity.cardStyleRadius != null and entity.cardStyleRadius!='' ">
+        		and card_style_radius=#{entity.cardStyleRadius}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.endLevel != null and entity.endLevel!='' ">
+        		and end_level=#{entity.endLevel}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.frontBackground != null and entity.frontBackground!='' ">
+        		and front_background=#{entity.frontBackground}
+      		</if>	      	
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+				and ( name like   replace (#{entity.name},'*','%%')
+				or name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.startLevel != null and entity.startLevel!='' ">
+        		and start_level=#{entity.startLevel}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>
+			<if test="entity.asId != null and entity.asId!='' ">
+        		and as_id=#{entity.asId}
+      		</if>	    	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.settings.model.SettingCard" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from setting_card
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.settings.model.SettingCard" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_card 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date DESC
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.settings.model.SettingCard" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_card 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	  	<!-- 根据level区间查询 -->
+  	<select id="getSettingCardByLevel" parameterType="com.mpri.aio.settings.model.SettingCard" resultMap="BaseResultMap">
+   	    select 
+    	<include refid="Base_Column_List" />
+    	from setting_card
+    	where  
+    		<!-- 此版本先取消等级与校友卡关系-->
+<!--     	start_level &lt;= #{startLevel}  and end_level &gt;= #{endLevel}  -->
+    	flag = #{FLAG_NORMAL}
+		<if test="asId != null and asId!='' ">
+       		and as_id=#{asId}
+   		</if>	  
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.settings.model.SettingCard">
+    	update setting_card set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.settings.model.SettingCard">
+		insert into setting_card
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="backBackground != null">
+	    		back_background,
+	  		</if>   			
+	   		<if test="cardStyleLine != null">
+	    		card_style_line,
+	  		</if>   			
+	   		<if test="cardStyleOpacity != null">
+	    		card_style_opacity,
+	  		</if>   			
+	   		<if test="cardStyleRadius != null">
+	    		card_style_radius,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="endLevel != null">
+	    		end_level,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="frontBackground != null">
+	    		front_background,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="name != null">
+	    		name,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="startLevel != null">
+	    		start_level,
+	  		</if>   			
+	   		<if test="type != null">
+	    		type,
+	  		</if> 
+	   		<if test="asId != null">
+	    		as_id,
+	  		</if>   	  			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="backBackground != null">
+	   			#{backBackground,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="cardStyleLine != null">
+	   			#{cardStyleLine,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="cardStyleOpacity != null">
+	   			#{cardStyleOpacity,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="cardStyleRadius != null">
+	   			#{cardStyleRadius,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="endLevel != null">
+	   			#{endLevel,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="frontBackground != null">
+	   			#{frontBackground,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="startLevel != null">
+	   			#{startLevel,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if> 
+	   		<if test="asId != null">
+	    		#{asId,jdbcType=VARCHAR},
+	  		</if>   	
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.settings.model.SettingCard">
+    	update setting_card
+    	<set>
+			<if test="backBackground != null">
+	   			back_background = #{backBackground,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="cardStyleLine != null">
+	   			card_style_line = #{cardStyleLine,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="cardStyleOpacity != null">
+	   			card_style_opacity = #{cardStyleOpacity,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="cardStyleRadius != null">
+	   			card_style_radius = #{cardStyleRadius,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="endLevel != null">
+	   			end_level = #{endLevel,jdbcType=INTEGER},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="frontBackground != null">
+	   			front_background = #{frontBackground,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="startLevel != null">
+	   			start_level = #{startLevel,jdbcType=INTEGER},
+	  		</if>  
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="asId != null">
+	   			as_id = #{asId,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

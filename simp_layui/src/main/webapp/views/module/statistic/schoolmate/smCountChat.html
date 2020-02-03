@@ -1,0 +1,217 @@
+<html>
+    <head>
+        <title>校友统计</title>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+        <script src="../../../../static/js/g2/data-set.min.js"></script>
+        <script src="../../../../static/js/g2/g2.min.js"></script>
+        <script src="../../../../static/js/jquery.min.js"></script>
+        <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+    </head>
+    <body class="childrenBody">
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-xs11" style="position: absolute;background: #fff;z-index: 15; ">
+                <div class="magb15 layui-col-md5 layui-col-xs12">
+                    <label class="layui-form-label">院系/专业：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="department" lay-filter="department" class="layui-input">
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md5 layui-col-xs12">
+                    <label class="layui-form-label">起止年：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input " id="rangYear" placeholder="yyyy" readonly="readonly">
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md2 layui-col-xs12">
+                    <a class="layui-btn" lay-submit=""  class="layui-btn search_btn" id ="search">查询</a>
+                </div>
+            </div>
+            <div class="layui-row" id="xyCount">
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        layui.config({
+            base: "../../../../static/js/"
+        }).extend({
+            "application": "application",
+            "publicUtil": "publicUtil",
+            "treeSelect": "treeSelect"
+        })
+        layui.use(['layer', 'application', "publicUtil", 'application', 'laydate', 'jquery', 'treeSelect'], function() {
+            layer = parent.layer,
+                laydate = layui.laydate,
+                application = layui.application,
+                publicUtil = layui.publicUtil,
+                treeSelect = layui.treeSelect;
+            _$ = layui.jquery;
+
+            // var treeSelect;
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true,
+                    chkStyle: "radio",
+                    radioType: "all"
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "parentId"
+                    }
+                }
+            }
+            var chart = new G2.Chart({
+                container: 'xyCount',
+                forceFit: true,
+                height: window.innerHeight,
+                padding: [60, 20, 50, 60]
+            });
+            
+            initFormSelect();
+            laydate.render({
+                elem: '#rangYear',
+                theme: 'molv',
+                type: 'year',
+                trigger: 'click',
+                range: true
+            });
+            
+            $("#search").click(function(){
+                var value =$("#rangYear").val();
+                var difference = null;
+                var enddate = null;
+                if(null != value && value.length > 0){
+                    var strs = new Array();
+                    strs = value.split("-");
+                    enddate = strs[1].trim()+"-01-01";
+                    difference = strs[1] - strs[0] +1;
+                }else{
+                    value = null;
+                    difference = null;
+                }
+                var department = $("#department").val();
+                _$.ajax({
+                    url: application.SERVE_URL + "/chart/statistic/schoolmate/year/count",
+                    data: {
+                        enddate: enddate,
+                        paramA: difference,
+                        paramB: department
+                    },
+                    success: function (res) {
+                        chart.changeData(res);
+                        chart.repaint();
+                    }
+                })
+            })
+    
+            function initFormSelect() {
+                treeSelect.render({
+                    // 选择器
+                    elem: '#department',
+                    // 数据
+                    data: application.SERVE_URL + '/settings/settingDepartment/tree',
+                    type: 'post',
+                    // 占位符
+                    placeholder: '请选院系/专业',
+                    // 是否开启搜索功能：true/false，默认false
+                    search: false,
+                    setting: setting,
+                    // 点击回调
+                    click: function(d) {
+                        document.getElementById("department").value = d.current.id;
+                    },
+                    check: function(d) {
+                        var value = "";
+                        for (var i = 0; i < d.current.length; i++) {
+                            value += d.current[i].id;
+                            if (i < d.current.length - 1) {
+                                value += ","
+                            }
+                        }
+                        document.getElementById("department").value = value;
+                    },
+                    // 加载完成后的回调函数
+                    success: function(d) {
+                        var treeObj = treeSelect.zTree('department');
+                    }
+                })
+            }
+            initBarChart();
+            function initBarChart(){
+                var loadingindex = layer.msg("数据获取中", {
+                    icon: 16,
+                    shade: 0.3,
+                    time: 3000 
+                });
+                _$.ajax({
+                    url: application.SERVE_URL + "/chart/statistic/schoolmate/year/count",
+                    success: function (data) {
+                        // var ds = new DataSet();
+                        // chart.source(data);
+                        // var dv = ds.createView().source(res);
+                        // dv.transform({
+                        //     type: 'map',
+                        //     callback: function callback(row) {
+                        //         row.date = parseInt(row.date);
+                        //         return row;
+                        //     }
+                        // }).transform({
+                        //     type: 'regression',
+                        //     method: 'polynomial',
+                        //     fields: ['date', 'count'],
+                        //     bandwidth: 0.1,
+                        //     as: ['Year', 'Value']
+                        // });
+                        chart.scale('count', {
+                            alias: '人數'
+                        });
+                        // chart.scale('date', {
+                        //     type: 'cat'
+                        // });
+                        // chart.scale('Year', {
+                        //     range: [0, 1],
+                        //     type: 'timeCat'
+                        // });
+                        // chart.axis('date', {
+                        //     label: {
+                        //         textStyle: {
+                        //             fill: '#aaaaaa'
+                        //         }
+                        //     },
+                        //     tickLine: {
+                        //         alignWithLabel: false,
+                        //         length: 0
+                        //     }
+                        // });
+                        chart.axis('count', {
+                            label: {
+                                textStyle: {
+                                    fill: '#aaaaaa'
+                                }
+                            },
+                            title: {
+                                offset: 50
+                            }
+                        });
+                        // chart.tooltip({
+                        //     share: true
+                        // });
+                        // var view1 = chart.view();
+                        // view1.source(res);
+                        // view1.interval().position('date*count').opacity(1);
+                        chart.source(data);
+                        chart.interval().position('date*count').opacity(1);
+                        chart.line().position('date*count').color("#57D558");
+                        chart.render();
+                        layer.close(loadingindex);
+                    }
+                })
+            }
+        });
+    </script>
+</html>

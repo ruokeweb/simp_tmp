@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>修改密码</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/system/updatePwd/userchangePwd.js"></script>
+</head>
+<style>
+    .changePwdImg{ float: left;margin: 4px 5px 0 0;}
+    .changPwdRemind{
+        width: 210px; float: left; padding-left: 20px; color: #ff6a6a;line-height: 26px;
+    }
+</style>
+
+<body class="childrenBody">
+	<form class="layui-form layui-row changePwd">
+		<div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+			<div class="layui-input-block layui-red pwdTips">新密码必须两次输入一致才能提交</div>
+			<div class="layui-form-item layui-col-sm8 layui-col-md8">
+				<label class="layui-form-label">用户名</label>
+				<div class="layui-input-block">
+					<input type="text" id="username" disabled class="layui-input layui-disabled">
+				</div>
+			</div>
+			<div class="layui-form-item layui-col-sm8 layui-col-md8">
+				<label class="layui-form-label">旧密码</label>
+				<div class="layui-input-block">
+					<input type="password" value="" placeholder="请输入旧密码" lay-verify="required|oldPwd" id="pwd" class="layui-input pwd">
+				</div>
+			</div>
+			<div class="layui-form-item layui-col-sm12 layui-col-md12">
+                <div class="layui-col-sm8 layui-col-md8">
+                    <label class="layui-form-label">新密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" value="" placeholder="请输入新密码" lay-verify="required|newPwd" id="oldPwd" class="layui-input pwd">
+                    </div>
+                </div>
+                <div class="layui-col-sm3 layui-col-md3 changPwdRemind" >
+                    <img src="../../../../static/images/textB15.png" width="17" height="17" class="changePwdImg">
+                    密码长度为8到20位，密码设置时以下四种字符格式至少需要下列4种：大写英文字符、小写英文字符、数字、特殊字符。
+                </div>
+
+			</div>
+			<div class="layui-form-item layui-col-sm12 layui-col-md12">
+                <div class="layui-col-sm8 layui-col-md8">
+                    <label class="layui-form-label">确认密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" value="" placeholder="请确认密码" lay-verify="required|confirmPwd" id="confirmPwd" class="layui-input pwd">
+                    </div>
+                </div>
+                <div class="layui-col-sm3 layui-col-md3 changPwdRemind">
+                    <img src="../../../../static/images/textB15.png" width="17" height="17"  class="changePwdImg">
+                    密码长度为8到20位，密码设置时以下四种字符格式至少需要下列4种：大写英文字符、小写英文字符、数字、特殊字符。
+                </div>
+			</div>
+			<div class="layui-form-item layui-col-sm10 layui-col-md10">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="changePwd">立即修改</button>
+					<button class="layui-btn layui-btn-primary" id="logout">退出登录</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

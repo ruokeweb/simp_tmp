@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.wxdata.mapper.WxdataPointedMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.wxdata.model.WxdataPointed">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="user_id" jdbcType="VARCHAR" property="user_id" />
+			<result column="open_id" jdbcType="VARCHAR" property="openId" />
+			<result column="network_type" jdbcType="VARCHAR" property="networkType" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="os" jdbcType="VARCHAR" property="os" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="url_path" jdbcType="VARCHAR" property="urlPath" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="is_first_day" jdbcType="VARCHAR" property="isFirstDay" />
+			<result column="latest_scene" jdbcType="VARCHAR" property="latestScene" />
+			<result column="event_name" jdbcType="VARCHAR" property="eventName" />
+			<result column="is_default_track" jdbcType="VARCHAR" property="isDefaultTrack" />
+			<result column="brand" jdbcType="VARCHAR" property="brand" />
+			<result column="nn" jdbcType="VARCHAR" property="nn" />
+			<result column="model" jdbcType="VARCHAR" property="model" />
+			<result column="gd" jdbcType="VARCHAR" property="gd" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id,user_id,open_id, network_type, create_date, os, remark, url_path, flag, is_first_day, latest_scene, event_name, is_default_track, brand, nn, model, gd
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>
+			<if test="entity.openId != null and entity.openId!='' ">
+				and open_id=#{entity.openId}
+			</if>
+			<if test="entity.networkType != null and entity.networkType!='' ">
+				and network_type=#{entity.networkType}
+			</if>
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.os != null and entity.os!='' ">
+        		and os=#{entity.os}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.urlPath != null and entity.urlPath!='' ">
+        		and url_path=#{entity.urlPath}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.isFirstDay != null and entity.isFirstDay!='' ">
+        		and is_first_day=#{entity.isFirstDay}
+      		</if>	      	
+			<if test="entity.latestScene != null and entity.latestScene!='' ">
+        		and latest_scene=#{entity.latestScene}
+      		</if>	      	
+			<if test="entity.eventName != null and entity.eventName!='' ">
+        		and event_name=#{entity.eventName}
+      		</if>	      	
+			<if test="entity.isDefaultTrack != null and entity.isDefaultTrack!='' ">
+        		and is_default_track=#{entity.isDefaultTrack}
+      		</if>	      	
+			<if test="entity.brand != null and entity.brand!='' ">
+        		and brand=#{entity.brand}
+      		</if>	      	
+			<if test="entity.nn != null and entity.nn!='' ">
+        		and nn=#{entity.nn}
+      		</if>	      	
+			<if test="entity.model != null and entity.model!='' ">
+        		and model=#{entity.model}
+      		</if>	      	
+			<if test="entity.gd != null and entity.gd!='' ">
+        		and gd=#{entity.gd}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.wxdata.model.WxdataPointed" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from wxdata_pointed
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.wxdata.model.WxdataPointed" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from wxdata_pointed 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.wxdata.model.WxdataPointed" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from wxdata_pointed 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.wxdata.model.WxdataPointed">
+    	update wxdata_pointed set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.wxdata.model.WxdataPointed">
+		insert into wxdata_pointed
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="openId != null">
+				open_id,
+			</if>
+			<if test="networkType != null">
+	    		network_type,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="os != null">
+	    		os,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="urlPath != null">
+	    		url_path,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="isFirstDay != null">
+	    		is_first_day,
+	  		</if>   			
+	   		<if test="latestScene != null">
+	    		latest_scene,
+	  		</if>   			
+	   		<if test="eventName != null">
+	    		event_name,
+	  		</if>   			
+	   		<if test="isDefaultTrack != null">
+	    		is_default_track,
+	  		</if>   			
+	   		<if test="brand != null">
+	    		brand,
+	  		</if>   			
+	   		<if test="nn != null">
+	    		nn,
+	  		</if>   			
+	   		<if test="model != null">
+	    		model,
+	  		</if>   			
+	   		<if test="gd != null">
+	    		gd,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="openId != null">
+				#{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="networkType != null">
+				#{networkType,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="os != null">
+	   			#{os,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="urlPath != null">
+	   			#{urlPath,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="isFirstDay != null">
+	   			#{isFirstDay,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="latestScene != null">
+	   			#{latestScene,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="eventName != null">
+	   			#{eventName,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="isDefaultTrack != null">
+	   			#{isDefaultTrack,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="brand != null">
+	   			#{brand,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="nn != null">
+	   			#{nn,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="model != null">
+	   			#{model,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="gd != null">
+	   			#{gd,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.wxdata.model.WxdataPointed">
+    	update wxdata_pointed
+    	<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="openId != null">
+				open_id = #{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="networkType != null">
+	   			network_type = #{networkType,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="os != null">
+	   			os = #{os,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="urlPath != null">
+	   			url_path = #{urlPath,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="isFirstDay != null">
+	   			is_first_day = #{isFirstDay,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="latestScene != null">
+	   			latest_scene = #{latestScene,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="eventName != null">
+	   			event_name = #{eventName,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="isDefaultTrack != null">
+	   			is_default_track = #{isDefaultTrack,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="brand != null">
+	   			brand = #{brand,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="nn != null">
+	   			nn = #{nn,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="model != null">
+	   			model = #{model,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="gd != null">
+	   			gd = #{gd,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

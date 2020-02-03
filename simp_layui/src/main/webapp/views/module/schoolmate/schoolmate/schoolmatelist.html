@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>校友管理</title>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_ztree.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+    </head>
+    <style>
+        .chosexuanxiang {
+		position: relative;
+		float: left;
+		height: 22px;
+		line-height: 22px;
+		border: 1px solid #ddd;
+		font-size: 12px;
+		vertical-align: top;
+		margin: 0 5px 5px 0;
+		padding: 0 26px 0 4px;
+		cursor: pointer;
+	}
+	.chosexuanxiang i {
+		display: block;
+		position: absolute;
+		width: 25px;
+		height: 22px;
+		right: 0;
+		top: 0;
+		background: url(../../../../static/images/search.ele.png) no-repeat 7px -140px;
+	}
+	.chosexuanxiang b {
+		font-weight: 400;
+		color: #333;
+	}
+	.chosexuanxiang em {
+		color: #e4393c;
+		font-style: normal;
+	}
+    .layui-input-defind,
+    .layui-textarea-defind {
+        display: block;
+        width: 95%;
+        padding-left: 10px;
+    }
+
+    .layui-form-label-defind {
+        float: left;
+        display: block;
+        padding: 9px 15px;
+        width: 112px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: right;
+    }        
+</style>
+    <body class="childrenBody">
+        <div class="layui-fluid">
+            <form class="layui-form">
+                <div class="layui-collapse " lay-filter="panel" lay-accordion>
+                    <div class="layui-colla-item " style="position: absolute;left: 15px;right: 15px;background: #fff;z-index: 15; ">
+                        <h2 class="layui-colla-title" id="panel">多条件精准筛选</h2>
+                        <div class="layui-colla-content show" style="float:left;margin: auto;text-align: center;width: 98%;">
+                            <div style="float:left;width:100%" id="conditions">
+
+                            </div>
+                            <div class="layui-tab layui-tab-card" lay-filter="search" style="float:left;width:100%">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this" lay-id="0">基本信息</li>
+                                    <li lay-id="1">教育经历</li>
+                                    <li lay-id="2">职业经历</li>
+                                    <li lay-id="3">联系方式</li>
+                                    <li lay-id="2">通讯地址</li>
+                                    <li lay-id="5">荣誉成果</li>
+                                    <li lay-id="6">社会经历</li>
+                                    <li lay-id="7">历史数据</li>
+<!--                                    <li lay-id="8">其他信息</li>
+                                    <li lay-id="9">其他教育经历</li> -->
+                                    <li lay-id="8">校友标签</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show">
+                                        <!-- 基本信息 -->
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">姓名：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="name" placeholder="请输入姓名" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">性别：</label>
+                                                <div class="layui-input-block">
+                                                    <select id="sex" lay-filter='sex'>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">民族：</label>
+                                                <div class="layui-input-block">
+                                                    <select id="nation" lay-filter='nation'>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md3  ">
+                                                <label class="layui-form-label">出生日期：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="birthday" placeholder="yyyy-MM-dd"
+                                                        readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md3  ">
+                                                <label class="layui-form-label">证件类型：</label>
+                                                <div class="layui-input-block">
+                                                    <select id="cardType" name="cardType" lay-filter='cardType'>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md3  ">
+                                                <label class="layui-form-label">证件号：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="cardNum" placeholder="请输入证件号" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md3  ">
+                                                <label class="layui-form-label">政治面貌：</label>
+                                                <div class="layui-input-block">
+                                                    <select id="politics" name="politics" lay-filter='politics'>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 教育经历 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12">
+
+                                                <label class="layui-form-label">学籍：</label>
+
+                                                <div class="layui-col-md11">
+                                                    <div class="layui-col-md3">
+                                                        <select id='school' name='school' lay-filter="school">
+                                                            <option value="">请选择学校</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-md3">
+                                                        <select id='college' name='college' lay-filter="college">
+                                                            <option value="">请选择学院</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-md3">
+                                                        <select id='department' name='department' lay-filter="department">
+                                                            <option value="">请选择系</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-md3">
+                                                        <select id='major' name='major' lay-filter="major">
+                                                            <option value="">请选择专业</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">学历：</label>
+                                                <div class="layui-input-block">
+                                                    <select id='edu_record' name='edu_record' lay-filter="edu_record">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">学位类型：</label>
+                                                <div class="layui-input-block">
+                                                    <select id='edu_degree' name='edu_degree' lay-filter="edu_degree">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">学制：</label>
+                                                <div class="layui-input-block">
+                                                    <select id='edu_schoollen' name='edu_schoollen' lay-filter="edu_schoollen">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">班级：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="edu_classes" placeholder="请输入班级" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">学号：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="edu_studentNo" placeholder="请输入学号" />
+                                                </div>
+                                            </div>
+<!--                                            <div class="magb15 layui-col-md3  ">
+                                                <label class="layui-form-label">临时专业：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="cardNum" placeholder="请输入证件号" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md3  ">
+                                                <label class="layui-form-label">临时系：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="cardNum" placeholder="请输入证件号" />
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">入学年：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input " id="edu_startdate"
+                                                        lay-verify="edu_startdate" placeholder="yyyy" readonly="readonly">
+                                                    <input type="text" readonly="readonly" id="start_startdata" style="display:none" />
+                                                    <input type="text" readonly="readonly" id="end_startdata" style="display:none" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">毕业年：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="edu_enddate" lay-verify="edu_enddate"
+                                                        placeholder="yyyy" readonly="readonly">
+                                                    <input type="text" readonly="readonly" id="start_enddata" style="display:none" />
+                                                    <input type="text" readonly="readonly" id="end_enddata" style="display:none" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <!-- 职业经历 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12">
+                                                <label class="layui-form-label">工作地址：</label>
+                                                <div class="magb15 layui-col-md11">
+                                                    <div class="layui-col-xs4">
+                                                        <select id='profession_country' name='profession_country'
+                                                            lay-filter="profession_country">
+                                                            <option value="">请选择国家</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-xs4">
+                                                        <select id='profession_province' name='profession_province'
+                                                            lay-filter="profession_province">
+                                                            <option value="">请选择省</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-xs4">
+                                                        <select id='profession_city' name='profession_city' lay-filter="profession_city">
+                                                            <option value="">请选择市</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label">工作单位：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input " id='profession_workplace'
+                                                        placeholder="请输入工作单位(最大长度256位)" maxlength="256">
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">单位性质：</label>
+                                                <div class="layui-input-block">
+                                                    <select id='profession_nature' lay-filter="profession_nature">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label">入职时间：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input " id="profession_startdate"
+                                                        lay-verify="edu_startdate" placeholder="yyyy" readonly="readonly">
+                                                    <input type="text" readonly="readonly" id="profession_start_startdata"
+                                                        style="display:none" />
+                                                    <input type="text" readonly="readonly" id="profession_end_startdata"
+                                                        style="display:none" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label">离职时间：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="profession_enddate"
+                                                        lay-verify="edu_enddate" placeholder="yyyy" readonly="readonly">
+                                                    <input type="text" readonly="readonly" id="profession_start_enddata"
+                                                        style="display:none" />
+                                                    <input type="text" readonly="readonly" id="profession_end_enddata"
+                                                        style="display:none" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md4">
+                                                <label class="layui-form-label">行业：</label>
+                                                <div class="layui-input-block layui-elem-field fieldset-div">
+                                                    <input id='industry' name='industry' class="layui-input" placeholder="点击选择行业"
+                                                        readonly="readonly">
+                                                    <input id='industryId' name='industryId' class="layui-input" style="display: none;">
+                                                    <div id="industryTreeDiv" style="height: 227px;display: none;margin: 3px;">
+                                                        <ul id="industryIdTree" class="ztree" style="max-height: 80% !important; overflow-y: auto;display: block;"></ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md4">
+                                                <label class="layui-form-label">在职状态：</label>
+                                                <div class="layui-input-block">
+                                                    <select id='profession_status' lay-filter="profession_status">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md4">
+                                                <label class="layui-form-label">职位：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input " id="profession_position"
+                                                        placeholder="请输入职位(最大长度64位)" maxlength="256">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 联系方式 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">联系方式：</label>
+                                                <div class="layui-input-block">
+                                                    <select id='contact_type' lay-filter='contact_type'>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">号码：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="contact" placeholder="请输入联系号码" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 通讯地址 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12 ">
+                                                <label class="layui-form-label">地址：</label>
+                                                <div class="layui-col-md11">
+                                                    <div class="layui-col-md3">
+                                                        <select id='country' name='country' lay-filter="country">
+                                                            <option value="">请选择国家</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-md3">
+                                                        <select id='province' name='province' lay-filter="province">
+                                                            <option value="">请选择省</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="layui-col-md3">
+                                                        <select id='city' name='city' lay-filter="city">
+                                                            <option value="">请选择市</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md4  ">
+                                                <label class="layui-form-label">地址类型：</label>
+                                                <div class="layui-input-block">
+                                                    <select id="addr_type" name='addr_type' lay-filter="addr_type">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">详细地址：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input " id='detail' placeholder="请输入详细地址(最大长度256位)"
+                                                        maxlength="256">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- 荣誉成果 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15  layui-col-xs6">
+                                                <label class="layui-form-label">名称：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="honor_name" placeholder="请输入内容(最大长度64位)"
+                                                        maxlength="64">
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6  ">
+                                                <label class="layui-form-label">获取年份：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="honor_date" lay-verify="honor_date"
+                                                        placeholder="yyyy" readonly="readonly">
+                                                    <input type="text" readonly="readonly" id="honor_start_date" style="display:none" />
+                                                    <input type="text" readonly="readonly" id="honor_end_date" style="display:none" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 社会兼职 -->
+                                    <div class="layui-tab-item">
+                                    	<div class="layui-row">
+                                    		<div class="magb15  layui-col-xs4">
+                                    			<label class="layui-form-label">名称：</label>
+                                    			<div class="layui-input-block">
+                                    				<input type="text" class="layui-input" id="smSocial_name" placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    			</div>
+                                    		</div>
+                                    	</div>
+                                    </div>
+                                    <!-- 历史数据 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label-defind">其他学校：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input layui-input-defind layui-textarea-defind" id="otherSchool" placeholder="请输入其他学校名称(最大长度为64位)"
+                                                        maxlength="64" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label-defind">其他院系专业：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input layui-input-defind layui-textarea-defind" id="otherSpecialty"
+                                                        placeholder="其他院系专业(最大长度为64位)" maxlength="64" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label-defind">入学前地区单位：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input layui-input-defind layui-textarea-defind" id="beforeSchoolunit"
+                                                        placeholder="入学前地区单位(最大长度为64位)" maxlength="64" />
+                                                </div>
+                                            </div>
+                                            <div class="magb15 layui-col-md6">
+                                                <label class="layui-form-label-defind">定向委培单位：</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input layui-input-defind layui-textarea-defind" id="trustUnit" placeholder="定向委培单位(最大长度为64位)"
+                                                        maxlength="64" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 其他信息 -->
+<!--                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15  layui-col-xs6">
+                                                <label class="layui-form-label">名称</label>
+                                                <div class="layui-input-block">
+                                                    <select id='other_name' lay-filter="other_name">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="magb15  layui-col-xs6">
+                                                <label class="layui-form-label">信息内容</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="other_value" placeholder="请输入内容(最大长度128位)"
+                                                        maxlength="128">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- 其他教育经历 -->
+<!--                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15  layui-col-xs6">
+                                                <label class="layui-form-label">教育信息</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input" id="education" placeholder="请输入内容(最大长度64位)"
+                                                        maxlength="64">
+                                                </div>
+                                            </div>
+                                            <div class="magb15  layui-col-xs6">
+                                                <label class="layui-form-label">类型</label>
+                                                <div class="layui-input-block">
+                                                    <select id='hisE_type' lay-filter="hisE_type"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- 校友标签 -->
+                                    <div class="layui-tab-item">
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12">
+                                                <label class="layui-form-label">校友标签</label>
+                                                <div class="layui-input-block layui-elem-field fieldset-div">
+                                                    <input id='mark' name='mark' class="layui-input" placeholder="点击选择标签"
+                                                        readonly="readonly">
+                                                    <input id='markId' name='markId' class="layui-input" style="display: none;">
+                                                    <div id="markTreeDiv" style="height: 227px;display: none;margin: 3px;">
+                                                        <ul id="markTree" class="ztree" style="max-height: 80% !important; overflow-y: auto;display: block;"></ul>
+                                                    </div>
+                                                    <!-- <table class="layui-hide"  id="markSelectTree" lay-filter="markSelectTree"  style="overflow-y: auto;display: block;"></table> -->
+                                                </div>
+                                                <!-- <div class="innerUl">  </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-inline" style="float:left;width:100%">
+                                <button class="layui-btn" lay-submit id="searchForm" lay-filter="searchForm" class="layui-btn search_btn">查询</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <div class="layui-row layui-col-space11 " style="margin-top: 54px;">
+                <div id="leftTree" class="layui-col-md2 layui-overflow-tree  leftTree" style="display: none;">
+                    <div class="layui-row ">
+                        <fieldset class="layui-elem-field ">
+                            <legend>校友会</legend>
+                            <ul id="orgTree" class="ztree" style="height: 512px;"></ul>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="layui-col-md12" id="tablediv" style="overflow-x:hidden;">
+                    <!-- <blockquote class="layui-elem-quote ">
+				</blockquote> -->
+
+                    <div class="layui-row ">
+                        <div class="layui-col-xs7 layui-btn-group" id="but_per">
+                            <a href="javascript:;" class="layui-btn seraph hideMenu  hidetreeMenu"><i class="layui-icon layui-icon-spread-left"></i></a>
+                        </div>
+
+                        <div class="layui-col-xs2">
+                            <form class="layui-form">
+                                <div class="layui-col-md12">
+                                    <label class="layui-form-label">校友类型：</label>
+                                    <div class="layui-input-block">
+                                        <select id='type' lay-filter="sm_type">
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="layui-col-xs3">
+                            <div class="layui-input-inline">
+                                <!-- 搜索字段  姓名 、出生日期、手机号码、邮箱、入学日期、毕业日期、学院、系、专业、工作单位名称  -->
+                                <input type="text" id='selectAllValue' class="layui-input selectAllValue" placeholder="请输入搜索的内容" />
+                            </div>
+                            <button class="layui-btn" lay-submit id="searchAllForm" lay-filter="searchAllForm" class="layui-btn search_btn">搜索</button>
+                        </div>
+                    </div>
+
+                    <!-- 	<blockquote style=" padding: 6px; background-color: #f2f2f2;">
+						<a href="javascript:;" class="seraph hideMenu  hidetreeMenu"><i class="layui-icon layui-icon-spread-left"></i></a>
+					</blockquote> -->
+
+                    <fieldset class="layui-elem-field fieldset-div" id="smListDiv">
+                        <legend class="layui-legend">校友列表</legend>
+                        <table id="smList" lay-filter="smList" style="width: 100%;"></table>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="opa" style="position: absolute;left: 0;right: 0;top: 0;bottom: 0;background: #000000;opacity: 0.6;display: none;"></div>
+    </body>
+    <script type="text/javascript" src="../../../../static/js/modules/schoolmate/schoolmate/schoolmatelist.js"></script>
+</html>

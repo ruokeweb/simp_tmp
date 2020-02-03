@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppSmFamilyMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmFamily">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="phone" jdbcType="VARCHAR" property="phone" />
+			<result column="profession" jdbcType="VARCHAR" property="profession" />
+			<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+			<result column="relation" jdbcType="VARCHAR" property="relation" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="sex" jdbcType="VARCHAR" property="sex" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="isschool" jdbcType="VARCHAR" property="isschool" />
+			<result column="workplace" jdbcType="VARCHAR" property="workplace" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, name, phone, profession, birthday, relation, create_date, remark, flag, sex, user_id, isschool, workplace
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and name = #{entity.name} 
+	       	</if>		
+			<if test="entity.phone != null and entity.phone!='' ">
+        		and phone=#{entity.phone}
+      		</if>	      	
+			<if test="entity.profession != null and entity.profession!='' ">
+        		and profession=#{entity.profession}
+      		</if>	      	
+			<if test="entity.birthday != null and entity.birthday!='' ">
+        		and birthday=#{entity.birthday}
+      		</if>	      	
+			<if test="entity.relation != null and entity.relation!='' ">
+        		and relation=#{entity.relation}
+      		</if>	      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.sex != null and entity.sex!='' ">
+        		and sex=#{entity.sex}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.isschool != null and entity.isschool!='' ">
+        		and isschool=#{entity.isschool}
+      		</if>	      	
+			<if test="entity.workplace != null and entity.workplace!='' ">
+        		and workplace=#{entity.workplace}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="getOne" parameterType="com.mpri.aio.schoolmate.model.SmFamily" resultMap="BaseResultMap">
+   	    select 
+    		id, name, phone, profession, birthday, relation,  sex, user_id, isschool, workplace
+    	from sm_family
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="getFamilys"  parameterType="com.mpri.aio.schoolmate.model.SmFamily" resultMap="BaseResultMap" >
+    	select
+		id, name,sex
+		from sm_family
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date desc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="deleteFamily" parameterType="com.mpri.aio.schoolmate.model.SmFamily">
+    	update sm_family set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmFamily">
+		insert into sm_family
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="name != null">
+	    		name,
+	  		</if>
+	   		<if test="phone != null">
+	    		phone,
+	  		</if>
+	   		<if test="profession != null">
+	    		profession,
+	  		</if>
+	   		<if test="birthday != null">
+	    		birthday,
+	  		</if>
+	   		<if test="relation != null">
+	    		relation,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="sex != null">
+	    		sex,
+	  		</if>
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>
+	   		<if test="isschool != null">
+	    		isschool,
+	  		</if>
+	   		<if test="workplace != null">
+	    		workplace,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="phone != null">
+	   			#{phone,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="profession != null">
+	   			#{profession,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="birthday != null">
+	   			#{birthday,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="relation != null">
+	   			#{relation,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="sex != null">
+	   			#{sex,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="isschool != null">
+	   			#{isschool,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="workplace != null">
+	   			#{workplace,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmFamily">
+    	update sm_family
+    	<set>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+			<if test="phone != null">
+	   			phone = #{phone,jdbcType=VARCHAR},
+	  		</if>
+			<if test="profession != null">
+	   			profession = #{profession,jdbcType=VARCHAR},
+	  		</if>
+	   			birthday = #{birthday,jdbcType=TIMESTAMP},
+			<if test="relation != null">
+	   			relation = #{relation,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="sex != null">
+	   			sex = #{sex,jdbcType=VARCHAR},
+	  		</if>
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="isschool != null">
+	   			isschool = #{isschool,jdbcType=VARCHAR},
+	  		</if>
+			<if test="workplace != null">
+	   			workplace = #{workplace,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

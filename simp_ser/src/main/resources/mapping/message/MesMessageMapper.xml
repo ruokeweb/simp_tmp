@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.message.mapper.MesMessageMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.message.model.MesMessage">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="content" jdbcType="VARCHAR" property="content" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="del_date" jdbcType="TIMESTAMP" property="delDate" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="mes_template" jdbcType="VARCHAR" property="mesTemplate" />
+			<result column="send_type" jdbcType="VARCHAR" property="sendType" />
+			<result column="receive_group_id" jdbcType="VARCHAR" property="receiveGroupId" />
+			<result column="receive_user_id" jdbcType="VARCHAR" property="receiveUserId" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="send_num" jdbcType="INTEGER" property="sendNum" />
+			<result column="send_user_id" jdbcType="VARCHAR" property="sendUserId" />
+			<result column="sort" jdbcType="INTEGER" property="sort" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="title" jdbcType="VARCHAR" property="title" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	content, create_date, del_date, flag, id, receive_group_id, receive_user_id,mes_template ,send_type,remark, send_num, send_user_id,sort, status, title, type
+	</sql>
+	
+    <!-- 基础字段定义 -->
+	<sql id="join_Column_List">
+    	m_m.content, m_m.create_date, m_m.del_date, m_m.flag, m_m.id,  m_m.remark, m_m.sort, m_m.status, m_m.title, m_m.type
+	</sql>	
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.content != null and entity.content!='' ">
+        		and content=#{entity.content}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.delDate != null and entity.delDate!='' ">
+        		and del_date=#{entity.delDate}
+      		</if>
+			<if test="entity.sendType != null and entity.sendType!='' ">
+        		and send_type=#{entity.sendType}
+      		</if>	
+ 			<if test="entity.mesTemplate != null and entity.mesTemplate!='' ">
+        		and mes_template=#{entity.mesTemplate}
+      		</if>	     		      			      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.receiveGroupId != null and entity.receiveGroupId!='' ">
+        		and receive_group_id=#{entity.receiveGroupId}
+      		</if>	      	
+			<if test="entity.receiveUserId != null and entity.receiveUserId!='' ">
+        		and receive_user_id=#{entity.receiveUserId}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.sendNum != null and entity.sendNum!='' ">
+        		and send_num=#{entity.sendNum}
+      		</if>	      	
+			<if test="entity.sendUserId != null and entity.sendUserId!='' ">
+        		and send_user_id=#{entity.sendUserId}
+      		</if>	      	      	
+			<if test="entity.sort != null and entity.sort!='' ">
+        		and sort=#{entity.sort}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.title != null and entity.title!='' ">
+				and title LIKE concat('%', #{entity.title},'%')
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="getMesContent" parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap">
+   	    select 
+    		id, title,content, remark
+    	from mes_message
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  			<if test="status != null and status!='' ">
+        		and status=#{status}
+      		</if>	
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_message 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date DESC
+  	</select>
+  	
+  	  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from mes_message
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+  	
+  	<!-- 通过接受人或者接受组获取消息列表(未读)-->
+  	<select id="getMesListBy"  parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap" >
+    	select
+    		DISTINCT mes.id ,mes.title,mes.create_date
+    	from mes_message mes
+		where
+			flag= #{entity.FLAG_NORMAL}
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	
+			<if test="entity.sendType != null and entity.sendType!='' ">
+        		and send_type=#{entity.sendType}
+      		</if>
+      		and	(
+ 			<if test="entity.groupIds != null and entity.groupIds!='' ">
+        		find_in_set (receive_group_id,#{entity.groupIds})  or
+			</if>
+			<if test="entity.receiveUserId != null and entity.receiveUserId!='' ">
+        		receive_user_id=#{entity.receiveUserId}
+      		</if>
+			<if test="entity.type != null and entity.type!='' ">
+        		or type = #{entity.type}
+      		</if>	      					
+				)
+			AND mes.id NOT in (SELECT message_id from mes_user_message where user_id =#{entity.receiveUserId})
+							order by create_date DESC 			
+  	</select>
+  	
+  	  	<!-- 通过接受人或者接受组获取消息条数-->
+  	<select id="getMesCountBy"  parameterType="com.mpri.aio.message.model.MesMessage" resultType="java.lang.Integer" >
+    	select
+    		count(1)
+    	from (
+    		select
+	    		DISTINCT (mes.id)
+	    	from mes_message mes
+			where
+				flag= #{entity.FLAG_NORMAL}
+				<if test="entity.status != null and entity.status!='' ">
+	        		and status=#{entity.status}
+	      		</if>			 
+				<if test="entity.sendType != null and entity.sendType!='' ">
+	        		and send_type=#{entity.sendType}
+	      		</if>	
+	      		and	(
+	 			<if test="entity.groupIds != null and entity.groupIds!='' ">
+	        		find_in_set (receive_group_id,#{entity.groupIds}) or
+	      		</if>
+				<if test="entity.receiveUserId != null and entity.receiveUserId!='' ">
+	        		 receive_user_id=#{entity.receiveUserId}
+	      		</if>
+				<if test="entity.type != null and entity.type!='' ">
+	        		or type = #{entity.type}
+	      		</if>	      					
+					)
+				AND mes.id NOT in (SELECT message_id from mes_user_message where user_id =#{entity.receiveUserId})
+		) as tab
+  	</select>
+  	
+	  	<!-- 获取首页单条信息-->
+  	<select id="getFirstMesBy"  parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_message mes
+		where
+			flag= #{entity.FLAG_NORMAL}
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>
+			<if test="entity.sendType != null and entity.sendType!='' ">
+        		and send_type=#{entity.sendType}
+      		</if>	     	
+			<if test="entity.receiveUserId != null and entity.receiveUserId!='' ">
+        		and  ( receive_user_id=#{entity.receiveUserId}
+      		</if>
+ 			<if test="entity.receiveGroupId != null and entity.receiveGroupId!='' ">
+        		or receive_group_id=#{entity.receiveGroupId}
+      		</if>
+			<if test="entity.type != null and entity.type!='' ">
+        		or type = #{entity.type}
+      		</if>	      					
+				)
+			AND mes.id NOT in (SELECT message_id from mes_user_message where user_id =#{entity.receiveUserId})
+			order by create_date DESC 
+			limit 1
+  	</select>
+  	
+  	<!-- 通过接受人或者接受组获取消息列表(已读)-->
+  	<select id="getMesLisReadtBy"  parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="join_Column_List" />
+    	from mes_user_message m_u_m
+    	left join mes_message m_m on m_m.id = m_u_m.message_id    		
+		where
+			m_m.flag = #{entity.FLAG_NORMAL}
+			and m_u_m.flag= #{entity.FLAG_NORMAL}
+			<if test="entity.status != null and entity.status!='' ">
+        		and m_m.status=#{entity.status}
+      		</if>	
+			<if test="entity.sendType != null and entity.sendType!='' ">
+        		and send_type=#{entity.sendType}
+      		</if>	     	
+			<if test="entity.receiveUserId != null and entity.receiveUserId!='' ">
+        		and user_id=#{entity.receiveUserId}
+      		</if>
+			order by create_date desc			
+  	</select> 
+ 
+  	
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.message.model.MesMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_message 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+  	
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.message.model.MesMessage">
+    	update mes_message set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.message.model.MesMessage">
+		insert into mes_message
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="content != null">
+	    		content,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="delDate != null">
+	    		del_date,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="receiveGroupId != null">
+	    		receive_group_id,
+	  		</if>   			
+	   		<if test="receiveUserId != null">
+	    		receive_user_id,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="sendNum != null">
+	    		send_num,
+	  		</if>   			
+	   		<if test="sendUserId != null">
+	    		send_user_id,
+	  		</if>   			 			
+	   		<if test="sort != null">
+	    		sort,
+	  		</if>   			
+	   		<if test="status != null">
+	    		status,
+	  		</if>   			
+	   		<if test="title != null">
+	    		title,
+	  		</if>   			
+	   		<if test="type != null">
+	    		type,
+	  		</if> 
+	   		<if test="mesTemplate != null">
+	    		mes_template,
+	  		</if>  
+	   		<if test="sendType != null">
+	    		send_type,
+	  		</if>  	  			  		  			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="delDate != null">
+	   			#{delDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="receiveGroupId != null">
+	   			#{receiveGroupId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="receiveUserId != null">
+	   			#{receiveUserId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="sendNum != null">
+	   			#{sendNum,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="sendUserId != null">
+	   			#{sendUserId,jdbcType=VARCHAR},
+	  		</if>   			  			
+	   		<if test="sort != null">
+	   			#{sort,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="title != null">
+	   			#{title,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>   	
+	   		<if test="mesTemplate != null">
+	   			#{mesTemplate,jdbcType=VARCHAR},
+	  		</if>   
+	   		<if test="sendType != null">
+	   			#{sendType,jdbcType=VARCHAR},
+	  		</if>   	  			  				
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.message.model.MesMessage">
+    	update mes_message
+    	<set>
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="delDate != null">
+	   			del_date = #{delDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="receiveGroupId != null">
+	   			receive_group_id = #{receiveGroupId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="receiveUserId != null">
+	   			receive_user_id = #{receiveUserId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="sendNum != null">
+	   			send_num = #{sendNum,jdbcType=INTEGER},
+	  		</if>  
+			<if test="sendUserId != null">
+	   			send_user_id = #{sendUserId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="sort != null">
+	   			sort = #{sort,jdbcType=INTEGER},
+	  		</if>  
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="title != null">
+	   			title = #{title,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="mesTemplate != null">
+	   			mes_template = #{mesTemplate,jdbcType=VARCHAR},
+	  		</if> 
+			<if test="sendType != null">
+	   			send_type = #{sendType,jdbcType=VARCHAR},
+	  		</if> 	  			  		
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

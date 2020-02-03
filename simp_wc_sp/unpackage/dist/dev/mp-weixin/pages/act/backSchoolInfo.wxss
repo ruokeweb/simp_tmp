@@ -1,0 +1,32 @@
+
+.content {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+.content image {
+    width: 100vw;
+    height: 100vh;
+}
+.scroll {
+    width: 480rpx;
+    height: 726rpx;
+    overflow-y: scroll;
+    position: absolute;
+    font-size: 26rpx;
+    top: 245rpx;
+    left: 135rpx;
+}
+.content text {
+    letter-spacing: 1rpx;
+    line-height: 44rpx;
+}
+.input-row {
+    width: 92%;
+    height: 88rpx;
+    position: absolute;
+    bottom: 25rpx;
+    left: 35rpx;
+}
+

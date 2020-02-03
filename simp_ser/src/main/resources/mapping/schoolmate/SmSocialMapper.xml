@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.SmSocialMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmSocial">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="position" jdbcType="VARCHAR" property="position" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+			<result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="infoval" jdbcType="VARCHAR" property="infoval" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, name, position, remark, create_date, startdate, enddate, status, flag, user_id, infoval
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and name = #{entity.name} 
+	       	</if>		
+			<if test="entity.position != null and entity.position!='' ">
+        		and position=#{entity.position}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.createDate != null  ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.startdate != null ">
+        		and startdate=#{entity.startdate}
+      		</if>	      	
+			<if test="entity.enddate != null ">
+        		and enddate=#{entity.enddate}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.infoval != null and entity.infoval!='' ">
+        		and infoval=#{entity.infoval}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmSocial" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_social
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.schoolmate.model.SmSocial" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_social 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmSocial" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_social 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by status,create_date asc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.schoolmate.model.SmSocial">
+    	update sm_social set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+	<!-- 删除对象 -->
+  	<update id="deleteByUserId" parameterType="com.mpri.aio.schoolmate.model.SmSocial">
+    	update sm_social set flag = #{FLAG_HOLD} where user_id = #{userId,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmSocial">
+		insert into sm_social
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="name != null">
+	    		name,
+	  		</if>
+	   		<if test="position != null">
+	    		position,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="startdate != null">
+	    		startdate,
+	  		</if>
+	   		<if test="enddate != null">
+	    		enddate,
+	  		</if>
+	   		<if test="status != null">
+	    		status,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>
+	   		<if test="infoval != null">
+	    		infoval,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="position != null">
+	   			#{position,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="startdate != null">
+	   			#{startdate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="enddate != null">
+	   			#{enddate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="infoval != null">
+	   			#{infoval,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmSocial">
+    	update sm_social
+    	<set>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+			<if test="position != null">
+	   			position = #{position,jdbcType=VARCHAR},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   			startdate = #{startdate,jdbcType=TIMESTAMP},
+
+	   			enddate = #{enddate,jdbcType=TIMESTAMP},
+
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="infoval != null">
+	   			infoval = #{infoval,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<!--查询有2条之上的社会经历的所有人-->
+	<select id="getUserId"  parameterType="com.mpri.aio.schoolmate.model.SmSocial" resultMap="BaseResultMap" >
+		select user_id from sm_social where flag='NORMAL' GROUP BY user_id having count(user_id)>1
+	</select>
+</mapper>

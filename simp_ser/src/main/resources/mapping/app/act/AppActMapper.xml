@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.act.mapper.AppActMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.act.model.ActActivity">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="sign_start_date" jdbcType="TIMESTAMP" property="signStartDate" />
+			<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+			<result column="image" jdbcType="VARCHAR" property="image" />
+			<result column="area" jdbcType="VARCHAR" property="area" />
+			<result column="limit_no" jdbcType="INTEGER" property="limitNo" />
+			<result column="asso_id" jdbcType="VARCHAR" property="assoId" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="content" jdbcType="VARCHAR" property="content" />
+			<result column="ready_no" jdbcType="INTEGER" property="readyNo" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+			<result column="sign_end_date" jdbcType="TIMESTAMP" property="signEndDate" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="asso_name" jdbcType="VARCHAR" property="assoName" />
+	</resultMap>
+	<!-- actList返回值定义 -->
+	<resultMap id="ActListResultMap" type="com.mpri.aio.app.act.vo.ActListVo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+		<result column="image" jdbcType="VARCHAR" property="image" />
+		<result column="asso_id" jdbcType="VARCHAR" property="assoId" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="ready_no" jdbcType="INTEGER" property="readyNo" />
+		<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="asso_name" jdbcType="VARCHAR" property="assoName" />
+	</resultMap>
+	<!-- bannerActs返回值定义 -->
+	<resultMap id="BannerActsResultMap" type="com.mpri.aio.app.act.vo.BannerActsVo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="image" jdbcType="VARCHAR" property="image" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+	<!-- actDetail返回值定义 -->
+	<resultMap id="ActDetailResultMap" type="com.mpri.aio.app.act.vo.ActDetailVo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+		<result column="image" jdbcType="VARCHAR" property="image" />
+		<result column="asso_id" jdbcType="VARCHAR" property="assoId" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="ready_no" jdbcType="INTEGER" property="readyNo" />
+		<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="asso_name" jdbcType="VARCHAR" property="assoName" />
+		<result column="sign_start_date" jdbcType="TIMESTAMP" property="signStartDate" />
+		<result column="sign_end_date" jdbcType="TIMESTAMP" property="signEndDate" />
+		<result column="area" jdbcType="VARCHAR" property="area" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="limit_no" jdbcType="INTEGER" property="limitNo" />
+	</resultMap>
+	<!-- attendSmByAct返回值定义 -->
+	<resultMap id="AttendSmByActResultMap" type="com.mpri.aio.app.act.vo.AttendSmByAct">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="true_photo" jdbcType="VARCHAR" property="truePhoto" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="virtual_name" jdbcType="VARCHAR" property="virtualName" />
+		<result column="virtual_photo" jdbcType="VARCHAR" property="virtualPhoto" />
+	</resultMap>
+	<resultMap id="ActFormResultMap" type="com.mpri.aio.act.model.ActSetting">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="form_type" jdbcType="VARCHAR" property="formType" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="activity_id" jdbcType="VARCHAR" property="activityId" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="sort" jdbcType="INTEGER" property="sort" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="default_val" jdbcType="VARCHAR" property="defaultVal" />
+		<result column="flag" jdbcType="VARCHAR" property="flag" />
+	</resultMap>
+	<!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	act.id id , act.flag flag, act.sign_start_date sign_start_date, act.start_date start_date, act.image image, act.area area, act.limit_no limit_no,
+    	act.asso_id asso_id, act.name name,
+    	act.content content, act.ready_no ready_no, act.create_date create_date, act.remark remark, act.end_date end_date, act.sign_end_date sign_end_date,
+    	act.status status,asso.name asso_name
+	</sql>
+	<sql id="ActForm_Column_List">
+    	id, form_type, name, activity_id, remark, code, sort, create_date, default_val, flag
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and act.id=#{entity.id}
+      		</if>
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and act.flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.signStartDate != null and entity.signStartDate!='' ">
+        		and act.sign_start_date=#{entity.signStartDate}
+      		</if>
+			<if test="entity.startDate != null and entity.startDate!='' ">
+        		and act.start_date=#{entity.startDate}
+      		</if>
+			<if test="entity.image != null and entity.image!='' ">
+        		and act.image=#{entity.image}
+      		</if>
+			<if test="entity.area != null and entity.area!='' ">
+        		and act.area=#{entity.area}
+      		</if>
+			<if test="entity.limitNo != null and entity.limitNo!='' ">
+        		and act.limit_no=#{entity.limitNo}
+      		</if>
+			<if test="entity.assoId != null and entity.assoId!='' ">
+        		and act.asso_id=#{entity.assoId}
+      		</if>
+	       	<if test="entity.name!=null and entity.name!='' ">
+
+				and ( act.name like   replace (#{entity.name},'*','%%')
+				or act.name like concat('%', #{entity.name},'%'))
+	       	</if>
+			<if test="entity.content != null and entity.content!='' ">
+        		and act.content=#{entity.content}
+      		</if>
+			<if test="entity.readyNo != null and entity.readyNo!='' ">
+        		and act.ready_no=#{entity.readyNo}
+      		</if>
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and act.create_date=#{entity.createDate}
+      		</if>
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and act.remark=#{entity.remark}
+      		</if>
+			<if test="entity.endDate != null and entity.endDate!='' ">
+        		and act.end_date=#{entity.endDate}
+      		</if>
+			<if test="entity.signEndDate != null and entity.signEndDate!='' ">
+        		and act.sign_end_date=#{entity.signEndDate}
+      		</if>
+      		<if test="entity.status != null and entity.status!='' ">
+        		and act.status=#{entity.status}
+      		</if>
+		</if>
+	</sql>
+  	<!-- 根据id查询 -->
+  	<select id="getById" parameterType="com.mpri.aio.act.model.ActActivity" resultMap="BaseResultMap">
+   	    select
+    		act.id id, act.ready_no ready_no
+    	from act_activity act
+    	where act.id = #{id,jdbcType=VARCHAR} and act.flag = #{FLAG_NORMAL}
+  	</select>
+
+	<!-- 依照条件查询所有对象 -->
+	<select id="ActList"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="ActListResultMap" >
+		select
+		act.id id ,act.image image ,act.name name ,act.asso_id asso_id ,
+		asso.name asso_name,act.end_date end_date,act.start_date start_date ,act.status status,act.ready_no ready_no,
+		act.create_date
+		from act_activity act
+		inner join as_association asso  on  asso.id= act.asso_id and act.flag= #{entity.FLAG_NORMAL}
+		<where>
+			<include refid="query_where"></include>
+			order by act.create_date desc
+		</where>
+	</select>
+	<!--我报名活动的列表-->
+	<select id="getPartakeActList"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="ActListResultMap" >
+		select
+		distinct(act.id) id ,act.image image ,act.name name ,act.asso_id asso_id ,
+		asso.name asso_name,act.end_date end_date,act.start_date start_date ,act.status status,act.ready_no ready_no,
+		act.create_date
+		from act_activity act
+		inner join as_association asso  on  asso.id= act.asso_id and act.flag= #{entity.FLAG_NORMAL}
+		inner join act_content content on act.id =content.act_id and content.user_id = #{userId,jdbcType=VARCHAR}
+		<where>
+			<include refid="query_where"></include>
+			order by act.create_date desc
+		</where>
+	</select>
+
+	<!--报名活动最新一条-->
+	<select id="getPartakeActOne"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="ActListResultMap" >
+		select
+		distinct(act.id) id ,act.name name ,
+		content.create_date
+		from act_activity act
+		inner join act_content content on act.id =content.act_id and content.user_id = #{userId,jdbcType=VARCHAR}
+		<where>
+			<include refid="query_where"></include>
+		</where>
+		order by content.create_date desc LIMIT 1
+	</select>
+
+	<!-- 依照条件查询所有对象 按照报名人数排列 -->
+	<select id="hotActList"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="ActListResultMap" >
+		select
+		act.id id ,act.image image ,act.name name ,act.asso_id asso_id ,
+		asso.name asso_name,act.end_date end_date,act.start_date start_date ,act.status status,act.ready_no ready_no
+		from act_activity act
+		inner join as_association asso  on  asso.id= act.asso_id and act.flag= #{entity.FLAG_NORMAL}
+		<where>
+			<include refid="query_where"></include>
+			and  act.status <![CDATA[!= ]]> 'DONE'
+			order by act.ready_no desc
+		</where>
+	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="getBannerActs"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="BannerActsResultMap" >
+    	select
+		act.id id ,act.image image ,act.name name
+    	from act_activity act
+		<where>
+	  		<include refid="query_where"></include>
+			order by act.create_date desc
+    	</where>
+  	</select>
+	<!--获取活动详情-->
+	<select id="getActDetail" parameterType="com.mpri.aio.act.model.ActActivity" resultMap="ActDetailResultMap">
+		select
+		act.id id ,act.image image ,act.name name ,act.asso_id asso_id ,
+		asso.name asso_name,act.end_date end_date,act.start_date start_date ,act.status status,act.ready_no ready_no,
+		act.sign_start_date sign_start_date,act.sign_end_date sign_end_date,act.content content,act.area area ,act.limit_no limit_no
+		from act_activity act
+		inner join as_association asso  on  asso.id= act.asso_id
+		where act.id = #{id,jdbcType=VARCHAR} and act.flag = #{FLAG_NORMAL}
+	</select>
+
+	<!--获取报名列表-->
+	<select id="getAttendSmByAct" parameterType="com.mpri.aio.act.model.ActActivity" resultMap="AttendSmByActResultMap">
+		select distinct(act.user_id ) id,act.create_date create_date
+		,sys.virtual_name virtual_name,sys.virtual_photo virtual_photo
+		from act_content act
+		left join sys_user sys on act.user_id =sys.id
+		where act.act_id=#{id,jdbcType=VARCHAR} and act.flag = #{FLAG_NORMAL}
+		order by act.create_date desc
+	</select>
+	<!--获取动态表单-->
+	<select id="getActForm" parameterType="com.mpri.aio.act.model.ActActivity" resultMap="ActFormResultMap">
+		select
+		<include refid="ActForm_Column_List" />
+		from act_setting
+		where activity_id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+		order by sort
+	</select>
+
+	<!-- 更新数据 -->
+	<update id="update" parameterType="com.mpri.aio.act.model.ActActivity">
+		update act_activity
+		<set>
+			<if test="flag != null">
+				flag = #{flag,jdbcType=VARCHAR},
+			</if>
+			<if test="signStartDate != null">
+				sign_start_date = #{signStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="startDate != null">
+				start_date = #{startDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="image != null">
+				image = #{image,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				area = #{area,jdbcType=VARCHAR},
+			</if>
+			<if test="limitNo != null">
+				limit_no = #{limitNo,jdbcType=INTEGER},
+			</if>
+			<if test="assoId != null">
+				asso_id = #{assoId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="readyNo != null">
+				ready_no = #{readyNo,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="signEndDate != null">
+				sign_end_date = #{signEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

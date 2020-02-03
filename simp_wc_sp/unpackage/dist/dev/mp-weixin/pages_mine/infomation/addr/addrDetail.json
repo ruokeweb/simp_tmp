@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "通讯地址编辑",
+  "usingComponents": {
+    "multiple-linkage": "/components/multipleLlinkage/multiple-linkage"
+  }
+}

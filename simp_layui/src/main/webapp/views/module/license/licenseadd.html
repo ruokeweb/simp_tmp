@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>License管理</title>
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/header_com.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+    <script type="text/javascript" src="../../../static/js/modules/license/licenseadd.js"></script>
+    <style>
+        .ck-content {
+            min-height: 300px;
+        }
+    </style>
+</head>
+
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;margin-top:50px;margin-left: 50px">
+    <input type="hidden" class="layui-input id"  id='licenseid'>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-col-md12 layui-col-xs12">
+            <div class="layui-form-item layui-row  layui-col-xs12">
+                <div class="magb15 layui-col-md6 layui-col-xs12">
+                    <label class="layui-form-label">学校名称<span class="span-required">*</span></label>
+                    <div class="layui-input-block">
+<!--                        <input type="text" class="layui-input name" lay-verify="required"  id="schoolName"-->
+<!--                               placeholder="请输入学校名称(最大长度64位)" maxlength="64" />-->
+                        <select class="layui-form" name='schoolName' id='schoolName' lay-filter="schoolName">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row  layui-col-xs12">
+
+                <div class="magb15 layui-col-md6 layui-col-xs12">
+                    <label class="layui-form-label">证书类型</label>
+                    <div class="layui-input-block">
+                        <select id='licensetype'  lay-filter="licensetype">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row  layui-col-xs12">
+                <div class="magb15 layui-col-md6 layui-col-xs12">
+                    <label class="layui-form-label">到期时间</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input create_date" id="enddate" name='create_date'  placeholder="yyyy-MM-dd" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="layui-form-item layui-row  layui-col-xs12">-->
+<!--                <div class="magb15 layui-col-md6 layui-col-xs12">-->
+<!--                    <label class="layui-form-label">私钥</label>-->
+<!--                    <div class="layui-upload">-->
+<!--                        <button type="button" class="layui-btn layui-btn-normal" id="privateKey">选择私钥文件</button>-->
+<!--                        <span class="span-required" style="display: none" id="privateKeyId">上传成功</span>-->
+<!--                        <span class="span-required" style="display: none" id="privateKeyIdFail">上传失败</span>-->
+<!--                        <button type="button" class="layui-btn" id="privateKeyAction">开始上传</button>-->
+<!--                        <p id="privateKeyValue" style="display: none;"></p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="layui-form-item layui-row  layui-col-xs12">-->
+
+<!--                <div class="magb15 layui-col-md6 layui-col-xs12">-->
+<!--                    <label class="layui-form-label">公钥</label>-->
+<!--                    <div class="layui-upload">-->
+<!--                        <button type="button" class="layui-btn layui-btn-normal" id="publicKey">选择公钥文件</button>-->
+<!--                        <span class="span-required" style="display: none" id="publicKeyId" >上传成功</span>-->
+<!--                        <span class="span-required" style="display: none" id="publicKeyIdFail" >上传失败</span>-->
+<!--                        <button type="button" class="layui-btn" id="publicKeyAction">开始上传</button>-->
+<!--                        <p id="publicKeyValue" style="display: none;"></p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addLicense">确认</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+        </div>
+    </div>
+</form>
+
+</body>
+
+</html>

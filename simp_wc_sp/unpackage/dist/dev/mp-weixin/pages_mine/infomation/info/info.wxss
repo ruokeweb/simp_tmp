@@ -1,0 +1,9 @@
+
+.uni-list-item__icon-img {
+	height:36rpx !important;
+	width:36rpx !important;
+}
+/* .uni-list:after {
+	left: 28upx !important;
+} */
+

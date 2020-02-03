@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>捐赠项目管理</title>
+		<link rel='stylesheet' href='../../../../static/css/cropperjs-master/cropper.css' media='all' />
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+		<style>
+			.ck-content {
+				min-height: 150px;
+			}
+		</style>
+	</head>
+	<body class="childrenBody">
+		<form class="layui-form" style="width:90%;margin-top:15px;">
+			<input type="text" class="layui-input id" id="projectid" style="display: none;">
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-col-md6 layui-col-xs12">
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">项目名称<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input name" name='name' id="name" lay-verify="required" placeholder="请输入项目名称(最大长度256位)"
+								 maxlength="256">
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">副标题<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input secondName" name='secondName' id="secondName" lay-verify="required"
+								 placeholder="请输入副标题(最大长度256位)" maxlength="256">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">责任人<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input master" name='master' id="master" lay-verify="required" placeholder="请输入责任人(最大长度64位)"
+								 maxlength="64">
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">项目类型</label>
+							<div class="layui-input-block">
+								<select class="layui-form" name='type' id='type' lay-filter="type">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">目标金额<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input targetMoney" id="targetMoney" lay-verify="required|validateMoney"
+								 placeholder="请输入目标金额(元)(最大长度8位)" maxlength="8">
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">当前状态</label>
+							<div class="layui-input-block">
+								<select class="layui-form" name='status' id='status' lay-filter="status">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">当前金额</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input gotMoney" readonly="readonly" name='gotMoney' id="gotMoney" >
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">捐款人数</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input donatingNum" readonly="readonly" name='donatingNum' id="donatingNum">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">置顶<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<!-- <input type="text" class="layui-input topic" name='topic' id="topic" > -->
+								<select class="style" name='topic' id='topic' lay-filter="topic">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">排序<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input sort" name='sort' id="sort" lay-verify="number" placeholder="请输入排序(最大长度10,只能为数字)" maxlength ="10">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">开始时间</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input startdate" id="startdate" name='startdate' lay-verify="startdate"
+								 placeholder="yyyy-MM-dd" readonly="readonly">
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">结束时间</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input enddate" id="enddate" name='enddate' lay-verify="enddate"
+								 placeholder="yyyy-MM-dd" readonly="readonly">
+							</div>
+						</div>
+					</div>
+
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">联系电话<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input phone" id="phone" lay-verify="required|phone" placeholder="请输入联系电话"
+								 maxlength="64">
+							</div>
+						</div>
+						<div class="layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">联系邮箱<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input email" lay-verify="required|email" id="email" placeholder="请输入联系邮箱(最大长度128位)"
+								 maxlength="128">
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<div class="layui-col-md12 layui-col-xs12">
+							<label class="layui-form-label">默认金额<span class="span-required"></span></label>
+							<div class="layui-input-block">
+									<input type="text" class="layui-input defaultMoney" id="defaultMoney" placeholder="默认金额,多个金额用逗号隔开,如:100,200">
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+				<div class="layui-col-md6 layui-col-xs12">
+					<div class="layui-upload" style="display: flex;justify-content: center;align-items: center;">
+						<div class="layui-upload-list">
+							<img class="layui-upload-img" id="photo"  src="../../../../static/images/def_img.png" 
+								onerror="this.src='../../../../static/images/def_img.png'" style="width:400px;height:225px;" />
+							<input  type="text" id="photoPath" style="display: none;"/>
+						</div>
+					</div>
+					<button type="button" class="layui-btn" id="selectphoto">上传图片</button>
+				</div>
+			</div>
+			
+		
+			<div class="layui-form-item layui-row layui-col-xs12">
+					<label class="layui-form-label">简介</label>
+					<div class="layui-input-block">
+                        <textarea placeholder="请输入简介(最大长度512位)" name='summary' id="summary" class="layui-textarea summary" maxlength="512"></textarea>
+					</div>
+			</div>
+
+			<div class="layui-form-item layui-row layui-col-xs12">
+					<label class="layui-form-label">内容</label>
+					<div class="layui-input-block">
+						<textarea class="layui-textarea content" id="content" class="ck-content" name='content'
+								  placeholder="请输入内容" ></textarea>
+					</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addProject">确认</button>
+					<button  class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+					<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+				</div>
+			</div>
+		</form>
+
+	</body>
+	<script type="text/javascript" src="../../../../static/js/modules/donation/project/projectadd.js"></script>
+</html>

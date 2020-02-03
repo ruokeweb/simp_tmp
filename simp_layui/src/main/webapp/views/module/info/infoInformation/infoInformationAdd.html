@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>信息管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js
+	"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/info/infoInformation/infoInformationAdd.js"></script>
+</head>
+<style>
+	.ck-content {
+		min-height: 300px;
+	}
+	.headImgs {
+		width: 110px;
+		height: 110px;
+	}
+	.ImgLi{
+		position: relative;
+		float:left;
+	}
+	.selectedImg{
+		
+	}
+	.selected {
+		font-size: 20px;
+		font-weight: bolder ;
+		color: #00D20D;
+		position: absolute; 
+		bottom: 0px;
+		right: 0px;
+	}
+</style>
+<body class="childrenBody">
+<form class="layui-form layui-row layui-col-space10" style="width: 99%;">
+	<div class="layui-col-md9 layui-col-xs12">
+		<input type="hidden" class="layui-input id" name='id' id='id'>
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-md12 layui-col-xs12">
+				<div class="layui-form-item magt3">
+					<label class="layui-form-label">文章标题</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="title" id= "title" placeholder="请输入文章标题">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">副标题</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入副标题" class="layui-textarea " id="secondTitle"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item magb0">
+			<label class="layui-form-label">文章内容</label>
+			<div class="layui-input-block">
+				<textarea namen="content" id="editor" class="ck-content" lay-verify="content">
+				</textarea>
+			</div>
+		</div>
+		<div class="layui-form-item magb0 imgPosFlag" style="margin-top: 10px;">
+			<label class="layui-form-label">首图选择</label>
+			<span style="color: red;">* 请选择一张或三张图片作为首图</span>
+			<div class="layui-input-block" >
+				<ul id= "selectHeadImages"></ul>
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md3 layui-col-xs12">
+		<blockquote class="layui-elem-quote title"> 信息类型</blockquote>
+		<div class="border category">
+			<select id="type_id">
+			</select>
+		</div>
+		<blockquote class="layui-elem-quote title "> 首图位置</blockquote>
+		<div class="border category ">
+			<input type="radio" name="indexImgPos" lay-filter="indexImgPos"  value="left" title="居左"  checked=""/>
+			<input type="radio" name="indexImgPos" lay-filter="indexImgPos"  value="right" title="居右" />
+			<input type="radio" name="indexImgPos" lay-filter="indexImgPos" value="tile" title="平铺" />
+			<input type="radio" name="indexImgPos" lay-filter="indexImgPos" value="noImg" title="无图" />
+		</div>
+		<blockquote class="layui-elem-quote title"> 作者</blockquote>
+		<div class="border category">
+			<input type="text" class="layui-input" lay-verify="author" id= "author" placeholder="请输入文章标题">
+		</div>
+		<blockquote class="layui-elem-quote title"> 是否专题</blockquote>
+		<div class="border category">
+			<select id="isTopnic">
+			</select>
+		</div>
+		<blockquote class="layui-elem-quote title magt10"><i class="layui-icon">&#xe609;</i> 发布</blockquote>
+		<div class="border">
+			<div class="layui-form-item">
+				<label class="layui-form-label">状　态</label>
+				<div class="layui-input-block">
+					<select id="pubStatus">
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item newsTop">
+				<label class="layui-form-label">置顶顺序</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id= "sort" lay-verify="required|number" maxlength="6">
+				</div>
+			</div>
+			<hr class="layui-bg-gray" />
+			<div class="layui-right">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addinfoInformation"><i class="layui-icon">&#xe609;</i>确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- 	<script>
+		var myEditor = null; 
+		window.onload = function(){ 
+			ClassicEditor .create(document.querySelector("#editor")) 
+			.then(editor => { myEditor = editor; }) 
+			.catch(error => { console.error(error); }); 
+		}
+	</script> -->
+</body>
+</html>

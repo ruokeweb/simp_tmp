@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.license.mapper.SysLicenseMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.license.model.SysLicense">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="expire_date" jdbcType="TIMESTAMP" property="expireDate" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+			<result column="license_pub" jdbcType="VARCHAR" property="licensePub" />
+			<result column="license_pri" jdbcType="VARCHAR" property="licensePri" />
+			<result column="license_type" jdbcType="VARCHAR" property="licenseType" />
+	</resultMap>
+
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, expire_date, create_date, remark, flag, school_name, license_pub, license_pri, license_type
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>
+			<if test="entity.expireDate != null and entity.expireDate!='' ">
+        		and expire_date=#{entity.expireDate}
+      		</if>
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.schoolName != null and entity.schoolName!='' ">
+        		and school_name=#{entity.schoolName}
+      		</if>
+			<if test="entity.licensePub != null and entity.licensePub!='' ">
+        		and license_pub=#{entity.licensePub}
+      		</if>
+			<if test="entity.licensePri != null and entity.licensePri!='' ">
+        		and license_pri=#{entity.licensePri}
+      		</if>
+			<if test="entity.licenseType != null and entity.licenseType!='' ">
+        		and license_type=#{entity.licenseType}
+      		</if>
+		</if>
+	</sql>
+
+
+	<sql id="query_where_remark">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+				and id=#{entity.id}
+			</if>
+			<if test="entity.expireDate != null and entity.expireDate!='' ">
+				and expire_date=#{entity.expireDate}
+			</if>
+			<if test="entity.createDate != null and entity.createDate!='' ">
+				and create_date=#{entity.createDate}
+			</if>
+			<if test="entity.flag != null and entity.flag!='' ">
+				and flag= #{entity.flag}
+			</if>
+			<if test="entity.schoolName != null and entity.schoolName!='' ">
+				and school_name=#{entity.schoolName}
+			</if>
+			<if test="entity.licensePub != null and entity.licensePub!='' ">
+				and license_pub=#{entity.licensePub}
+			</if>
+			<if test="entity.licensePri != null and entity.licensePri!='' ">
+				and license_pri=#{entity.licensePri}
+			</if>
+			<if test="entity.licenseType != null and entity.licenseType!='' ">
+				and license_type=#{entity.licenseType}
+			</if>
+		</if>
+	</sql>
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.license.model.SysLicense" resultMap="BaseResultMap">
+   	    select
+    		<include refid="Base_Column_List" />
+    	from sys_license
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+
+  	<!-- 根据id查询 -->
+  	<select id="getBeanBySchoolName" parameterType="com.mpri.aio.license.model.SysLicense" resultMap="BaseResultMap">
+   	    select
+    		<include refid="Base_Column_List" />
+    	from sys_license
+    	where school_name = #{schoolName,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}  limit 1
+  	</select>
+
+  	<select id="getBeanBySchoolCodeAndDate" parameterType="com.mpri.aio.license.model.SysLicense" resultMap="BaseResultMap">
+   	    select
+    		<include refid="Base_Column_List" />
+    	from sys_license
+    	where school_name = #{schoolName,jdbcType=VARCHAR} and flag = 'NORMAL'  and remark = #{remark}  and expire_date=#{expireDate}
+  	</select>
+
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.license.model.SysLicense" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sys_license
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by  expire_date
+  	</select>
+
+
+    <select id="loadShoolKeyAndValue"  resultType="java.util.HashMap">
+			SELECT DISTINCT
+				sch.id  id,
+				sch.`name`  name
+			FROM sys_school sch
+			WHERE sch.flag = 'NORMAL'
+			AND sch.`name` IS NOT NULL
+			<if test="label != null">
+				AND sch.`name` like concat('%', #{label},'%')
+			</if>
+			order by id
+  	</select>
+
+    <select id="loadByPageAll" parameterType="com.mpri.aio.license.model.SysLicense" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sys_license
+    	<where>
+	  		<include refid="query_where_remark"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.license.model.SysLicense" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sys_license
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.license.model.SysLicense">
+    	update sys_license set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.license.model.SysLicense">
+		insert into sys_license
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="expireDate != null">
+	    		expire_date,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="remark != null">
+	    		0,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="schoolName != null">
+	    		school_name,
+	  		</if>
+	   		<if test="licensePub != null">
+	    		license_pub,
+	  		</if>
+	   		<if test="licensePri != null">
+	    		license_pri,
+	  		</if>
+	   		<if test="licenseType != null">
+	    		license_type,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="expireDate != null">
+	   			#{expireDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="schoolName != null">
+	   			#{schoolName,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="licensePub != null">
+	   			#{licensePub,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="licensePri != null">
+	   			#{licensePri,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="licenseType != null">
+	   			#{licenseType,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据针对所有licesen -->
+  	<update id="update" parameterType="com.mpri.aio.license.model.SysLicense">
+    	update sys_license
+    	<set>
+			<if test="expireDate != null">
+	   			expire_date = #{expireDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="schoolName != null">
+	   			school_name = #{schoolName,jdbcType=VARCHAR},
+	  		</if>
+			<if test="licensePub != null">
+	   			license_pub = #{licensePub,jdbcType=VARCHAR},
+	  		</if>
+			<if test="licensePri != null">
+	   			license_pri = #{licensePri,jdbcType=VARCHAR},
+	  		</if>
+			<if test="licenseType != null">
+	   			license_type = #{licenseType,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+  	<!-- 更新数据 -->
+  	<update id="updateLicenseInfo" parameterType="com.mpri.aio.license.model.SysLicense">
+    	update sys_license
+    	<set>
+			<if test="expireDate != null">
+	   			expire_date = #{expireDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="schoolName != null">
+	   			school_name = #{schoolName,jdbcType=VARCHAR},
+	  		</if>
+			<if test="licensePub != null">
+	   			license_pub = #{licensePub,jdbcType=VARCHAR},
+	  		</if>
+			<if test="licensePri != null">
+	   			license_pri = #{licensePri,jdbcType=VARCHAR},
+	  		</if>
+			<if test="licenseType != null">
+	   			license_type = #{licenseType,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

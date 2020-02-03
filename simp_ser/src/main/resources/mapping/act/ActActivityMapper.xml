@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.act.mapper.ActActivityMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.act.model.ActActivity">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="sign_start_date" jdbcType="TIMESTAMP" property="signStartDate" />
+			<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+			<result column="image" jdbcType="VARCHAR" property="image" />
+			<result column="area" jdbcType="VARCHAR" property="area" />
+			<result column="limit_no" jdbcType="INTEGER" property="limitNo" />
+			<result column="asso_id" jdbcType="VARCHAR" property="assoId" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="content" jdbcType="VARCHAR" property="content" />	
+			<result column="ready_no" jdbcType="INTEGER" property="readyNo" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+			<result column="sign_end_date" jdbcType="TIMESTAMP" property="signEndDate" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="asso_name" jdbcType="VARCHAR" property="assoName" />
+	</resultMap>
+	
+	<!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	act.id id , act.flag flag, act.sign_start_date sign_start_date, act.start_date start_date, act.image image, act.area area, act.limit_no limit_no, 
+    	act.asso_id asso_id, act.name name, 
+    	act.content content, act.ready_no ready_no, act.create_date create_date, act.remark remark, act.end_date end_date, act.sign_end_date sign_end_date,
+    	act.status status,asso.name asso_name
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and act.id=#{entity.id}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and act.flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.signStartDate != null   ">
+        		and act.sign_start_date=#{entity.signStartDate}
+      		</if>	      	
+			<if test="entity.startDate != null   ">
+        		and act.start_date=#{entity.startDate}
+      		</if>
+			<if test="entity.image != null and entity.image!='' ">
+        		and act.image=#{entity.image}
+      		</if>	      	
+			<if test="entity.area != null and entity.area!='' ">
+        		and act.area=#{entity.area}
+      		</if>	      	
+			<if test="entity.limitNo != null and entity.limitNo!='' ">
+        		and act.limit_no=#{entity.limitNo}
+      		</if>	      	
+			<if test="entity.assoId != null and entity.assoId!='' ">
+        		and act.asso_id=#{entity.assoId}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+
+				and ( act.name like   replace (#{entity.name},'*','%%')
+				or act.name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.content != null and entity.content!='' ">
+        		and act.content=#{entity.content}
+      		</if>	      	
+			<if test="entity.readyNo != null and entity.readyNo!='' ">
+        		and act.ready_no=#{entity.readyNo}
+      		</if>	      	
+			<if test="entity.createDate != null   ">
+        		and act.create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and act.remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.endDate != null  ">
+        		and act.end_date=#{entity.endDate}
+      		</if>	      	
+			<if test="entity.signEndDate != null   ">
+        		and act.sign_end_date=#{entity.signEndDate}
+      		</if>	   
+      		<if test="entity.status != null and entity.status!='' ">
+        		and act.status=#{entity.status}
+      		</if>   	
+		</if>
+	</sql>
+	<!-- 查询条件定义 -->
+	<sql id="query_where_not">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+				and act.id=#{entity.id}
+			</if>
+			<if test="entity.flag != null and entity.flag!='' ">
+				and act.flag= #{entity.FLAG_NORMAL}
+			</if>
+			<if test="entity.signStartDate != null and entity.signStartDate!='' ">
+				and act.sign_start_date=#{entity.signStartDate}
+			</if>
+			<if test="entity.startDate != null and entity.startDate!='' ">
+				and act.start_date=#{entity.startDate}
+			</if>
+			<if test="entity.image != null and entity.image!='' ">
+				and act.image=#{entity.image}
+			</if>
+			<if test="entity.area != null and entity.area!='' ">
+				and act.area=#{entity.area}
+			</if>
+			<if test="entity.limitNo != null and entity.limitNo!='' ">
+				and act.limit_no=#{entity.limitNo}
+			</if>
+			<if test="entity.assoId != null and entity.assoId!='' ">
+				and act.asso_id=#{entity.assoId}
+			</if>
+			<if test="entity.name!=null and entity.name!='' ">
+
+				and ( act.name like   replace (#{entity.name},'*','%%')
+				or act.name like concat('%', #{entity.name},'%'))
+			</if>
+			<if test="entity.content != null and entity.content!='' ">
+				and act.content=#{entity.content}
+			</if>
+			<if test="entity.readyNo != null and entity.readyNo!='' ">
+				and act.ready_no=#{entity.readyNo}
+			</if>
+			<if test="entity.createDate != null and entity.createDate!='' ">
+				and act.create_date=#{entity.createDate}
+			</if>
+			<if test="entity.remark != null and entity.remark!='' ">
+				and act.remark=#{entity.remark}
+			</if>
+			<if test="entity.endDate != null and entity.endDate!='' ">
+				and act.end_date=#{entity.endDate}
+			</if>
+			<if test="entity.signEndDate != null and entity.signEndDate!='' ">
+				and act.sign_end_date=#{entity.signEndDate}
+			</if>
+			<if test="entity.status != null and entity.status!='' ">
+				and act.status <![CDATA[!= ]]> #{entity.status}
+			</if>
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.act.model.ActActivity" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    		,asso.name asso_name
+    	from act_activity act
+    	inner join as_association asso  on  asso.id= act.asso_id
+    	where act.id = #{id,jdbcType=VARCHAR} and act.flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.act.model.ActActivity" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from act_activity act
+    	inner join as_association asso  on  asso.id= act.asso_id and act.flag= #{entity.FLAG_NORMAL}
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by act.create_date desc
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from act_activity  act
+    	inner join as_association asso  on  asso.id= act.asso_id
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+	<!-- 依照条件查询所有对象 -->
+	<select id="loadAllListByNotDone"  parameterType="com.mpri.aio.act.model.ActActivity" resultMap="BaseResultMap" >
+		select
+		id, flag, sign_start_date, end_date, start_date, sign_end_date, status
+		from act_activity  act
+		<where>
+			<include refid="query_where_not"></include>
+		</where>
+	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.act.model.ActActivity">
+    	update act_activity set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.act.model.ActActivity">
+		insert into act_activity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="signStartDate != null">
+	    		sign_start_date,
+	  		</if>   			
+	   		<if test="startDate != null">
+	    		start_date,
+	  		</if>   			
+	   		<if test="image != null">
+	    		image,
+	  		</if>   			
+	   		<if test="area != null">
+	    		area,
+	  		</if>   			
+	   		<if test="limitNo != null">
+	    		limit_no,
+	  		</if>   			
+	   		<if test="assoId != null">
+	    		asso_id,
+	  		</if>   			
+	   		<if test="name != null">
+	    		name,
+	  		</if>   			
+	   		<if test="content != null">
+	    		content,
+	  		</if>   			
+	   		<if test="readyNo != null">
+	    		ready_no,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="endDate != null">
+	    		end_date,
+	  		</if>   			
+	   		<if test="signEndDate != null">
+	    		sign_end_date,
+	  		</if>   
+	  		<if test="status != null">
+	    		status,
+	  		</if> 	
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="signStartDate != null">
+	   			#{signStartDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="startDate != null">
+	   			#{startDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="image != null">
+	   			#{image,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="area != null">
+	   			#{area,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="limitNo != null">
+	   			#{limitNo,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="assoId != null">
+	   			#{assoId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="readyNo != null">
+	   			#{readyNo,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="endDate != null">
+	   			#{endDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="signEndDate != null">
+	   			#{signEndDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	  		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.act.model.ActActivity">
+    	update act_activity
+    	<set>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="signStartDate != null">
+	   			sign_start_date = #{signStartDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="startDate != null">
+	   			start_date = #{startDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="image != null">
+	   			image = #{image,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="area != null">
+	   			area = #{area,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="limitNo != null">
+	   			limit_no = #{limitNo,jdbcType=INTEGER},
+	  		</if>  
+			<if test="assoId != null">
+	   			asso_id = #{assoId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="readyNo != null">
+	   			ready_no = #{readyNo,jdbcType=INTEGER},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="endDate != null">
+	   			end_date = #{endDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="signEndDate != null">
+	   			sign_end_date = #{signEndDate,jdbcType=TIMESTAMP},
+	  		</if>  
+	  		<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if> 
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

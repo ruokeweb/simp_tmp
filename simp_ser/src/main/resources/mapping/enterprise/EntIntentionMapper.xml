@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.enterprise.mapper.EntIntentionMapper">
+    <!-- 基础返回值定义 -->
+    <resultMap id="BaseResultMap" type="com.mpri.aio.enterprise.model.EntIntention">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="enter_id" jdbcType="VARCHAR" property="enterId"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <association property="smSchoolmate" column="user_id" select="getSchoolmate"/>
+    </resultMap>
+
+    <!-- 带校友信息基础返回值定义 -->
+    <resultMap id="SchoolBaseResultMap" type="com.mpri.aio.enterprise.model.EntIntention">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="enter_id" jdbcType="VARCHAR" property="enterId"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <!--<association property="smSchoolmate" column="user_id" select="getSchoolmate"/>-->
+        <collection property="smSchoolmate" javaType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+            <result column="amid" jdbcType="INTEGER" property="id"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+            <association property="smEducation" javaType="com.mpri.aio.schoolmate.model.SmEducation">
+                <id column="smEdu_id" jdbcType="VARCHAR" property="id" />
+                <result column="edu_model" jdbcType="VARCHAR" property="eduModel" />
+                <result column="school" jdbcType="VARCHAR" property="school" />
+                <result column="college" jdbcType="VARCHAR" property="college" />
+                <result column="series" jdbcType="VARCHAR" property="series" />
+                <result column="specialty" jdbcType="VARCHAR" property="specialty" />
+                <result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+                <result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+                <result column="degree_type" jdbcType="VARCHAR" property="degreeType" />
+                <result column="temp_specialty" jdbcType="VARCHAR" property="tempSpecialty" />
+                <result column="classes" jdbcType="VARCHAR" property="classes" />
+                <result column="edu_enddate" jdbcType="TIMESTAMP" property="enddate" />
+                <result column="edu_startdate" jdbcType="TIMESTAMP" property="startdate" />
+                <result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+                <result column="temp_series" jdbcType="VARCHAR" property="tempSeries" />
+                <result column="schoollen" jdbcType="VARCHAR" property="schoollen" />
+                <result column="degree" jdbcType="VARCHAR" property="degree" />
+            </association>
+        </collection>
+    </resultMap>
+
+    <resultMap id="SchoolmateMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <select id="getSchoolmate" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="SchoolmateMap">
+           select  id,name  from  sm_schoolmate where id =#{userId}
+    </select>
+
+    <!-- 基础字段定义 -->
+    <sql id="Base_Column_List">
+	content, create_date, enter_id, flag, id, remark, title, user_id
+	</sql>
+
+    <!-- 带校友的基础字段定义 -->
+    <sql id="Schoolmate_Column_List">
+    	ent_i.content, ent_i.create_date, ent_i.enter_id, ent_i.flag, ent_i.id, ent_i.remark, ent_i.title, ent_i.user_id ,
+    	sm_s.name,sm_s.id as schoolmate_id
+	</sql>
+
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="entity!=null">
+            <if test="entity.content != null and entity.content!='' ">
+                and content=#{entity.content}
+            </if>
+            <if test="entity.createDate != null and entity.createDate!='' ">
+                and create_date=#{entity.createDate}
+            </if>
+            <if test="entity.enterId != null and entity.enterId!='' ">
+                and enter_id=#{entity.enterId}
+            </if>
+            <if test="entity.flag != null and entity.flag!='' ">
+                and flag= #{entity.FLAG_NORMAL}
+            </if>
+            <if test="entity.id != null and entity.id!='' ">
+                and id=#{entity.id}
+            </if>
+            <if test="entity.remark != null and entity.remark!='' ">
+                and remark=#{entity.remark}
+            </if>
+            <if test="entity.title != null and entity.title!='' ">
+                and title=#{entity.title}
+            </if>
+            <if test="entity.userId != null and entity.userId!='' ">
+                and user_id=#{entity.userId}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="get" parameterType="com.mpri.aio.enterprise.model.EntIntention" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ent_intention
+        where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.enterprise.model.EntIntention" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ent_intention
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by create_date DESC
+    </select>
+
+    <!-- 分页查询带校友 -->
+    <select id="loadEntAndSchoolByPage" parameterType="com.mpri.aio.enterprise.model.EntIntention"    resultMap="SchoolBaseResultMap">
+        <!--select-->
+        <!--<include refid="Base_Column_List"/>-->
+        <!--from ent_intention-->
+        <!--<where>-->
+            <!--<include refid="query_where"></include>-->
+        <!--</where>-->
+        <!--order by create_date DESC-->
+
+        SELECT DISTINCT
+        sm_s.name,sm_s.id AS amid ,ent.content, ent.create_date, ent.enter_id, ent.flag, ent.id, ent.remark, ent.title, ent.user_id
+        FROM
+        ent_intention ent
+        LEFT JOIN sm_schoolmate sm_s ON ent.user_id = sm_s.user_id
+        <if test="entity.flag!=null and entity.flag !='' ">
+            AND ent.flag=#{entity.flag}
+        </if>
+
+        <where>
+            <!--<include refid="query_where"></include>-->
+
+            <if test="entity.enterId!=null and entity.enterId !='' ">
+                AND ent.enter_id=#{entity.enterId}
+            </if>
+            <if test="entity.paramA!=null and entity.paramA !='' ">
+                AND( sm_s.name like   replace (#{entity.paramA},'*','%%')
+                OR sm_s.name like concat('%', #{entity.paramA},'%'))
+            </if>
+            <if test="entity.title != null and entity.title!='' ">
+                and  ( ent.title like   replace (#{entity.title},'*','%%')
+                OR ent.title like concat('%', #{entity.title},'%'))
+            </if>
+            <if test="entity.content != null and entity.content!='' ">
+                and ( ent.content like   replace (#{entity.content},'*','%%')
+                OR ent.content like concat('%', #{entity.content},'%'))
+            </if>
+        </where>
+        ORDER BY ent.create_date DESC
+    </select>
+
+    <!-- 依照条件查询所有对象 -->
+    <select id="loadAllListBy" parameterType="com.mpri.aio.enterprise.model.EntIntention" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ent_intention
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by create_date DESC
+    </select>
+
+    <!-- 删除对象 -->
+    <update id="delete" parameterType="com.mpri.aio.enterprise.model.EntIntention">
+    	update ent_intention set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.mpri.aio.enterprise.model.EntIntention">
+        insert into ent_intention
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="enterId != null">
+                enter_id,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enterId != null">
+                #{enterId,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新数据 -->
+    <update id="update" parameterType="com.mpri.aio.enterprise.model.EntIntention">
+        update ent_intention
+        <set>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enterId != null">
+                enter_id = #{enterId,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

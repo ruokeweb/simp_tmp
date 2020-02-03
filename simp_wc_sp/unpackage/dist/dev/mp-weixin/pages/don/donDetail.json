@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "回馈详情",
+  "usingComponents": {
+    "segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}

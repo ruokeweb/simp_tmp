@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.friend.mapper.AppFriShareMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.friend.model.FriShare">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="share_point" jdbcType="VARCHAR" property="sharePoint" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+	<resultMap id="ShareRankingVoMap" type="com.mpri.aio.app.friend.vo.ShareRankingVo">
+			<result column="count" jdbcType="INTEGER" property="count" />
+			<result column="sharePoint" jdbcType="VARCHAR" property="sharePoint" />
+	</resultMap>
+	
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, flag, share_point, user_id, create_date, remark
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.sharePoint != null and entity.sharePoint!='' ">
+        		and share_point=#{entity.sharePoint}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+		</if>
+	</sql>
+	
+
+	<!-- 获取分享排名  -->
+	<select id="loadShareRanking"  resultMap="ShareRankingVoMap">
+			select a.count as count,dict.label as sharePoint from 
+			(SELECT
+				count(1) AS count,
+				s.share_point
+			FROM
+				fri_share s
+			GROUP BY
+				s.share_point)a
+			LEFT JOIN sys_dict dict  on dict.`value` = a.share_point
+			where dict.type_code = 'SHARE_CODE'
+			ORDER BY
+				a.count DESC
+	
+	</select>
+
+</mapper>

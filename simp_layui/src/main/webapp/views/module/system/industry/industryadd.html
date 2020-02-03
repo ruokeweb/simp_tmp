@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>校友会管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+	<script type="text/javascript" src="../../../../static/js/modules/system/industry/industryadd.js"></script>
+	<style>
+		.ck-content {
+			min-height: 300px;
+		}
+	</style>
+</head>
+
+<body class="childrenBody">
+	<form class="layui-form" style="width:90%;margin-top:15px;">
+		<input type="hidden" class="layui-input id" name='id' id='id'>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			
+			<label class="layui-form-label">上级行业<span class="span-required">*<span></label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input parentId"  id="parentId" style="display: none;">
+				<input type="text" class="layui-input parentName" id="parentName" lay-verify="required" readonly="readonly">
+			</div>
+		
+		</div>			
+		
+		<div class="layui-form-item layui-row  layui-col-xs12">
+			
+			<label class="layui-form-label">名称<span class="span-required">*<span></label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input name" name='name' id="name" lay-verify="required" 
+				placeholder="请输入名称(最大长度64位)" 
+				maxlength ="64">
+			</div>
+		
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">编码<span class="span-required">*<span></label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input " id="code" lay-verify="required" placeholder="请输入编码(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">排序<span class="span-required">*<span></label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input " id="sort" lay-verify="required" placeholder="请输入排序" >
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">备注信息</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入备注信息" class="layui-textarea " id="remark" maxlength ="512"  placeholder="请输入备注信息(最大长度512位)"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="add">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+
+</body>
+	
+</html>

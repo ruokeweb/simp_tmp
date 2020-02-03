@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.InfoIntegrityMapper">
+	
+    <select id="BASEINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS 
+		(select 1 from sm_schoolmate 
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+  	
+    <select id="ADDRESSINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS 
+		(select 1 from sm_address 
+		where user_id  = #{useId} and flag = "NORMAL" )    
+  	</select>
+
+    <select id="CONTACTINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS 
+		(select 1 from sm_contact 
+		where user_id  = #{useId} and flag = "NORMAL" )  
+  	</select>
+  	  	
+    <select id="EDUCATIONINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS 
+		(select 1 from sm_education 
+		where user_id  = #{useId} and flag = "NORMAL" )    
+  	</select>
+
+    <select id="POLITICSINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_politics
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+    <select id="FAMILYINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_family
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+    <select id="SOCIALINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_social
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+	<select id="EXPERIENCEINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_experience
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+	<select id="PROFESSIONINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_profession
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+	<select id="HONORINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_honor
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+	<select id="HISTORYDATAINFO" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sm_history_data
+		where user_id  = #{useId} and flag = "NORMAL" )
+  	</select>
+
+</mapper>

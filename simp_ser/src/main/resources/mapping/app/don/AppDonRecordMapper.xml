@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.don.mapper.AppDonRecordMapper">
+
+    <!-- 带校友信息的基础返回值定义 -->
+    <resultMap id="SchoolMateResultMap" type="com.mpri.aio.donation.model.DonRecord">
+        <id column="don_id" jdbcType="VARCHAR" property="id"/>
+        <result column="don_type" jdbcType="VARCHAR" property="donType"/>
+        <result column="is_invoice" jdbcType="VARCHAR" property="isInvoice"/>
+        <result column="together_id" jdbcType="VARCHAR" property="togetherId"/>
+        <result column="style" jdbcType="VARCHAR" property="style"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="is_show" jdbcType="VARCHAR" property="isShow"/>
+        <result column="template_id" jdbcType="VARCHAR" property="templateId"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="money_type" jdbcType="VARCHAR" property="moneyType"/>
+        <result column="don_user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="don_name" jdbcType="VARCHAR" property="name"/>
+        <result column="custom_id" jdbcType="VARCHAR" property="customId"/>
+        <result column="invoice_status" jdbcType="VARCHAR" property="invoiceStatus"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="custom_temp" jdbcType="VARCHAR" property="customTemp"/>
+        <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="don_project_id" jdbcType="VARCHAR" property="donProjectId"/>
+        <result column="is_certificate" jdbcType="VARCHAR" property="isCertificate"/>
+        <result column="don_state" jdbcType="VARCHAR" property="state"/>
+        <association property="smSchoolmate" javaType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+            <result column="complete" jdbcType="INTEGER" property="complete"/>
+            <result column="mark_ids" jdbcType="VARCHAR" property="markIds"/>
+            <result column="pos_lat" jdbcType="VARCHAR" property="posLat"/>
+            <result column="marks" jdbcType="VARCHAR" property="marks"/>
+            <result column="pos_long" jdbcType="VARCHAR" property="posLong"/>
+            <result column="don_fee" jdbcType="DECIMAL" property="donFee"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+            <result column="remark" jdbcType="VARCHAR" property="remark"/>
+            <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+            <result column="eg_name" jdbcType="VARCHAR" property="egName"/>
+            <result column="nation" jdbcType="VARCHAR" property="nation"/>
+            <result column="sex" jdbcType="VARCHAR" property="sex"/>
+            <result column="card_id" jdbcType="VARCHAR" property="cardId"/>
+            <result column="flag" jdbcType="VARCHAR" property="flag"/>
+            <result column="openid" jdbcType="VARCHAR" property="openid"/>
+            <result column="status" jdbcType="VARCHAR" property="status"/>
+            <result column="card_num" jdbcType="VARCHAR" property="cardNum"/>
+            <result column="pinyin" jdbcType="VARCHAR" property="pinyin"/>
+            <result column="true_photo" jdbcType="VARCHAR" property="truePhoto"/>
+            <result column="card_status" jdbcType="VARCHAR" property="cardStatus"/>
+            <result column="is_show" jdbcType="VARCHAR" property="isShow"/>
+            <result column="point" jdbcType="INTEGER" property="point"/>
+            <result column="type" jdbcType="VARCHAR" property="type"/>
+            <result column="card_type" jdbcType="VARCHAR" property="cardType"/>
+            <result column="level" jdbcType="INTEGER" property="level"/>
+            <result column="pos_city" jdbcType="VARCHAR" property="posCity"/>
+            <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+            <association property="smEducation" column="user_id" select="getEdu"/>
+        </association>
+        <association property="donProject" column="don_project_id" select="getDonProject"/>
+    </resultMap>
+
+    <!-- 带校友信息的基础返回值定义 -->
+    <resultMap id="teamMateResultMap" type="com.mpri.aio.donation.model.DonRecord">
+        <id column="don_id" jdbcType="VARCHAR" property="id"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="together_id" jdbcType="VARCHAR" property="togetherId"/>
+        <result column="don_project_id" jdbcType="VARCHAR" property="donProjectId"/>
+        <association property="donProject" column="don_project_id" select="getDonProject"/>
+        <association property="donProjectTogether" column="together_id" select="getProjectTogether"/>
+    </resultMap>
+
+
+    <resultMap id="DonProjectMap" type="com.mpri.aio.donation.model.DonProject">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="pic" jdbcType="VARCHAR" property="pic"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+
+    </resultMap>
+
+    <resultMap id="DonProjectTogetherMap" type="com.mpri.aio.donation.model.DonProjectTogether">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="pic" jdbcType="VARCHAR" property="pic"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+
+    </resultMap>
+    <select id="getProjectTogether" parameterType="com.mpri.aio.donation.model.DonProjectTogether" resultMap="DonProjectTogetherMap">
+           select  id,name  from  don_project_together where id =#{togetherId}
+    </select>
+
+    <select id="getDonProject" parameterType="com.mpri.aio.donation.model.DonProject" resultMap="DonProjectMap">
+           select  id,name,pic,status  from  don_project where id =#{donProjectId}
+    </select>
+
+    <resultMap id="EduMap" type="com.mpri.aio.schoolmate.model.SmEducation">
+        <result column="specialty" jdbcType="INTEGER" property="specialty"/>
+        <result column="startdate" jdbcType="VARCHAR" property="startdate"/>
+
+    </resultMap>
+
+    <select id="getEdu" parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultMap="EduMap">
+           select  specialty,startdate  from  sm_education where user_id =#{userId} and is_default = 'IS_DEFAULT'
+    </select>
+
+    <!-- 基础返回值定义 -->
+    <resultMap id="BaseResultMap" type="com.mpri.aio.donation.model.DonRecord">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="don_type" jdbcType="VARCHAR" property="donType"/>
+        <result column="is_invoice" jdbcType="VARCHAR" property="isInvoice"/>
+        <result column="together_id" jdbcType="VARCHAR" property="togetherId"/>
+        <result column="style" jdbcType="VARCHAR" property="style"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="template_id" jdbcType="VARCHAR" property="templateId"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="money_type" jdbcType="VARCHAR" property="moneyType"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="custom_id" jdbcType="VARCHAR" property="customId"/>
+        <result column="invoice_status" jdbcType="VARCHAR" property="invoiceStatus"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="custom_temp" jdbcType="VARCHAR" property="customTemp"/>
+        <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle"/>
+        <result column="don_project_id" jdbcType="VARCHAR" property="donProjectId"/>
+        <result column="is_certificate" jdbcType="VARCHAR" property="isCertificate"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+    </resultMap>
+
+    <!-- 基础字段定义 -->
+    <sql id="SchoolMate_Column_List">
+    	don.id as don_id, don.don_type, don.is_invoice, don.style, don.email, don.is_show, don.template_id, don.flag, don.money, don.time,
+    	don.address, don.goods_name,together_id, don.money_type, don.user_id as don_user_id, don.create_date, don.name as don_name, don.custom_id, don.invoice_status,
+        don.phone, don.custom_temp, don.invoice_title, don.remark, don.don_project_id, don.is_certificate, don.state as don_state,
+    	sm_s.id, sm_s.don_fee, sm_s.name, sm_s.sex, sm_s.openid, sm_s.status, sm_s.true_photo, sm_s.card_status,
+    	 sm_s.type,  sm_s.user_id
+	</sql>
+
+    <sql id="Team_Column_List">
+    	don.id, don.money, don.time, don.together_id, don.don_project_id
+	</sql>
+    <!-- 基础字段定义 -->
+    <sql id="Base_Column_List">
+    	don.id, don.don_type, don.is_invoice, don.style, don.email,don.together_id, don.is_show, don.template_id, don.flag, don.money, don.time, don.address, don.goods_name, don.money_type, don.user_id, don.create_date, don.name, don.custom_id, don.invoice_status, don.phone, don.custom_temp, don.invoice_title, don.remark, don.don_project_id, don.is_certificate, don.state
+	</sql>
+
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="entity!=null">
+            <if test="entity.id != null and entity.id!='' ">
+                and don.id=#{entity.id}
+            </if>
+            <if test="entity.donType != null and entity.donType!='' ">
+                and don.don_type=#{entity.donType}
+            </if>
+            <if test="entity.togetherId != null and entity.togetherId!='' ">
+                and don.together_id=#{entity.togetherId}
+            </if>
+            <if test="entity.isInvoice != null and entity.isInvoice!='' ">
+                and don.is_invoice=#{entity.isInvoice}
+            </if>
+            <if test="entity.style != null and entity.style!='' ">
+                and don.style=#{entity.style}
+            </if>
+            <if test="entity.email != null and entity.email!='' ">
+                and don.email=#{entity.email}
+            </if>
+            <if test="entity.isShow != null and entity.isShow!='' ">
+                and don.is_show=#{entity.isShow}
+            </if>
+            <if test="entity.templateId != null and entity.templateId!='' ">
+                and don.template_id=#{entity.templateId}
+            </if>
+            <if test="entity.flag != null and entity.flag!='' ">
+                and don.flag= #{entity.FLAG_NORMAL}
+            </if>
+            <if test="entity.money != null and entity.money!='' ">
+                and don.money=#{entity.money}
+            </if>
+            <if test="entity.time != null">
+                and date_format(don.time ,'%Y-%m-%d')= (select DATE_FORMAT(#{entity.time},'%Y-%m-%d'))
+            </if>
+            <if test="entity.address != null and entity.address!='' ">
+                and don.address=#{entity.address}
+            </if>
+            <if test="entity.goodsName != null and entity.goodsName!='' ">
+                and don.goods_name=#{entity.goodsName}
+            </if>
+            <if test="entity.moneyType != null and entity.moneyType!='' ">
+                and don.money_type=#{entity.moneyType}
+            </if>
+            <if test="entity.userId != null and entity.userId!='' ">
+                and don.user_id=#{entity.userId}
+            </if>
+            <if test="entity.createDate != null and entity.createDate!='' ">
+                and don.create_date=#{entity.createDate}
+            </if>
+            <if test="entity.name!=null and entity.name!='' ">
+                and ( don.name like replace (#{entity.name},'*','%%')
+                or don.name like concat('%', #{entity.name},'%'))
+            </if>
+            <if test="entity.customId != null and entity.customId!='' ">
+                and don.custom_id=#{entity.customId}
+            </if>
+            <if test="entity.invoiceStatus != null and entity.invoiceStatus!='' ">
+                and don.invoice_status=#{entity.invoiceStatus}
+            </if>
+            <if test="entity.phone != null and entity.phone!='' ">
+                and don.phone=#{entity.phone}
+            </if>
+            <if test="entity.customTemp != null and entity.customTemp!='' ">
+                and don.custom_temp=#{entity.customTemp}
+            </if>
+            <if test="entity.invoiceTitle != null and entity.invoiceTitle!='' ">
+                and don.invoice_title=#{entity.invoiceTitle}
+            </if>
+            <if test="entity.remark != null and entity.remark!='' ">
+                and don.remark=#{entity.remark}
+            </if>
+            <if test="entity.donProjectId != null and entity.donProjectId!='' ">
+                and don.don_project_id=#{entity.donProjectId}
+            </if>
+            <if test="entity.isCertificate != null and entity.isCertificate!='' ">
+                and don.is_certificate=#{entity.isCertificate}
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and don.state=#{entity.state}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 判断是否当天是否是首次捐赠 -->
+    <select id="isFirstDon" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from don_record don
+        <where>
+            (select curdate() = date_format(don.time ,'%Y-%m-%d'))
+            <include refid="query_where"></include>
+        </where>
+    </select>
+
+    <!-- 根据id查询 -->
+    <select id="getByCustomId" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from don_record don
+        where custom_id = #{customId,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+    </select>
+
+    <!--查询某一个校友捐款总钱数-->
+    <select id="getPerCountMoney" parameterType="com.mpri.aio.donation.model.DonRecord" resultType="java.math.BigDecimal">
+        select SUM(money)  from  don_record where user_id =#{entity.userId} and flag = #{entity.FLAG_NORMAL} and state = #{entity.state}
+    </select>
+
+    <!--查询某一个校友捐款捐款数量-->
+    <select id="getPerCount" parameterType="com.mpri.aio.donation.model.DonRecord" resultType="java.lang.Integer">
+        select  count(1)  from  don_record where user_id =#{entity.userId} and flag = #{entity.FLAG_NORMAL} and state = #{entity.state}
+    </select>
+
+
+    <!--根据项目id查询该项目下的一起捐总钱数-->
+    <select id="getTemCountByProId" parameterType="com.mpri.aio.donation.model.DonRecord" resultType="java.math.BigDecimal">
+        select SUM(money)  from  don_record where don_project_id =#{entity.donProjectId} and together_id is not  null
+          and flag = #{entity.FLAG_NORMAL} and state = #{entity.state,jdbcType=VARCHAR}
+
+    </select>
+
+
+
+    <!--根据项目id查询该项目下的一起捐数量-->
+    <select id="getTemPerCount" parameterType="com.mpri.aio.donation.model.DonRecord" resultType="java.lang.Integer">
+        select  count(1)  from  don_record where don_project_id =#{entity.donProjectId} and together_id is not null
+          and flag = #{entity.FLAG_NORMAL} and state = #{entity.state,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据项目id查询该项目捐款钱数 -->
+    <select id="getCountByProIdForMoney" parameterType="com.mpri.aio.donation.model.DonRecord"
+            resultType="java.math.BigDecimal">
+   	    select
+    		SUM(money)
+    	from don_record
+    	where don_project_id = #{entity.donProjectId,jdbcType=VARCHAR} and flag = #{entity.FLAG_NORMAL} and state = #{entity.state,jdbcType=VARCHAR}
+  	</select>
+
+    <!-- 根据项目id查询 -->
+    <select id="getCountByProId" parameterType="com.mpri.aio.donation.model.DonRecord" resultType="java.lang.Integer">
+   	    select
+    		count(0)
+    	from don_record
+    	where don_project_id = #{entity.donProjectId,jdbcType=VARCHAR} and flag = #{entity.FLAG_NORMAL} and state = #{entity.state,jdbcType=VARCHAR}
+  	</select>
+
+    <!-- 根据id查询 -->
+    <select id="get" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="SchoolMateResultMap">
+        select
+        <include refid="SchoolMate_Column_List"/>
+        from don_record don
+        left join sm_schoolmate sm_s on sm_s.user_id = don.user_id
+        where don.id = #{id,jdbcType=VARCHAR} and don.flag = #{FLAG_NORMAL}
+    </select>
+
+
+    <!-- 分页查询一起捐捐赠记录 -->
+    <select id="loadTeamByPage" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="teamMateResultMap">
+        select distinct
+        <include refid="Team_Column_List"/>
+        from don_record don
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        and together_id is not null order by time desc
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="SchoolMateResultMap">
+        select distinct
+        <include refid="SchoolMate_Column_List"/>
+        from don_record don
+        left join sm_schoolmate sm_s on sm_s.user_id = don.user_id
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by time desc
+    </select>
+
+    <!-- 根据条件查询 捐赠总额         select sum(money) from don_record -->
+    <select id="getMoneySum" parameterType="com.mpri.aio.donation.model.DonRecord" resultType="String">
+   	    select sum(money) from don_record
+    	where sys_user_id = #{sysUserId,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+
+    <!-- 依照条件查询所有对象 -->
+    <select id="loadAllListBy" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="SchoolMateResultMap">
+        select
+        <include refid="SchoolMate_Column_List"/>
+        from don_record don
+        left join sm_schoolmate sm_s on sm_s.user_id = don.user_id
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by create_date DESC
+    </select>
+
+
+    <!-- 网站端校友捐赠记录查询 -->
+    <select id="loadByPageSchool" parameterType="com.mpri.aio.donation.model.DonRecord" resultMap="SchoolMateResultMap">
+        select
+        don.name as don_name,
+        don.money,
+        don.time,
+        don.don_project_id,
+        don.money_type,
+        sm_s.name,
+        sm_e.specialty,
+        sm_e.startdate
+        from don_record don
+        left join sm_schoolmate sm_s on sm_s.user_id = don.user_id
+        left join sm_education sm_e on sm_s.user_id = sm_e.user_id
+        <where>
+            <include refid="query_where"></include>
+            <if test="entity.paramA != null and entity.paramA!='' ">
+                AND sm_e.specialty in (
+                SELECT id FROM setting_department WHERE name like replace (#{entity.paramA},'*','%%')
+                or name like concat('%', #{entity.paramA},'%')
+                )
+            </if>
+            <if test="entity.paramB != null and entity.paramB!='' ">
+                AND sm_e.startdate = #{entity.paramB}
+            </if>
+
+        </where>
+        order by don.create_date DESC
+    </select>
+
+
+    <!-- 删除对象 -->
+    <update id="delete" parameterType="com.mpri.aio.donation.model.DonRecord">
+    	update don_record set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.mpri.aio.donation.model.DonRecord">
+        insert into don_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="donType != null">
+                don_type,
+            </if>
+            <if test="isInvoice != null">
+                is_invoice,
+            </if>
+            <if test="style != null">
+                style,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="isShow != null">
+                is_show,
+            </if>
+            <if test="templateId != null">
+                template_id,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="togetherId != null ">
+                together_id,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="moneyType != null">
+                money_type,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="customId != null">
+                custom_id,
+            </if>
+            <if test="invoiceStatus != null">
+                invoice_status,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="customTemp != null">
+                custom_temp,
+            </if>
+            <if test="invoiceTitle != null">
+                invoice_title,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="donProjectId != null">
+                don_project_id,
+            </if>
+            <if test="isCertificate != null">
+                is_certificate,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="donType != null">
+                #{donType,jdbcType=VARCHAR},
+            </if>
+            <if test="isInvoice != null">
+                #{isInvoice,jdbcType=VARCHAR},
+            </if>
+            <if test="style != null">
+                #{style,jdbcType=VARCHAR},
+            </if>
+
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=VARCHAR},
+            </if>
+            <if test="templateId != null">
+                #{templateId,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="togetherId != null  ">
+                #{togetherId,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="moneyType != null">
+                #{moneyType,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="customId != null">
+                #{customId,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceStatus != null">
+                #{invoiceStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="customTemp != null">
+                #{customTemp,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceTitle != null">
+                #{invoiceTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="donProjectId != null">
+                #{donProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="isCertificate != null">
+                #{isCertificate,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新数据 -->
+    <update id="update" parameterType="com.mpri.aio.donation.model.DonRecord">
+        update don_record
+        <set>
+            <if test="donType != null">
+                don_type = #{donType,jdbcType=VARCHAR},
+            </if>
+            <if test="isInvoice != null">
+                is_invoice = #{isInvoice,jdbcType=VARCHAR},
+            </if>
+            <if test="style != null">
+                style = #{style,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="togetherId != null  ">
+                together_id=#{togetherId,jdbcType=VARCHAR}
+            </if>
+            <if test="isShow != null">
+                is_show = #{isShow,jdbcType=VARCHAR},
+            </if>
+            <if test="templateId != null">
+                template_id = #{templateId,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="moneyType != null">
+                money_type = #{moneyType,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="customId != null">
+                custom_id = #{customId,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceStatus != null">
+                invoice_status = #{invoiceStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="customTemp != null">
+                custom_temp = #{customTemp,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceTitle != null">
+                invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="donProjectId != null">
+                don_project_id = #{donProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="isCertificate != null">
+                is_certificate = #{isCertificate,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <!-- 更新数据 -->
+    <update id="updateBycustomid" parameterType="com.mpri.aio.donation.model.DonRecord">
+        update don_record
+        <set>
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="togetherId != null and togetherId!=''  ">
+                together_id = #{togetherId,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+               id = #{id,jdbcType=VARCHAR}
+             <if test="customId != null and customId!='' ">
+                OR custom_id = #{customId,jdbcType=VARCHAR}
+            </if>
+
+
+        </where>
+    </update>
+</mapper>

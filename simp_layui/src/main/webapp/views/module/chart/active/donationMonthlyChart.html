@@ -1,0 +1,304 @@
+<html>
+    <head>
+        <title>捐赠人数统计（三折线）</title>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+        <script src="../../../../static/js/g2/data-set.min.js"></script>
+        <script src="../../../../static/js/g2/g2.min.js"></script>
+        <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+    </head>
+    <style type="text/css">
+        .childrenBody {
+            height: 88% !important;
+        }
+        .layui-fluid {
+            margin: 1.5rem !important;
+        }
+    </style>
+    <body class="childrenBody">
+        <div class="layui-fluid" style="">
+            <div class="layui-row layui-form layui-col-xs12" style="position: absolute;background: #fff;z-index: 15; ">
+                <div class="magb15 layui-col-md2 layui-col-xs12">
+                    <label class="layui-form-label">校友类型：</label>
+                    <div class="layui-input-block">
+                        <select id="type" lay-filter="sm_type">
+                        </select>
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md3 layui-col-xs12" id="departDiv">
+                    <label class="layui-form-label">院系/专业：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="department" lay-filter="department" class="layui-input">
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md3 layui-col-xs12">
+                    <label class="layui-form-label">月份：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input " id="rangYear" placeholder="yyyy-mm" readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-col-md3 layui-col-xs12">
+                    <label class="layui-form-label">校友会</label>
+                    <div class="layui-input-block">
+                        <select class="layui-form" name='association' id="association">
+                        </select>
+                    </div>
+                </div>
+                <div class="magb15 layui-col-md1 layui-col-xs12">
+                    <a class="layui-btn" lay-submit="" class="layui-btn search_btn" id="search">查询</a>
+                </div>
+            </div>
+            <div class="layui-row" id="xyCount">
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        layui.config({
+            base: "../../../../static/js/"
+        }).extend({
+            "application": "application",
+            "publicUtil": "publicUtil",
+            "treeSelect": "treeSelect",
+            "dateUtils"  : "dateUtils"
+        })
+        layui.use(['layer', 'application', "publicUtil", 'application', 'laydate', 'jquery', 'treeSelect','form','dateUtils'], function() {
+            layer = parent.layer,
+                laydate = layui.laydate,
+                application = layui.application,
+                publicUtil = layui.publicUtil,
+                form = layui.form,
+                dateUtils = layui.dateUtils,
+                treeSelect = layui.treeSelect;
+            $ = layui.jquery;
+
+            // var treeSelect;
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true,
+                    chkStyle: "radio",
+                    radioType: "all"
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "parentId"
+                    }
+                }
+            }
+            var chart = new G2.Chart({
+                container: 'xyCount',
+                forceFit: true,
+                height: window.innerHeight-100,
+                padding: [100, 100, 100, 100]
+            });
+
+            initFormSelect();
+            laydate.render({
+                elem: '#rangYear',
+                theme: 'molv',
+                type: 'month',
+                trigger: 'click',
+                range: true
+            });
+            
+            form.on('select(sm_type)', function(data) {
+                if(data.value != 'STUDENT'&&data.value != 'GRADUATE'&&data.value != ''){
+                    $("#departDiv").css("display","none");
+                    $("#department").val("");
+                }else{
+                    $("#departDiv").css("display","block");
+                }
+            })
+            
+            $("#search").click(function() {
+                var value = $("#rangYear").val();
+                var difference = null;
+                var queryBeginDate = null;
+                var queryEndDate = null;
+                if (null != value && value.length > 0) {
+                    var strs = new Array();
+                    strs = value.split(" - ");
+                    queryBeginDate = strs[0].trim();
+                    queryEndDate = strs[1].trim();
+                    difference = dateUtils.datemonth(queryEndDate,queryBeginDate) + 1;
+                } else {
+                    value = null;
+                    difference = null;
+                }
+                if(difference >12){
+                    layer.msg("只能查询12个月的数据", {icon: 5, shift: 6});
+                    return false;
+                }
+                var department = $("#department").val();
+
+                $.ajax({
+                    url: application.SERVE_URL + "/chart/active/donationMonthlyChart",
+                    data:{
+                            chartStartDate: queryBeginDate,
+                            chartEndDate: queryEndDate,
+                            paramA: difference == null ? 12:difference,
+                            paramB: department,
+                            type: $("#type").val(),
+                            orgId: $("#association").val()
+                        },
+                    success: function(res) {
+                        const ds = new DataSet();
+                        const dv = ds.createView().source(res);
+                        dv.transform({
+                            type: 'fold',
+                            fields: [ '总人数', '男','女' ], // 展开字段集
+                            key: 'city', // key字段
+                            value: 'temperature' // value字段
+                        });
+                        chart.changeData(dv);
+                        chart.repaint();
+                    }
+                })
+            })
+
+            function initFormSelect() {
+                treeSelect.render({
+                    // 选择器
+                    elem: '#department',
+                    // 数据
+                    data: application.SERVE_URL + '/settings/settingDepartment/tree',
+                    type: 'post',
+                    // 占位符
+                    placeholder: '请选院系/专业',
+                    // 是否开启搜索功能：true/false，默认false
+                    search: false,
+                    setting: setting,
+                    // 点击回调
+                    click: function(d) {
+                        document.getElementById("department").value = d.current.id;
+                    },
+                    check: function(d) {
+                        var value = "";
+                        for (var i = 0; i < d.current.length; i++) {
+                            value += d.current[i].id;
+                            if (i < d.current.length - 1) {
+                                value += ","
+                            }
+                        }
+                        document.getElementById("department").value = value;
+                    },
+                    // 加载完成后的回调函数
+                    success: function(d) {
+                        var treeObj = treeSelect.zTree('department');
+                    }
+                })
+            }
+            initBarChart();
+            initAssoSelect("association");
+            //加载校友会下拉列表
+            function initAssoSelect(selectid) {
+                $.ajax({
+                    url: application.SERVE_URL + '/as/asAssociation/loadAllListBy', //ajax请求地址
+                    success: function(res) {
+                        var assocList = res.data;
+                        $("#" + selectid).empty();
+                        $("#" + selectid).append('<option  value="" >' + "请选择" + ' </option>');
+                        for (var i = 0; i < assocList.length; i++) {
+                            $("#" + selectid).append('<option  value="' + assocList[i].id + '">' + assocList[i].name +
+                                '</option>'); //往下拉菜单里添加元素
+                        }
+                        form.render(); //菜单渲染 把内容加载进去
+                    }
+                });
+                //初始化校友类型
+                publicUtil.selectBase(application.SERVE_URL + "/sys/sysdict/getByTypeCode", {
+                    'typeCode': 'SCHOOLEMATE_TYPE'
+                }, "type", true);
+            }
+
+            function initBarChart() {
+                var loadingindex = layer.msg("数据获取中", {
+                    icon: 16,
+                    shade: 0.3,
+                    time: 3000
+                });
+                var value = $("#rangYear").val();
+                var difference = null;
+                var queryBeginDate = null;
+                var queryEndDate = null;
+                if (null != value && value.length > 0) {
+                    var strs = new Array();
+                    strs = value.split(" - ");
+                    queryBeginDate = strs[0].trim();
+                    queryEndDate = strs[1].trim();
+                    difference = dateUtils.datemonth(queryEndDate,queryBeginDate) + 1;
+                } else {
+                    value = null;
+                    difference = null;
+                }
+                if(difference >12){
+                    layer.msg("只能查询12个月的数据", {icon: 5, shift: 6});
+                    return false;
+                }
+                var department = $("#department").val();
+
+                $.ajax({
+                    url: application.SERVE_URL + "/chart/active/donationMonthlyChart",
+                    data:{
+                            chartStartDate: queryBeginDate,
+                            chartEndDate: queryEndDate,
+                            paramA: difference == null ? 12:difference,
+                            paramB: department,
+                            type: $("#type").val(),
+                            orgId: $("#association").val()
+                        },
+                    success: function(data) {
+                        const ds = new DataSet();
+                        const dv = ds.createView().source(data);
+                        dv.transform({
+                            type: 'fold',
+                            fields: [ '总人数', '男','女' ], // 展开字段集
+                            key: 'city', // key字段
+                            value: 'temperature' // value字段
+                        });
+                        console.log(dv);
+                        chart.source(dv, {
+                            month: {
+                                range: [ 0, 1 ]
+                            }
+                        });
+
+                        chart.tooltip({
+                            crosshairs: {
+                                type: 'line'
+                            }
+                        });
+                        chart.axis('temperature', {
+                            label: {
+                                formatter: val => {
+                                    return val ;
+                                }
+                            }
+                        });
+                        chart
+                            .line()
+                            .position('date*temperature')
+                            .color('city')
+                            .shape('smooth');
+                        chart
+                            .point()
+                            .position('date*temperature')
+                            .color('city')
+                            .size(4)
+                            .shape('circle')
+                            .style({
+                                stroke: '#fff',
+                                lineWidth: 1
+                            });
+                        chart.render();
+                        layer.close(loadingindex);
+                    }
+                })
+            }
+        });
+    </script>
+</html>

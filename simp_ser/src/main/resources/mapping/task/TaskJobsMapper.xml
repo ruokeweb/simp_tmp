@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.untils.task.mapper.TaskJobsMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.untils.task.model.TaskJobs">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="job_group" jdbcType="VARCHAR" property="jobGroup" />
+			<result column="job_name" jdbcType="VARCHAR" property="jobName" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="class_name" jdbcType="VARCHAR" property="className" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="cron_excute" jdbcType="VARCHAR" property="cronExcute" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, job_group, job_name, remark, class_name, status, create_date, cron_excute, flag
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.jobGroup != null and entity.jobGroup!='' ">
+        		and job_group=#{entity.jobGroup}
+      		</if>	      	
+			<if test="entity.jobName != null and entity.jobName!='' ">
+				and job_name like   replace (#{entity.jobName},'*','%%')
+				or job_name like concat('%', #{entity.jobName},'%')
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.className != null and entity.className!='' ">
+        		and class_name=#{entity.className}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.cronExcute != null and entity.cronExcute!='' ">
+        		and cron_excute=#{entity.cronExcute}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.untils.task.model.TaskJobs" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from task_jobs
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.untils.task.model.TaskJobs" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from task_jobs 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date DESC
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.untils.task.model.TaskJobs" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from task_jobs 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.untils.task.model.TaskJobs">
+    	update task_jobs set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.untils.task.model.TaskJobs">
+		insert into task_jobs
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="jobGroup != null">
+	    		job_group,
+	  		</if>   			
+	   		<if test="jobName != null">
+	    		job_name,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="className != null">
+	    		class_name,
+	  		</if>   			
+	   		<if test="status != null">
+	    		status,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="cronExcute != null">
+	    		cron_excute,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="jobGroup != null">
+	   			#{jobGroup,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="jobName != null">
+	   			#{jobName,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="className != null">
+	   			#{className,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="cronExcute != null">
+	   			#{cronExcute,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.untils.task.model.TaskJobs">
+    	update task_jobs
+    	<set>
+			<if test="jobGroup != null">
+	   			job_group = #{jobGroup,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="jobName != null">
+	   			job_name = #{jobName,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="className != null">
+	   			class_name = #{className,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="cronExcute != null">
+	   			cron_excute = #{cronExcute,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

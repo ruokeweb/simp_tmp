@@ -1,0 +1,625 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*    text {
+        font-size: 35upx;
+        color: #333;
+    } */
+.action-row-center {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.4);
+        height: 98%;
+        line-height: 60rpx;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        font-size: 24rpx;
+}
+.action-row-right {
+        color: #007aff;
+        padding-top: 20rpx;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+            -ms-flex-pack: end;
+                justify-content: flex-end;
+}
+.content {
+        background-color: #F2F2F2;
+        /* padding-bottom: 40upx; */
+}
+.content_view {
+        background-color: #FFFFFF;
+        margin-top: 20rpx;
+        margin-bottom: 20rpx;
+        padding-left: 20rpx;
+        padding-right: 20rpx;
+}
+.content_view_item {
+        height: 80rpx;
+        line-height: 80rpx;
+        border-bottom: 1rpx solid #e6e6e6;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+        padding: 10rpx 20rpx;
+}
+.content_view_item:last-child {
+        border: none;
+}
+.text_reg {
+        /* width: 15%; */
+        /* width: 15%; */
+        font-size: $uni-font-size-base;
+        display: inline-block;
+        color: #333;
+        /* // padding-left: 20upx; */
+        position: relative;
+}
+.input_reg {
+        width: 60% !important;
+/*        float: right;
+        margin-top: 18upx;
+        text-align: right;
+        margin-right: 20upx; */
+        float: right;
+        text-align: right;
+}
+.btn-verify {
+        width: 174rpx;
+        height: 64rpx;
+        line-height: 64rpx;
+        background-color: #e2b352 !important;
+        font-size: 26rpx;
+        color: #fff;
+        padding: 0;
+        display: inline-block;
+        position: absolute;
+        top: 18rpx;
+        right: 25rpx;
+        z-index: 1000;
+}
+.switch {
+        float: right;
+        padding-top: 10rpx;
+}
+.primary {
+        width: 90%;
+        padding-bottom: 20rpx;
+}
+.uni-input {
+        text-align: right;
+        /* color: #cccccc; */
+        position: relative;
+        /* bottom: 10rpx; */
+        padding-right: 0;
+}
+.ring {
+        width: 27rpx;
+        height: 32rpx;
+        position: relative;
+        top: 12rpx;
+        right: 16rpx;
+}
+.primary btn_dark bottom-but {
+        position: absolute;
+        bottom: 1rpx;
+}
+.btn_white {
+        margin-top: 20rpx;
+}
+.placeholderStyle{color: #ccc;}
+

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.index.mapper.IndexMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.app.index.vo.IndexInfoVo">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<association property="indexEduVo" javaType="com.mpri.aio.app.index.vo.IndexEduVo" column="user_id" select="selectEdu"/>
+	</resultMap>
+	<resultMap id="EduResultMap" type="com.mpri.aio.app.index.vo.IndexEduVo" >
+		<result column="series" jdbcType="VARCHAR" property="series" />
+		<result column="specialty" jdbcType="VARCHAR" property="specialty" />
+		<result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+	</resultMap>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.complete != null and entity.complete!='' ">
+        		and complete=#{entity.complete}
+      		</if>	      	
+			<if test="entity.markIds != null and entity.markIds!='' ">
+        		and mark_ids=#{entity.markIds}
+      		</if>	      	
+			<if test="entity.posLat != null and entity.posLat!='' ">
+        		and pos_lat=#{entity.posLat}
+      		</if>	      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.marks != null and entity.marks!='' ">
+        		and marks=#{entity.marks}
+      		</if>	      	
+			<if test="entity.posLong != null and entity.posLong!='' ">
+        		and pos_long=#{entity.posLong}
+      		</if>	      	
+			<if test="entity.donFee != null and entity.donFee!='' ">
+        		and don_fee=#{entity.donFee}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and (name like   replace (#{entity.name},'*','%%') 
+	           		or name like concat('%', #{entity.name},'%')
+	           		or pinyin = #{entity.name})
+	       	</if>		
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.birthday != null">
+        		and date_format(birthday ,'%Y-%m-%d')= (select DATE_FORMAT(#{entity.birthday},'%Y-%m-%d'))
+      		</if>	      	
+			<if test="entity.egName != null and entity.egName!='' ">
+        		and eg_name=#{entity.egName}
+      		</if>	      	
+			<if test="entity.nation != null and entity.nation!='' ">
+        		and nation=#{entity.nation}
+      		</if>	      	
+			<if test="entity.sex != null and entity.sex!='' ">
+        		and sex=#{entity.sex}
+      		</if>	      	
+			<if test="entity.cardId != null and entity.cardId!='' ">
+        		and card_id=#{entity.cardId}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.openid != null and entity.openid!='' ">
+        		and openid=#{entity.openid}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.cardNum != null and entity.cardNum!='' ">
+        		and card_num=#{entity.cardNum}
+      		</if>	      	
+			<if test="entity.pinyin != null and entity.pinyin!='' ">
+        		and pinyin=#{entity.pinyin}
+      		</if>	      	
+			<if test="entity.truePhoto != null and entity.truePhoto!='' ">
+        		and true_photo=#{entity.truePhoto}
+      		</if>	      	
+			<if test="entity.cardStatus != null and entity.cardStatus!='' ">
+        		and card_status=#{entity.cardStatus}
+      		</if>	      	
+			<if test="entity.isShow != null and entity.isShow!='' ">
+        		and is_show=#{entity.isShow}
+      		</if>	      	
+			<if test="entity.point != null and entity.point!='' ">
+        		and point=#{entity.point}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.cardType != null and entity.cardType!='' ">
+        		and card_type=#{entity.cardType}
+      		</if>	      	
+			<if test="entity.level != null and entity.level!='' ">
+        		and level=#{entity.level}
+      		</if>	      	
+			<if test="entity.posCity != null and entity.posCity!='' ">
+        		and pos_city=#{entity.posCity}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>      	
+		</if>
+	</sql>
+
+
+
+
+
+
+	<select id="getCollarCardNum" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultType="java.lang.Integer">
+		select
+		count(0)
+		from sm_schoolmate
+		<where>
+			<include refid="query_where"></include>
+		</where>
+	</select>
+
+	<select id="getCollarCardList" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="BaseResultMap">
+	 select  id ,name , user_id from sm_schoolmate
+		<where>
+			<include refid="query_where"></include>
+		</where>
+		ORDER BY create_date desc LIMIT #{pageSize,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectEdu" resultMap="EduResultMap">
+		select startdate ,series,specialty from sm_education  where user_id = #{user_id ,jdbcType=VARCHAR} order  by create_date desc limit 1
+	</select>
+
+</mapper>

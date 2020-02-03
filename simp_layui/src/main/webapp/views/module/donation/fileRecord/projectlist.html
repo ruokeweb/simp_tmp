@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>捐赠项目</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+</head>
+<body class="childrenBody">
+<div class="layui-fluid">
+	
+	<blockquote class="layui-elem-quote ">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input searchVal" placeholder="请输入搜索的项目名称" />
+				</div>
+				<a class="layui-btn search_btn" data-type="reload">搜索</a>
+			</div>
+            <a style="margin-left: 65%;"  class="layui-btn"  id="fileRecord" name="fileRecord" lay-filter="fileRecord">确认归档</a>
+		</form>
+	</blockquote>
+	<table id="projectList" lay-filter="projectList"></table>
+
+</div>
+	<script type="text/javascript" src="../../../../static/js/modules/donation/fileRecord/projectlist.js"></script>
+</body>
+</html>

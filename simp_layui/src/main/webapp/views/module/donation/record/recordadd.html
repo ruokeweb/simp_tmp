@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>捐赠项目管理</title>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+</head>
+
+<body class="childrenBody">
+<form class="layui-form" style="width:100%;">
+    <div class="layui-col-md12 layui-col-xs12" style="margin-top: 20px">
+        <input type="hidden" class="layui-input id" name='id' id="recordid">
+        <input type="hidden" class="layui-input id" name='state' id="state">
+        <div class="magb15 layui-row">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">捐赠人<span class="span-required">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input name" name='name' id="name" lay-verify="required"
+                           placeholder="请输入捐赠人名称(最大长度64位)" maxlength="64">
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">捐赠金额<span class="span-required">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input money" id="money" name='money' lay-verify="required"
+                           lay-verify="required|validateMoney" placeholder="请输入目标金额(元)(最大长度8位)" maxlength="8">
+                </div>
+            </div>
+        </div>
+        <div class="magb15 layui-row">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">联系电话<span class="span-required">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input phone" id="phone" name='phone'
+                           lay-verify="required|phone" placeholder="请输入联系电话" maxlength="64"
+                           maxlength="64">
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">联系邮箱<span class="span-required">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input email" name='email' id="email"
+                           lay-verify="required|email" placeholder="请输入联系邮箱(最大长度128位)" maxlength="128">
+                </div>
+            </div>
+        </div>
+        <div class="magb15 layui-row" style="display: none;">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">捐赠类型</label>
+                <div class="layui-input-block">
+                    <select class="layui-form" name='donType' id='donType' lay-filter="donType" >
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">币种</label>
+                <div class="layui-input-block">
+                    <select id='moneyType' name="moneyType">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="magb15 layui-row">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">捐赠物</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input donationName" id="donationName"
+                           placeholder="请输入捐赠物(最大长度64位)"
+                           name='goodsName' maxlength="64">
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">捐赠时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input time" id="time" name='time' placeholder="yyyy-MM-dd"
+                           readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="magb15 layui-row">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">是否要证书</label>
+                <div class="layui-input-block">
+                    <select class="layui-form" name='isCertificate' id='isCertificate' lay-filter="isCertificate">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">是否要发票</label>
+                <div class="layui-input-block">
+                    <select class="layui-form" name='isInvoice' id='isInvoice' lay-filter="isInvoice">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="magb15 layui-row">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">支付方式</label>
+                <div class="layui-input-block">
+                    <select class="style" name='style' id='style' lay-filter="style">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">是否要宣传</label>
+                <div class="layui-input-block">
+                    <select class="layui-form" name='isShow' id='isShow' lay-filter="isShow">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="magb15 layui-row">
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">发票抬头</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input invoiceTitle" id="invoiceTitle" name='invoiceTitle'
+                           placeholder="请输入发票抬头" maxlength="64"
+                           maxlength="64">
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-xs12">
+                <label class="layui-form-label">发票地址</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input address" id="address" name='address' placeholder="请输入发票地址"
+                           maxlength="64"
+                           maxlength="64">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addRecord">确认</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+            <button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+        </div>
+    </div>
+</form>
+
+</body>
+<script type="text/javascript" src="../../../../static/js/modules/donation/record/recordadd.js"></script>
+</html>

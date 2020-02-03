@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>校友企业校友管理管理</title>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+		<script type="text/javascript" src="../../../../static/js/modules/enterprise/schoolmate/schoolmateadd.js"></script>
+		<style>
+			.ck-content {
+			min-height: 300px;
+		}
+	</style>
+	</head>
+
+	<body class="childrenBody">
+		<form class="layui-form" style="width:90%;margin-top:15px;">
+			<input type="hidden" class="layui-input id" name='id' id='intentionid'>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-col-md12 layui-col-xs12">
+					<div class="layui-form-item layui-row  layui-col-xs12">
+						<!-- <div class="magb15 layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">校友企业名称</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input enter_id" name='enter_id' id="enter_id" lay-verify="required" placeholder="请输入校友企业名称(最大长度64位)"
+								 maxlength="64">
+								 <input type="text" class="layui-input enter_name" name='enter_name' id="enter_name" lay-verify="required" placeholder="请输入校友企业名称(最大长度64位)"
+								  maxlength="64">
+							</div>
+						</div> -->
+						<div class="magb15 layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">标题<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input title" id="title" name='title' lay-verify="required"  placeholder="请输入所属行业(最大长度64位)"
+								 maxlength="64">
+							</div>
+						</div>
+						<div class="magb15 layui-col-md6 layui-col-xs12">
+							<label class="layui-form-label">姓名<span class="span-required">*</span></label>
+							<div class="layui-input-block">
+								<input type="text"  style="display: none;"  class="layui-input user_id" id="user_id" name='user_id' placeholder="请输入联系姓名(最大长度64位)" maxlength="64">
+								<input type="text" class="layui-input user_name"  lay-verify="required" id="user_name" name='user_name' placeholder="请选择校友" maxlength="64">
+							</div>
+							<!-- <div class="layui-input-block">
+								<input type="button" class="layui-input user_add" id="user_add" name='user_add'>
+							</div> -->
+						</div>
+						
+					</div>
+
+				<div class="layui-form-item layui-row layui-col-xs12">
+					<label class="layui-form-label">意向内容<span class="span-required">*</span></label>
+					<div class="layui-input-block">
+						<textarea namen="content" id="content" class="ck-content" lay-verify="content" lay-verify="required">
+						</textarea>
+					</div>
+				</div>
+
+				
+				</div>
+			</div>
+
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addIntention">确认</button>
+					<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+					<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+				</div>
+			</div>
+		</form>
+
+	</body>
+
+</html>

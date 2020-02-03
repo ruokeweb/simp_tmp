@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "信息确认",
+  "usingComponents": {
+    "multiple-linkage": "/components/multipleLlinkage/multiple-linkage"
+  }
+}

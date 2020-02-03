@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>校友管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+		<script>
+			layui.config({
+				base: "../../../../static/js/"
+			}).extend({
+				"application": "application",
+				"publicUtil": "publicUtil"
+			})
+			layui.use(['form', 'layer', 'jquery', 'application', 'publicUtil'], function() {
+				var layer = layui.layer,
+					form = layui.form,
+					$ = layui.jquery,
+					publicUtil = layui.publicUtil,
+					application = layui.application;
+
+				form.render();
+				creatRadio(application.SERVE_URL + "/sys/sysdict/getByTypeCode", {
+					"typeCode": "CARD_STATUS"
+				}, $("#cardstatus"),parent.formdatas.cardStatus);
+
+
+				//submit(addUser)  绑定提交按钮（基本信息）
+				form.on("submit(updatestatus)", function(data) {
+					//弹出loading
+					var index = top.layer.msg('数据提交中，请稍候', {
+						icon: 16,
+						time: false,
+						shade: 0.8
+					});
+					$.ajax({
+						url: application.SERVE_URL + '/sm/smSchoolmate/updateCardStatus', //ajax请求地址
+						data: {
+							id: parent.formdatas.id,
+							cardStatus: $("input[name='card']:checked").val()
+						},
+						success: function(data) {
+							top.layer.close(index);
+							top.layer.close(data.msg);
+							top.layer.msg("校友卡状态修改成功");
+							parent.location.reload();
+						}
+					});
+
+					return false;
+				})
+
+
+
+				//生成redio
+				function creatRadio(url, data, dom, val) {
+					$.ajax({
+						url: url,
+						data: data,
+						type: "post",
+						success: function(res) {
+							var d = res.data;
+							dom.empty();
+							for (var i = 0; i < d.length; i++) {
+								if (val == d[i].value) {
+									dom.append("<input name='card' value='" + d[i].value + "' title='" + d[i].label +
+										"'checked=''  type='radio'>"); //往下拉菜单里添加元
+									form.render();
+								} else {
+									dom.append("<input name='card' value='" + d[i].value + "' title='" + d[i].label + "'  type='radio'>"); //往下拉菜单里添加元素	
+									form.render();
+								}
+							}
+							
+						}
+					})				
+				}
+
+				$("#close").click(function() {
+					parent.layer.closeAll("iframe");
+					//刷新父页面
+					// parent.location.reload();
+				})
+			});
+		</script>
+	</head>
+	</head>
+	<body class="childrenBody ">
+		<form class="layui-form" style="width:98%;">
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-input-block" id="cardstatus">
+
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-input-block" style="position:fixed;top:80%;width:100%;margin-left:-12px;background:#f8f8f8;text-align:center;">
+					<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="updatestatus">确认</button>
+					<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

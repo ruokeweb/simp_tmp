@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "邀请认证",
+  "usingComponents": {
+    "multiple-linkage": "/components/multipleLlinkage/multiple-linkage"
+  }
+}

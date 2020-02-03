@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.enterprise.mapper.EntSchoolmateMapper">
+
+    <!-- 基础返回值定义 -->
+    <resultMap id="BaseResultMap" type="com.mpri.aio.enterprise.model.EntSchoolmate">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="department" jdbcType="VARCHAR" property="department"/>
+        <result column="enter_id" jdbcType="VARCHAR" property="enterId"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <association property="smSchoolmate" column="user_id" select="getSchoolmate"/>
+    </resultMap>
+
+    <resultMap id="SchoolBaseResultMap" type="com.mpri.aio.enterprise.model.EntSchoolmate">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="department" jdbcType="VARCHAR" property="department"/>
+        <result column="enter_id" jdbcType="VARCHAR" property="enterId"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <!-- <association property="smSchoolmate" column="user_id" select="getSchoolmate"/> -->
+        <collection property="smSchoolmate" javaType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+            <result column="amid" jdbcType="INTEGER" property="id"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="SchoolmateMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <select id="getSchoolmate" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="SchoolmateMap">
+           select  id,name  from  sm_schoolmate where user_id =#{userId}
+    </select>
+
+    <!-- 基础字段定义 -->
+    <sql id="Base_Column_List">
+    	create_date, department, enter_id, flag, id, position, remark, user_id
+
+	</sql>
+
+
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="entity!=null">
+            <if test="entity.createDate != null and entity.createDate!='' ">
+                and create_date=#{entity.createDate}
+            </if>
+            <if test="entity.department != null and entity.department!='' ">
+                and department=#{entity.department}
+            </if>
+            <if test="entity.enterId != null and entity.enterId!='' ">
+                and enter_id=#{entity.enterId}
+            </if>
+            <if test="entity.flag != null and entity.flag!='' ">
+                and flag= #{entity.FLAG_NORMAL}
+            </if>
+            <if test="entity.id != null and entity.id!='' ">
+                and id=#{entity.id}
+            </if>
+            <if test="entity.position != null and entity.position!='' ">
+                and position=#{entity.position}
+            </if>
+            <if test="entity.remark != null and entity.remark!='' ">
+                and remark=#{entity.remark}
+            </if>
+            <if test="entity.userId != null and entity.userId!='' ">
+                and user_id=#{entity.userId}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="get" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ent_schoolmate
+        where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ent_schoolmate
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by create_date DESC
+    </select>
+
+    <!-- 依照条件查询所有对象 -->
+    <select id="loadAllListBy" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ent_schoolmate
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by create_date DESC
+    </select>
+
+    <!-- 依照条件查询所有对象 -->
+    <select id="loadByPageSchool" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate" resultMap="SchoolBaseResultMap">
+        <!--select-->
+        <!--<include refid="Base_Column_List"/>-->
+        <!--from ent_schoolmate-->
+        <!--<where>-->
+            <!--<include refid="query_where"></include>-->
+        <!--</where>-->
+        <!--order by create_date DESC-->
+
+
+        SELECT DISTINCT
+        sm_s.name,sm_s.id AS amid,ent.create_date, ent.department, ent.enter_id, ent.flag, ent.id, ent.position, ent.remark, ent.user_id
+        FROM
+        ent_schoolmate  ent
+        LEFT JOIN sm_schoolmate sm_s ON ent.user_id = sm_s.user_id
+        <if test="entity.flag!=null and entity.flag !='' ">
+            AND ent.flag=#{entity.flag}
+        </if>
+
+        <where>
+            <!--<include refid="query_where"></include>-->
+
+            <if test="entity.enterId!=null and entity.enterId !='' ">
+                AND ent.enter_id=#{entity.enterId}
+            </if>
+            <if test="entity.paramA!=null and entity.paramA !='' ">
+                AND (sm_s.name like   replace (#{entity.paramA},'*','%%')
+                OR sm_s.name like concat('%', #{entity.paramA},'%'))
+            </if>
+
+        </where>
+        ORDER BY ent.create_date DESC
+
+    </select>
+
+    <!-- 删除对象 -->
+    <update id="delete" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate">
+    	update ent_schoolmate set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate">
+        insert into ent_schoolmate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="department != null">
+                department,
+            </if>
+            <if test="enterId != null">
+                enter_id,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="department != null">
+                #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="enterId != null">
+                #{enterId,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新数据 -->
+    <update id="update" parameterType="com.mpri.aio.enterprise.model.EntSchoolmate">
+        update ent_schoolmate
+        <set>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="department != null">
+                department = #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="enterId != null">
+                enter_id = #{enterId,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                position = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

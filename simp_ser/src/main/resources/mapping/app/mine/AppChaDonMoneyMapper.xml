@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppChaDonMoneyMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.app.mine.vo.AppChaDonMoneyVo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="year" jdbcType="VARCHAR" property="year" />
+		<result column="month" jdbcType="VARCHAR" property="month" />
+		<result column="don_money" jdbcType="DECIMAL" property="donMoney" />
+		<result column="ranking" jdbcType="INTEGER" property="ranking" />
+		<association property="smSchoolmate" column="user_id" select="getSchoolmate"></association>
+	</resultMap>
+
+	<resultMap id="schoolmateMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="truePhoto" jdbcType="VARCHAR" property="true_photo" />
+	</resultMap>
+
+	<select id="getSchoolmate" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="schoolmateMap">
+		select name,sex,true_photo from sm_schoolmate where user_id = #{entity.userId} 
+		<!-- and flag = 'NORMAL' -->
+	</select>
+
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, user_id, year, month, don_money
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.year != null and entity.year!='' ">
+        		and year=#{entity.year}
+      		</if>	      	
+			<if test="entity.month != null and entity.month!='' ">
+        		and month=#{entity.month}
+      		</if>	      	
+			<if test="entity.donMoney != null and entity.donMoney!='' ">
+        		and don_money=#{entity.donMoney}
+      		</if>	      	
+		</if>
+	</sql>
+	
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.app.mine.vo.AppChaDonMoneyVo" resultMap="BaseResultMap" >
+		select  a.user_id, a.moneyNum as don_money,a.rowNum as ranking from (
+			SELECT
+				@rowNum := @rowNum + 1 AS rowNum,
+				donMoney.user_id,
+				donMoney.moneyNum
+				FROM
+				(
+					SELECT sum(don_money) as  moneyNum, user_id FROM cha_don_money
+					where id !=""
+					<if test="entity.year != null and entity.year!=''">
+						and year = #{entity.year}
+					</if>
+					<if test="entity.month != null and entity.month!='' ">
+						and month = #{entity.month}
+					</if>
+					GROUP BY user_id  ORDER BY moneyNum DESC
+				) donMoney,
+				( SELECT @rowNum := 0 ) c
+		) a
+
+  	</select>
+
+	<!-- 查询当前校友前后N个排序  -->
+	<select id="getDonMoneyRanking" parameterType="com.mpri.aio.app.mine.vo.AppChaDonMoneyVo" resultMap="BaseResultMap" >
+		select a.user_id,a.moneyNum as don_money,a.rowNum as ranking from (
+				SELECT
+				@rowNum := @rowNum + 1 AS rowNum,
+				donMoney.user_id,
+				donMoney.moneyNum
+			FROM
+				( SELECT sum(don_money) as  moneyNum,user_id FROM cha_don_money
+					where id !=""
+					<if test="entity.year != null and entity.year!=''">
+						and year = #{entity.year}
+					</if>
+					<if test="entity.month != null and entity.month!='' ">
+						and month = #{entity.month}
+					</if>
+					GROUP BY user_id  ORDER BY moneyNum DESC
+				) donMoney,
+				( SELECT @rowNum := 0 ) c
+		) a
+		<if test="entity.max != null and entity.max!='' and entity.min != null and entity.min!='' ">
+			where a.rowNum BETWEEN #{entity.min} AND #{entity.max}
+		</if>
+
+	</select>
+
+	<!-- 查询当前校友的坐标  -->
+	<select id="getRanking" parameterType="com.mpri.aio.app.mine.vo.AppChaDonMoneyVo" resultType="java.lang.Integer"  >
+		select a.rowNum from (
+			SELECT
+			@rowNum := @rowNum + 1 AS rowNum,
+		donMoney.user_id
+			FROM
+			(
+				SELECT user_id,sum(don_money) as moneyNum FROM cha_don_money
+				where id !=""
+				<if test="entity.year != null and entity.year!=''">
+					and year = #{entity.year}
+				</if>
+				<if test="entity.month != null and entity.month!='' ">
+					and month = #{entity.month}
+				</if>
+				GROUP BY user_id  ORDER BY moneyNum DESC
+			) donMoney,
+			( SELECT @rowNum := 0 ) c
+		)a
+
+		<if test="entity.userId != null and entity.userId!=''  ">
+			WHERE	a.user_id = #{entity.userId}
+		</if>
+	</select>
+
+	<!-- 查询一个有多少个捐赠  -->
+	<select id="getMaxRanking" parameterType="com.mpri.aio.app.mine.vo.AppChaDonMoneyVo" resultType="java.lang.Integer"  >
+		select max(a.rowNum) from (
+		SELECT
+		@rowNum := @rowNum + 1 AS rowNum,
+		donMoney.user_id
+		FROM
+		(
+			SELECT  user_id,sum(don_money) as moneyNum  FROM cha_don_money
+			where id !=""
+			<if test="entity.year != null and entity.year!=''">
+				and year = #{entity.year}
+			</if>
+			<if test="entity.month != null and entity.month!='' ">
+				and month = #{entity.month}
+			</if>
+			GROUP BY user_id  ORDER BY moneyNum DESC
+		) donMoney,
+		( SELECT @rowNum := 0 ) c
+	)a
+	</select>
+</mapper>

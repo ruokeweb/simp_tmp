@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html style="height: 98%;">
+	<head>
+		<meta charset="utf-8">
+		<title>校友管理</title>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+		<script type="text/javascript">
+            var layer;
+            var tableIns;
+            layui.config({
+                base : "../../../../static/js/"
+            }).extend({
+                "application" : "application",
+                "publicUtil" : "publicUtil",
+                "dateUtils"  : "dateUtils"
+            })
+            layui.use(['table','layer','application','jquery','publicUtil','application','dateUtils'],function(){
+                layer = parent.layer,
+                    application = layui.application,
+                    publicUtil  = layui.publicUtil,
+                    dateUtils = layui.dateUtils,
+                    table = layui.table,
+                    _$ = layui.jquery;
+                /**
+                 * 校友管理列表
+                 */
+                tableIns = table.render({	
+                    elem: '#smList',
+                    url : application.SERVE_URL+'/sm/smSchoolmate/listByName',
+                    where : {
+                        smSchoolmate :{
+                            name: _$("#name").val() == "" ? null : _$("#name").val(),
+                        }
+                    },
+                    //生产坏境下请求后台
+                    cellMinWidth : 95,
+                    page : true,
+                    even : true ,
+                    headers : { 'Authorization' : application.HEADER},
+                    contentType : "application/json",
+                    height : "full-260",
+                    limit : 10,
+                    id : "smList",
+                    cols : [[
+                        //姓名、性别、证件类型、证件号码、入校日期、专业、班级、校友类型、申请日期、状态、操作
+                        // {field: 'id', title: 'ID', align:"center"},
+                        {type:'radio'},
+                        {field: 'name', title: '姓名'},
+                        {field: 'sex', title: '性别'},
+                        {
+                            field: 'birthday',
+                            title: '出生年月',
+                            width: 120
+                            
+                        },
+                        {
+                            field: 'startdate',
+                            title: '入学日期',
+                            templet: function(d) {
+                                var res = d.smEducation;
+                                var htm = "";
+                                if (null != res && null != res && null != res.startdate && res.startdate !=0) {
+                                    htm = "<span>" + res.startdate + "</span>";
+                                }
+                                return htm;
+                            },
+                            width: 120
+                        },
+                        {
+                            field: 'eduRecord',
+                            title: '学历',
+                            templet: function(d) {
+                                var res = d.smEducation;
+                                var htm = "";
+                                if (null != res && null != res && null != res.eduRecord && res.eduRecord.length !=0) {
+                                    htm = res.eduRecord;
+                                }
+                                return htm;
+                            },
+                            width: 160
+                        },
+                        {
+                            field: 'college',
+                            title: '学院',
+                            templet: function(d) {
+                                var res = d.smEducation;
+                                var htm = "";
+                                if (null != res && null != res && null != res.college && res.college.length !=0) {
+                                    var collegeValue = publicUtil.getObjFromStorageById(
+                                        "departBaseCache", res.college);
+                                    htm = "<span>" + collegeValue + "</span>";
+                                }
+                                return htm;
+                            },
+                            width: 160
+                        },
+                        {
+                            field: 'specialty',
+                            title: '专业',
+                            templet: function(d) {
+                                var res = d.smEducation;
+                                var htm = "";
+                                if (null != res && null != res && null != res.specialty && res.specialty.length !=0) {
+                                    var specialtyValue = publicUtil.getObjFromStorageById(
+                                        "departBaseCache", res.specialty);
+                                    htm = "<span>" + specialtyValue + "</span>";
+                                }
+                                return htm;
+                            },
+                            width: 160
+                        },
+                        {
+                            field: 'workplace',
+                            title: '工作单位',
+                            templet: function(d) {
+                                var res = d.smProfession;
+                                var htm = "";
+                                if (null != res && null != res && null != res.workplace) {
+
+                                    htm = "<span>" + res.workplace + "</span>";
+                                }
+                                return htm;
+                            },
+                            width: 160
+                        },
+                        {
+                            field: 'marks',
+                            title: '标签',
+                            templet: function(d) {
+                                var res = d.marks;
+                                var htm = "";
+                                if (res != null && res != "") {
+                                    var data = res.split(",");
+                                    var htm = "";
+                                    for (var i = 0; i < data.length; i++) {
+                                        if (data[i] != "校友标签") {
+                                            htm = htm +
+                                                "<span class='layui-badge-rim layui-bg-blue'>" +
+                                                data[i] + "</span>";
+                                        }
+                                    }
+                                }
+                                return htm;
+                            }
+                        },
+                    ]]
+                    ,done: function(res, curr, count){    //res 接口返回的信息,,
+                        publicUtil.tableSetStr(application.SERVE_URL+"/sys/sysdict/getByTypeCode", {'typeCode' : 'EDU_RECORD'},'eduRecord');
+                        publicUtil.tableSetStr(application.SERVE_URL+"/sys/sysdict/getByTypeCode", {'typeCode' : 'SEX'},'sex');
+                        publicUtil.tableSetStr(application.SERVE_URL+"/sys/sysdict/getByTypeCode", {'typeCode' : 'SCHOOLEMATE_TYPE'},'type');
+                        publicUtil.tableSetStr(application.SERVE_URL+"/sys/sysdict/getByTypeCode", {'typeCode' : 'NATION'},'nation');
+                    }
+                });
+
+                _$(".search_btn").on("click", function() {
+                    table.reload("smList", {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        },
+                        where: {
+                            smSchoolmate :{
+                                name: _$(".searchVal").val() == "" ? null : _$(".searchVal").val(),
+                            }
+                        }
+                    })
+                });
+
+
+                //选择校友确认操作
+                _$(document).on('click', '.selectSchoolmate', function(data) {
+                    // console.log(data);
+                    var data = table.checkStatus('smList').data;
+                    var flag = publicUtil.jurgeSelectRows(table.checkStatus('smList').data);
+                    // 多个
+                    //	var flag = data.length >0;    //
+                    if (flag) {
+                        // addSchoolmate(table.checkStatus('smList').data[0]);
+                        // layui.close(parent.topIndex);
+                        _$(window.parent.document).find(".receiveUserId").val(data[0].userId);
+                        _$(window.parent.document).find(".receiveUserName").val(data[0].name);
+                        var index=parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                       // publicUtil.setAcrossName(data,".userId",".username");
+
+
+                    } else {
+                        top.layer.msg("请先选择要添加的校友！");
+                        // return false;
+                    }
+
+                });
+
+            });
+
+
+		</script>
+	</head>
+	<body class="childrenBody" >
+
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space11">
+			<div class="layui-col-md12 layui-row">
+				<fieldset id="ente_div" class="layui-elem-field">
+					<legend>校友列表</legend>
+					<div class="layui-field-box">
+
+						<div class="layui-col-md12 layui-col-space1">
+							<blockquote class="layui-elem-quote quoteBox">
+								<div class="layui-inline">
+									<div class="layui-input-inline">
+										<input type="text" class="layui-input searchVal" placeholder="请输入校友名字" />
+									</div>
+									<a class="layui-btn search_btn" data-type="reload">搜索</a>
+								</div>
+							</blockquote>
+							<div layui-inline class="layui-but-per">
+								<div class="layui-btn-group" id="but_per"></div>
+							</div>
+							<table id="smList" lay-filter="smList"></table>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="layui-form-item  layui-col-xs12">
+				<button class="layui-btn layui-btn-sm selectSchoolmate" lay-submit="" id="selectSchoolmate" name='selectSchoolmate' lay-filter="selectSchoolmate" style="float :right ;">确认</button>
+			</div>			
+		</div>
+	</div>
+
+	</body>
+</html>

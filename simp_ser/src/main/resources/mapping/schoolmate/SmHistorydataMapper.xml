@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.SmHistorydataMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmHistorydata">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="join_date" jdbcType="TIMESTAMP" property="joinDate" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="native_adress" jdbcType="VARCHAR" property="nativeAdress" />
+			<result column="other_degree" jdbcType="VARCHAR" property="otherDegree" />
+			<result column="before_school_unit" jdbcType="VARCHAR" property="beforeSchoolunit" />
+			<result column="other_school" jdbcType="VARCHAR" property="otherSchool" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="other_specialty" jdbcType="VARCHAR" property="otherSpecialty" />
+			<result column="degree_date" jdbcType="TIMESTAMP" property="degreeDate" />
+			<result column="person_love" jdbcType="VARCHAR" property="personLove" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="trust_unit" jdbcType="VARCHAR" property="trustUnit" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, join_date, user_id, native_adress, other_degree, before_school_unit, other_school, create_date, other_specialty, degree_date, person_love, flag, remark, trust_unit
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.joinDate != null and entity.joinDate!='' ">
+        		and join_date=#{entity.joinDate}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.nativeAdress != null and entity.nativeAdress!='' ">
+        		and native_adress=#{entity.nativeAdress}
+      		</if>	      	
+			<if test="entity.otherDegree != null and entity.otherDegree!='' ">
+        		and other_degree=#{entity.otherDegree}
+      		</if>	      	
+			<if test="entity.beforeSchoolunit != null and entity.beforeSchoolunit!='' ">
+        		and before_school_unit=#{entity.beforeSchoolunit}
+      		</if>	      	
+			<if test="entity.otherSchool != null and entity.otherSchool!='' ">
+        		and other_school=#{entity.otherSchool}
+      		</if>	      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.otherSpecialty != null and entity.otherSpecialty!='' ">
+        		and other_specialty=#{entity.otherSpecialty}
+      		</if>	      	
+			<if test="entity.degreeDate != null and entity.degreeDate!='' ">
+        		and degree_date=#{entity.degreeDate}
+      		</if>	      	
+			<if test="entity.personLove != null and entity.personLove!='' ">
+        		and person_love=#{entity.personLove}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.trustUnit != null and entity.trustUnit!='' ">
+        		and trust_unit=#{entity.trustUnit}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmHistorydata" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_history_data
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.schoolmate.model.SmHistorydata" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_history_data 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmHistorydata" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_history_data 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by join_date desc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.schoolmate.model.SmHistorydata">
+    	update sm_history_data set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+	<!-- 删除对象 -->
+  	<update id="deleteByUserId" parameterType="com.mpri.aio.schoolmate.model.SmHistorydata">
+    	update sm_history_data set flag = #{FLAG_HOLD} where user_id = #{userId,jdbcType=VARCHAR}
+  	</update>
+  	  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmHistorydata">
+		insert into sm_history_data
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="joinDate != null">
+	    		join_date,
+	  		</if>
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>
+	   		<if test="nativeAdress != null">
+	    		native_adress,
+	  		</if>
+	   		<if test="otherDegree != null">
+	    		other_degree,
+	  		</if>
+	   		<if test="beforeSchoolunit != null">
+	    		before_school_unit,
+	  		</if>
+	   		<if test="otherSchool != null">
+	    		other_school,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="otherSpecialty != null">
+	    		other_specialty,
+	  		</if>
+	   		<if test="degreeDate != null">
+	    		degree_date,
+	  		</if>
+	   		<if test="personLove != null">
+	    		person_love,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="trustUnit != null">
+	    		trust_unit,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="joinDate != null">
+	   			#{joinDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="nativeAdress != null">
+	   			#{nativeAdress,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="otherDegree != null">
+	   			#{otherDegree,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="beforeSchoolunit != null">
+	   			#{beforeSchoolunit,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="otherSchool != null">
+	   			#{otherSchool,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="otherSpecialty != null">
+	   			#{otherSpecialty,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="degreeDate != null">
+	   			#{degreeDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="personLove != null">
+	   			#{personLove,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="trustUnit != null">
+	   			#{trustUnit,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmHistorydata">
+    	update sm_history_data
+    	<set>
+
+	   			join_date = #{joinDate,jdbcType=TIMESTAMP},
+
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="nativeAdress != null">
+	   			native_adress = #{nativeAdress,jdbcType=VARCHAR},
+	  		</if>
+			<if test="otherDegree != null">
+	   			other_degree = #{otherDegree,jdbcType=VARCHAR},
+	  		</if>
+			<if test="beforeSchoolunit != null">
+	   			before_school_unit = #{beforeSchoolunit,jdbcType=VARCHAR},
+	  		</if>
+			<if test="otherSchool != null">
+	   			other_school = #{otherSchool,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="otherSpecialty != null">
+	   			other_specialty = #{otherSpecialty,jdbcType=VARCHAR},
+	  		</if>
+
+	   			degree_date = #{degreeDate,jdbcType=TIMESTAMP},
+
+			<if test="personLove != null">
+	   			person_love = #{personLove,jdbcType=VARCHAR},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="trustUnit != null">
+	   			trust_unit = #{trustUnit,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<!--查询有2条之上的地址的所有人-->
+	<select id="getUserId"  parameterType="com.mpri.aio.schoolmate.model.SmHistorydata" resultMap="BaseResultMap" >
+		select user_id from sm_history_data where flag='NORMAL' GROUP BY user_id having count(user_id)>1
+	</select>
+</mapper>

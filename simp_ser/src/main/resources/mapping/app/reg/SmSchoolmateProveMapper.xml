@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.reg.mapper.SmSchoolmateProveMapper">
+	
+	<resultMap id="SchoolmateResultMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+		<id column="sm_id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="true_photo" jdbcType="VARCHAR" property="truePhoto" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+	</resultMap>
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.app.reg.model.SmSchoolmateProve">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="start_user_id" jdbcType="VARCHAR" property="startUserId" />
+		<result column="start_username" jdbcType="VARCHAR" property="startUsername" />
+		<result column="prove_user_id" jdbcType="VARCHAR" property="proveUserId" />
+		<result column="prove_username" jdbcType="VARCHAR" property="proveUsername" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="flag" jdbcType="VARCHAR" property="flag" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, start_user_id, start_username, prove_user_id,status, prove_username, create_date, remark, flag
+	</sql>
+
+	<sql id="Column_List">
+    	sm_p.id, sm_p.start_user_id, sm_p.start_username, sm_p.prove_user_id,sm_p.status, sm_p.prove_username, 
+    	sm_p.create_date, sm_p.remark, sm_p.flag, sm_s.id as sm_id,sm_s.user_id, sm_s.name,sm_s.true_photo
+	</sql>
+
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.startUserId != null and entity.startUserId!='' ">
+        		and start_user_id=#{entity.startUserId}
+      		</if>	      	
+			<if test="entity.startUsername != null and entity.startUsername!='' ">
+        		and start_username=#{entity.startUsername}
+      		</if>	      	
+			<if test="entity.proveUserId != null and entity.proveUserId!='' ">
+        		and prove_user_id=#{entity.proveUserId}
+      		</if>	      	
+			<if test="entity.proveUsername != null and entity.proveUsername!='' ">
+        		and prove_username=#{entity.proveUsername}
+      		</if>
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      			      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and sm_p.create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and sm_p.remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and sm_p.flag= #{entity.FLAG_NORMAL}
+      		</if>
+		</if>
+	</sql>
+	
+
+	
+	
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_schoolmate_prove sm_p
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+  	
+  	<!-- 根据id查询 -->
+  	<select id="judgeisCongnize" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_schoolmate_prove sm_p
+    	<where>
+    	 	<include refid="query_where"></include>
+    	</where>
+  	</select>
+  		
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_schoolmate_prove  sm_p
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_schoolmate_prove  sm_p
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+  	
+    	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllSmListBy"  parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve" resultMap="SchoolmateResultMap" >
+    	select
+    		<include refid="Column_List" />
+    	from sm_schoolmate_prove sm_p
+    	left join sm_schoolmate sm_s on prove_user_id = sm_s.user_id 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>	
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve">
+    	update sm_schoolmate_prove set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve">
+		insert into sm_schoolmate_prove
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="startUserId != null">
+	    		start_user_id,
+	  		</if>   			
+	   		<if test="startUsername != null">
+	    		start_username,
+	  		</if>   			
+	   		<if test="proveUserId != null">
+	    		prove_user_id,
+	  		</if>   			
+	   		<if test="status != null">
+	    		status,
+	  		</if>  
+	  		<if test="proveUsername != null">
+	    		prove_username,
+	  		</if> 			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="startUserId != null">
+	   			#{startUserId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="startUsername != null">
+	   			#{startUsername,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="proveUserId != null">
+	   			#{proveUserId,jdbcType=VARCHAR},
+	  		</if>   
+	  		<if test="status != null">
+	    		#{status,jdbcType=VARCHAR},
+	  		</if>			
+	   		<if test="proveUsername != null">
+	   			#{proveUsername,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve">
+    	update sm_schoolmate_prove
+    	<set>
+			<if test="startUserId != null">
+	   			start_user_id = #{startUserId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="startUsername != null">
+	   			start_username = #{startUsername,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="proveUserId != null">
+	   			prove_user_id = #{proveUserId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="proveUsername != null">
+	   			prove_username = #{proveUsername,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+	  		<if test="status != null">
+	    		status = #{status,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 更新互认状态 -->
+	<update id="updateInfo" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve">
+    	update sm_schoolmate_prove
+    	<set>
+	  		<if test="status != null">
+	    		status = #{status,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where start_username = #{startUsername,jdbcType=VARCHAR} 
+    	and status = 'PASS'
+	</update>
+
+
+	<!--获取某人的认证次数-->
+    <select id="findCountByDay" parameterType="com.mpri.aio.app.reg.model.SmSchoolmateProve" resultType="java.util.HashMap">
+        select
+       		COUNT(0) as proTimes,prove_user_id as userId
+        from sm_schoolmate_prove
+        <where>
+            date_format(create_date ,'%Y-%m-%d')= (select DATE_FORMAT(#{createDate},'%Y-%m-%d'))
+            and flag= #{FLAG_NORMAL}
+            and prove_user_id is not null and prove_user_id != ""
+        </where>
+        group by prove_user_id
+    </select>
+</mapper>

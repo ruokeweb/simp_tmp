@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html class="loginHtml">
+<head>
+	<meta charset="utf-8">
+	<title>校友信息管理系统</title>
+	<script type="text/javascript" charset="UTF-8" src="static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="static/js/header_com.js"></script>
+	<script type="text/javascript" src="static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="static/js/login.js"></script>
+	<script type="text/javascript" src="static/js/cache.js"></script>
+	<script type="text/javascript" src="static/verify/js/verify.js"></script>
+	<script type="text/javascript" src="static/modernizr/modernizr.custom.js"></script>
+	<link rel="stylesheet" href="static/verify/css/verify.css">
+	<link rel="stylesheet" href="static/modernizr/css/style1.css">
+</head>
+<body class="loginBody" id="page">
+	 <ul class="cb-slideshow">
+	     <li><span>01</span><div><h3>连结·全球·校友</h3></div></li>
+	     <li><span>02</span><div><h3>加速·信息·建设</h3></div></li>
+	     <li><span>03</span><div><h3>建立·沟通·渠道</h3></div></li>
+	     <li><span>04</span><div><h3>打破·失联·现状</h3></div></li>
+	     <li><span>05</span><div><h3>管理·校友·信息</h3></div></li>
+	     <li><span>06</span><div><h3>便捷·采集·数据</h3></div></li>
+	     
+    </ul>
+	<div id="leafContainer"></div>
+	<form class="layui-form">
+		<div class="login_face"><img src="static/images/face.png" class="userAvatar"></div>
+		
+		<div style="font-size:18px;font-weight:bold;text-align:center;margin-bottom:10px;">校友信息管理系统</div>
+		
+		<div class="layui-form-item input-item">
+			<label for="userName">用户名</label>
+			<input type="text" placeholder="请输入用户名" id="username" class="layui-input" lay-verify="required">
+		</div>
+		<div class="layui-form-item input-item">
+			<label for="password">密码</label>
+			<input type="password" placeholder="请输入密码" id="password" class="layui-input" lay-verify="required">
+		</div>		
+		<div class="layui-form-item">
+			<button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
+			
+		</div>
+		
+	</form>
+
+</body>
+</html>

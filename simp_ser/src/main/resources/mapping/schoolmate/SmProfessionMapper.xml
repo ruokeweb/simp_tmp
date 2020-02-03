@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.SmProfessionMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmProfession">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="district" jdbcType="VARCHAR" property="district" />
+			<result column="province" jdbcType="VARCHAR" property="province" />
+			<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="fax" jdbcType="VARCHAR" property="fax" />
+			<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+			<result column="city" jdbcType="VARCHAR" property="city" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="country" jdbcType="VARCHAR" property="country" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="industry" jdbcType="VARCHAR" property="industry" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="department" jdbcType="VARCHAR" property="department" />
+			<result column="nature" jdbcType="VARCHAR" property="nature" />
+			<result column="workplace" jdbcType="VARCHAR" property="workplace" />
+			<result column="detail" jdbcType="VARCHAR" property="detail" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="position" jdbcType="VARCHAR" property="position" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, district, province, end_date, remark, fax, start_date, city, flag, status, country, type,  telephone, create_date, industry, user_id, department, nature, workplace, detail, position
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.district != null and entity.district!='' ">
+        		and district=#{entity.district}
+      		</if>	      	
+			<if test="entity.province != null and entity.province!='' ">
+        		and province=#{entity.province}
+      		</if>	      	
+			<if test="entity.endDate != null">
+        		and end_date=#{entity.endDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.fax != null and entity.fax!='' ">
+        		and fax=#{entity.fax}
+      		</if>	      	
+			<if test="entity.startDate != null ">
+        		and start_date=#{entity.startDate}
+      		</if>	      	
+			<if test="entity.city != null and entity.city!='' ">
+        		and city=#{entity.city}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.country != null and entity.country!='' ">
+        		and country=#{entity.country}
+      		</if>	      	
+			<if test="entity.telephone != null and entity.telephone!='' ">
+        		and telephone=#{entity.telephone}
+      		</if>	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>      		      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.industry != null and entity.industry!='' ">
+        		and industry=#{entity.industry}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.department != null and entity.department!='' ">
+        		and department=#{entity.department}
+      		</if>	      	
+			<if test="entity.nature != null and entity.nature!='' ">
+        		and nature=#{entity.nature}
+      		</if>	      	
+			<if test="entity.workplace != null and entity.workplace!='' ">
+        		and workplace=#{entity.workplace}
+      		</if>	      	
+			<if test="entity.detail != null and entity.detail!='' ">
+        		and detail=#{entity.detail}
+      		</if>	      	
+			<if test="entity.position != null and entity.position!='' ">
+        		and position=#{entity.position}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.schoolmate.model.SmProfession" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_profession
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.schoolmate.model.SmProfession" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_profession 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmProfession" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_profession 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by start_date desc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.schoolmate.model.SmProfession">
+    	update sm_profession set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+	<!-- 删除对象 -->
+  	<update id="deleteByUserId" parameterType="com.mpri.aio.schoolmate.model.SmProfession">
+    	update sm_profession set flag = #{FLAG_HOLD} where user_id = #{userId,jdbcType=VARCHAR}
+  	</update>
+  	
+	<!-- 删除对象 -->
+  	<update id="updateProStatus" parameterType="com.mpri.aio.schoolmate.model.SmProfession">
+    	update sm_profession set status = #{status} where id != #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmProfession">
+		insert into sm_profession
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="district != null">
+	    		district,
+	  		</if>
+	   		<if test="province != null">
+	    		province,
+	  		</if>
+	   		<if test="endDate != null">
+	    		end_date,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="fax != null">
+	    		fax,
+	  		</if>
+	   		<if test="startDate != null">
+	    		start_date,
+	  		</if>
+	   		<if test="city != null">
+	    		city,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="status != null">
+	    		status,
+	  		</if>
+	   		<if test="country != null">
+	    		country,
+	  		</if>
+	   		<if test="telephone != null">
+	    		telephone,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="industry != null">
+	    		industry,
+	  		</if>
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>
+	   		<if test="department != null">
+	    		department,
+	  		</if>
+	   		<if test="nature != null">
+	    		nature,
+	  		</if>
+	   		<if test="workplace != null">
+	    		workplace,
+	  		</if>
+	   		<if test="detail != null">
+	    		detail,
+	  		</if>
+	   		<if test="position != null">
+	    		position,
+	  		</if>
+	   		<if test="type != null">
+	    		type,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="district != null">
+	   			#{district,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="province != null">
+	   			#{province,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="endDate != null">
+	   			#{endDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="fax != null">
+	   			#{fax,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="startDate != null">
+	   			#{startDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="city != null">
+	   			#{city,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="country != null">
+	   			#{country,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="telephone != null">
+	   			#{telephone,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="industry != null">
+	   			#{industry,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="department != null">
+	   			#{department,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="nature != null">
+	   			#{nature,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="workplace != null">
+	   			#{workplace,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="detail != null">
+	   			#{detail,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="position != null">
+	   			#{position,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>	  		
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmProfession">
+    	update sm_profession
+    	<set>
+	   			district = #{district,jdbcType=VARCHAR},
+	   			province = #{province,jdbcType=VARCHAR},
+	   			end_date = #{endDate,jdbcType=TIMESTAMP},
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="fax != null">
+	   			fax = #{fax,jdbcType=VARCHAR},
+	  		</if>
+
+	   			start_date = #{startDate,jdbcType=TIMESTAMP},
+
+	   			city = #{city,jdbcType=VARCHAR},
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>
+	   			country = #{country,jdbcType=VARCHAR},
+			<if test="telephone != null">
+	   			telephone = #{telephone,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="industry != null">
+	   			industry = #{industry,jdbcType=VARCHAR},
+	  		</if>
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="department != null">
+	   			department = #{department,jdbcType=VARCHAR},
+	  		</if>
+			<if test="nature != null">
+	   			nature = #{nature,jdbcType=VARCHAR},
+	  		</if>
+			<if test="workplace != null">
+	   			workplace = #{workplace,jdbcType=VARCHAR},
+	  		</if>
+			<if test="detail != null">
+	   			detail = #{detail,jdbcType=VARCHAR},
+	  		</if>
+			<if test="position != null">
+	   			position = #{position,jdbcType=VARCHAR},
+	  		</if>
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<!--查询有2条之上的职业经历的所有人-->
+	<select id="getUserId"  parameterType="com.mpri.aio.schoolmate.model.SmProfession" resultMap="BaseResultMap" >
+		select user_id from sm_profession where flag='NORMAL' GROUP BY user_id having count(user_id)>1
+	</select>
+
+
+	<!-- 查询职业经历重复的人(工作单位) -->
+	<select id="getMergeUserId"  parameterType="com.mpri.aio.schoolmate.model.SmProfession" resultMap="BaseResultMap" >
+		select workplace,user_id from sm_profession where flag='NORMAL' GROUP BY workplace,user_id having count(user_id) > 1
+	</select>
+</mapper>

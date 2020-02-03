@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "值年返校详情",
+  "usingComponents": {
+    "segmented-control": "/components/uni-segmented-control/uni-segmented-control",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

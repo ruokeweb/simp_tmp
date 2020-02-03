@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.info.mapper.InfoMessageMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.info.model.InfoMessage">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="content" jdbcType="VARCHAR" property="content" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="father_content" jdbcType="VARCHAR" property="fatherContent" />	
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="info_id" jdbcType="VARCHAR" property="infoId" />
+			<result column="like_num" jdbcType="INTEGER" property="likeNum" />
+			<result column="pub_area" jdbcType="VARCHAR" property="pubArea" />
+			<result column="pub_user" jdbcType="VARCHAR" property="pubUser" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<association property="information"
+				javaType="com.mpri.aio.info.model.InfoInformation">
+				<id column="informationId" jdbcType="VARCHAR" property="id" />
+				<result column="title" jdbcType="VARCHAR" property="title" />
+			</association>
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Column_List">
+    	im.content, im.create_date, im.father_content, im.flag, im.id, im.info_id, im.like_num, im.pub_area, im.pub_user, im.remark,
+    	ii.id as informationId ,ii.title
+	</sql>
+
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	im.content, im.create_date, im.father_content, im.flag, im.id, im.info_id, im.like_num, im.pub_area, im.pub_user, im.remark
+    	
+	</sql>
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.content != null and entity.content!='' ">
+        		and im.content like concat('%', #{entity.content},'%')
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and im.create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.fatherContent != null and entity.fatherContent!='' ">
+        		and father_content=#{entity.fatherContent}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and im.flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.id != null and entity.id!='' ">
+        		and im.id=#{entity.id}
+      		</if>	      	
+			<if test="entity.infoId != null and entity.infoId!='' ">
+        		and im.info_id=#{entity.infoId}
+      		</if>	      	
+			<if test="entity.likeNum != null and entity.likeNum!='' ">
+        		and im.like_num=#{entity.likeNum}
+      		</if>	      	
+			<if test="entity.pubArea != null and entity.pubArea!='' ">
+        		and im.pub_area=#{entity.pubArea}
+      		</if>	      	
+			<if test="entity.pubUser != null and entity.pubUser!='' ">
+        		and im.pub_user=#{entity.pubUser}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and im.remark=#{entity.remark}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.info.model.InfoMessage" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from info_message im
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.info.model.InfoMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Column_List" />
+    	from info_message im
+    	left join info_information ii on im.info_id = ii.id
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.info.model.InfoMessage" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from info_message im
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.info.model.InfoMessage">
+    	update info_message set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.info.model.InfoMessage">
+		insert into info_message
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="content != null">
+	    		content,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="fatherContent != null">
+	    		father_content,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="infoId != null">
+	    		info_id,
+	  		</if>   			
+	   		<if test="likeNum != null">
+	    		like_num,
+	  		</if>   			
+	   		<if test="pubArea != null">
+	    		pub_area,
+	  		</if>   			
+	   		<if test="pubUser != null">
+	    		pub_user,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="fatherContent != null">
+	   			#{fatherContent,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="infoId != null">
+	   			#{infoId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="likeNum != null">
+	   			#{likeNum,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="pubArea != null">
+	   			#{pubArea,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="pubUser != null">
+	   			#{pubUser,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.info.model.InfoMessage">
+    	update info_message
+    	<set>
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="fatherContent != null">
+	   			father_content = #{fatherContent,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="infoId != null">
+	   			info_id = #{infoId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="likeNum != null">
+	   			like_num = #{likeNum,jdbcType=INTEGER},
+	  		</if>  
+			<if test="pubArea != null">
+	   			pub_area = #{pubArea,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="pubUser != null">
+	   			pub_user = #{pubUser,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!--更新点赞 量-->
+	<update id = "updateLikeNum" parameterType="com.mpri.aio.info.model.InfoMessageLike">
+		update info_message
+		<set>
+			like_num = ifnull(likeNum,0) + #{isLike}
+		</set>
+		where id = #{messageId} 
+	</update>	
+</mapper>

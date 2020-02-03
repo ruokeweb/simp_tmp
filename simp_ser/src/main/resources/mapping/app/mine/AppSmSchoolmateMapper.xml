@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppSchoolmateMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="complete" jdbcType="INTEGER" property="complete" />
+			<result column="mark_ids" jdbcType="VARCHAR" property="markIds" />
+			<result column="pos_lat" jdbcType="VARCHAR" property="posLat" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="marks" jdbcType="VARCHAR" property="marks" />
+			<result column="pos_long" jdbcType="VARCHAR" property="posLong" />
+			<result column="don_fee" jdbcType="DECIMAL" property="donFee" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+			<result column="eg_name" jdbcType="VARCHAR" property="egName" />
+			<result column="nation" jdbcType="VARCHAR" property="nation" />
+			<result column="sex" jdbcType="VARCHAR" property="sex" />
+			<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="openid" jdbcType="VARCHAR" property="openid" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="card_num" jdbcType="VARCHAR" property="cardNum" />
+			<result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+			<result column="true_photo" jdbcType="VARCHAR" property="truePhoto" />
+			<result column="card_status" jdbcType="VARCHAR" property="cardStatus" />
+			<result column="is_show" jdbcType="VARCHAR" property="isShow" />
+			<result column="point" jdbcType="INTEGER" property="point" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="card_type" jdbcType="VARCHAR" property="cardType" />
+			<result column="level" jdbcType="INTEGER" property="level" />
+			<result column="pos_city" jdbcType="VARCHAR" property="posCity" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="politics" jdbcType="VARCHAR" property="politics" />
+			<association property="smAddress"
+				javaType="com.mpri.aio.schoolmate.model.SmAddress">
+				<id column="smAddress_id" jdbcType="VARCHAR" property="id" />
+				<result column="smAddress_province" jdbcType="VARCHAR" property="province" />
+				<result column="smAddress_city" jdbcType="VARCHAR" property="city" />
+				<result column="smAddress_country" jdbcType="VARCHAR" property="country" />
+				<result column="smAddress_type" jdbcType="VARCHAR" property="type" />
+				<result column="smAddress_detail" jdbcType="VARCHAR" property="detail" />
+				<result column="smAddress_zipcode" jdbcType="VARCHAR" property="zipcode" />
+				<result column="smAddress_district" jdbcType="VARCHAR" property="district" />	
+			</association>
+			<association property="smContact"
+				javaType="com.mpri.aio.schoolmate.model.SmContact">
+				<id property="id" column="smContact_id"/>
+				<result column="smContact_type" jdbcType="VARCHAR" property="type" />
+				<result column="smContact_contact" jdbcType="VARCHAR" property="contact" />						
+				<result column="C_IS_DEFAULT" jdbcType="VARCHAR" property="isDefault" />			
+			</association>
+			<association property="smEducation" javaType="com.mpri.aio.schoolmate.model.SmEducation">
+				<id column="smEdu_id" jdbcType="VARCHAR" property="id" />
+				<result column="edu_model" jdbcType="VARCHAR" property="eduModel" />
+				<result column="school" jdbcType="VARCHAR" property="school" />
+				<result column="college" jdbcType="VARCHAR" property="college" />
+				<result column="series" jdbcType="VARCHAR" property="series" />
+				<result column="specialty" jdbcType="VARCHAR" property="specialty" />
+				<result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+				<result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+				<result column="degree_type" jdbcType="VARCHAR" property="degreeType" />
+				<result column="temp_specialty" jdbcType="VARCHAR" property="tempSpecialty" />
+				<result column="classes" jdbcType="VARCHAR" property="classes" />
+				<result column="edu_enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="edu_startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+				<result column="temp_series" jdbcType="VARCHAR" property="tempSeries" />
+				<result column="schoollen" jdbcType="VARCHAR" property="schoollen" />
+				<result column="degree" jdbcType="VARCHAR" property="degree" />	
+			</association>			
+			<association property="smFamily" 
+				javaType="com.mpri.aio.schoolmate.model.SmFamily">
+				<id column="smFam_id" jdbcType="VARCHAR" property="id" />
+				<result column="smFam_name" jdbcType="VARCHAR" property="name" />
+				<result column="smFam_phone" jdbcType="VARCHAR" property="phone" />
+				<result column="smFam_profession" jdbcType="VARCHAR" property="profession" />
+				<result column="smFam_birthday" jdbcType="TIMESTAMP" property="birthday" />
+				<result column="smFam_relation" jdbcType="VARCHAR" property="relation" />
+				<result column="smFam_sex" jdbcType="VARCHAR" property="sex" />
+				<result column="smFam_isschool" jdbcType="VARCHAR" property="isschool" />
+				<result column="smFam_workplace" jdbcType="VARCHAR" property="workplace" />		
+			</association>			
+			<association property="smExperience" javaType="com.mpri.aio.schoolmate.model.SmExperience">
+				<id column="smExper_id" jdbcType="VARCHAR" property="id" />
+				<result column="smExper_name" jdbcType="VARCHAR" property="name" />
+				<result column="smExper_position" jdbcType="VARCHAR" property="position" />
+				<result column="smExper_content" jdbcType="VARCHAR" property="content" />
+				<result column="smExper_start_date" jdbcType="TIMESTAMP" property="startDate" />
+				<result column="smExper_end_date" jdbcType="TIMESTAMP" property="endDate" />			
+			</association>
+			<association property="smHonor" 
+				javaType="com.mpri.aio.schoolmate.model.SmHonor">
+				<id column="smHon_id" jdbcType="VARCHAR" property="id" />
+				<result column="smHon_infoval" jdbcType="VARCHAR" property="infoval" />
+				<result column="smHon_name" jdbcType="VARCHAR" property="name" />
+				<result column="smHon_type" jdbcType="VARCHAR" property="type" />
+				<result column="smHon_date" jdbcType="TIMESTAMP" property="date" />
+				<result column="smHon_industry" jdbcType="VARCHAR" property="industry" />				
+			</association>
+			<association property="smProfession" 
+				javaType="com.mpri.aio.schoolmate.model.SmProfession">
+				<id column="smProfe_id" jdbcType="VARCHAR" property="id" />
+				<result column="smProfe_district" jdbcType="VARCHAR" property="district" />
+				<result column="smProfe_province" jdbcType="VARCHAR" property="province" />
+				<result column="smProfe_end_date" jdbcType="TIMESTAMP" property="endDate" />
+				<result column="smProfe_fax" jdbcType="VARCHAR" property="fax" />
+				<result column="smProfe_start_date" jdbcType="TIMESTAMP" property="startDate" />
+				<result column="smProfe_city" jdbcType="VARCHAR" property="city" />
+				<result column="smProfe_status" jdbcType="VARCHAR" property="status" />
+				<result column="smProfe_country" jdbcType="VARCHAR" property="country" />
+				<result column="smProfe_telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="smProfe_industry" jdbcType="VARCHAR" property="industry" />
+				<result column="smProfe_department" jdbcType="VARCHAR" property="department" />
+				<result column="smProfe_nature" jdbcType="VARCHAR" property="nature" />
+				<result column="smProfe_workplace" jdbcType="VARCHAR" property="workplace" />
+				<result column="smProfe_detail" jdbcType="VARCHAR" property="detail" />
+				<result column="smProfe_position" jdbcType="VARCHAR" property="position" />					
+			</association>
+			<association property="smSocial" 
+				javaType="com.mpri.aio.schoolmate.model.SmSocial">
+				<id column="smSoci_id" jdbcType="VARCHAR" property="id" />
+				<result column="smSoci_name" jdbcType="VARCHAR" property="name" />
+				<result column="smSoci_position" jdbcType="VARCHAR" property="position" />
+				<result column="smSoci_startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="smSoci_enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="smSoci_status" jdbcType="VARCHAR" property="status" />
+				<result column="smSoci_infoval" jdbcType="VARCHAR" property="infoval" />			
+			</association>
+			<association property="smPolitic"
+				javaType="com.mpri.aio.schoolmate.model.SmPolitics">
+				<id column="smPoli_id" jdbcType="VARCHAR" property="id" />
+				<result column="smPoli_name" jdbcType="VARCHAR" property="name" />
+				<result column="smPoli_position" jdbcType="VARCHAR" property="position" />
+				<result column="smPoli_startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="smPoli_enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="smPoli_type" jdbcType="VARCHAR" property="type" />
+				<result column="smPoli_infoval" jdbcType="VARCHAR" property="infoval" />				
+			</association>
+			<association property="smHistorydata"
+				javaType="com.mpri.aio.schoolmate.model.SmHistorydata">
+				<id column="smHist_id" jdbcType="VARCHAR" property="id" />
+				<result column="smHist_join_date" jdbcType="TIMESTAMP" property="joinDate" />
+				<result column="smHist_native_adress" jdbcType="VARCHAR" property="nativeAdress" />
+				<result column="smHist_other_degree" jdbcType="VARCHAR" property="otherDegree" />
+				<result column="smHist_before_school_unit" jdbcType="VARCHAR" property="beforeSchoolunit" />
+				<result column="smHist_other_school" jdbcType="VARCHAR" property="otherSchool" />
+				<result column="smHist_other_specialty" jdbcType="VARCHAR" property="otherSpecialty" />
+				<result column="smHist_degree_date" jdbcType="TIMESTAMP" property="degreeDate" />
+				<result column="smHist_person_love" jdbcType="VARCHAR" property="personLove" />
+				<result column="smHist_trust_unit" jdbcType="VARCHAR" property="trustUnit" />			
+			</association>
+			<association property="sysUser"
+				javaType="com.mpri.aio.system.model.SysUser">
+			    <id column="sysUserId" jdbcType="VARCHAR" property="id" />
+			    <result column="username" jdbcType="VARCHAR" property="username" />		
+			</association>
+	    	<collection property="markList" javaType="ArrayList" ofType="com.mpri.aio.schoolmate.model.SmMark">
+	    		<id property="id" column="mark_id"/>
+	    		<result property="name" column="mark_name"/>
+	    	</collection>							
+ 			<collection property="smEducations" javaType="com.mpri.aio.schoolmate.model.SmEducation">
+				<id column="smEdu_id" jdbcType="VARCHAR" property="id" />
+				<result column="edu_model" jdbcType="VARCHAR" property="eduModel" />
+				<result column="school" jdbcType="VARCHAR" property="school" />
+				<result column="college" jdbcType="VARCHAR" property="college" />
+				<result column="series" jdbcType="VARCHAR" property="series" />
+				<result column="specialty" jdbcType="VARCHAR" property="specialty" />
+				<result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+				<result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+				<result column="degree_type" jdbcType="VARCHAR" property="degreeType" />
+				<result column="temp_specialty" jdbcType="VARCHAR" property="tempSpecialty" />
+				<result column="classes" jdbcType="VARCHAR" property="classes" />
+				<result column="edu_enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="edu_startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+				<result column="temp_series" jdbcType="VARCHAR" property="tempSeries" />
+				<result column="schoollen" jdbcType="VARCHAR" property="schoollen" />
+				<result column="degree" jdbcType="VARCHAR" property="degree" />
+			</collection>
+			<collection property="smFamilies" javaType="com.mpri.aio.schoolmate.model.SmFamily">
+				<id column="smFam_id" jdbcType="VARCHAR" property="id" />
+				<result column="smFam_name" jdbcType="VARCHAR" property="name" />
+				<result column="smFam_phone" jdbcType="VARCHAR" property="phone" />
+				<result column="smFam_profession" jdbcType="VARCHAR" property="profession" />
+				<result column="smFam_birthday" jdbcType="TIMESTAMP" property="birthday" />
+				<result column="smFam_relation" jdbcType="VARCHAR" property="relation" />
+				<result column="smFam_sex" jdbcType="VARCHAR" property="sex" />
+				<result column="smFam_isschool" jdbcType="VARCHAR" property="isschool" />
+				<result column="smFam_workplace" jdbcType="VARCHAR" property="workplace" />				
+			</collection>
+			<collection property="smContacts" javaType="com.mpri.aio.schoolmate.model.SmContact">
+				<id column="smContact_id" jdbcType="VARCHAR" property="id" />
+				<result column="smContact_type" jdbcType="VARCHAR" property="type" />
+				<result column="smContact_contact" jdbcType="VARCHAR" property="contact" />				
+			</collection>
+			<collection property="smExperiences" javaType="com.mpri.aio.schoolmate.model.SmExperience">
+				<id column="smExper_id" jdbcType="VARCHAR" property="id" />
+				<result column="smExper_name" jdbcType="VARCHAR" property="name" />
+				<result column="smExper_position" jdbcType="VARCHAR" property="position" />
+				<result column="smExper_content" jdbcType="VARCHAR" property="content" />
+				<result column="smExper_start_date" jdbcType="TIMESTAMP" property="startDate" />
+				<result column="smExper_end_date" jdbcType="TIMESTAMP" property="endDate" />				
+			</collection>
+			<collection property="smAddresses" javaType="com.mpri.aio.schoolmate.model.SmAddress">
+				<id column="smAddress_id" jdbcType="VARCHAR" property="id" />
+				<result column="smAddress_province" jdbcType="VARCHAR" property="province" />
+				<result column="smAddress_city" jdbcType="VARCHAR" property="city" />
+				<result column="smAddress_country" jdbcType="VARCHAR" property="country" />
+				<result column="smAddress_type" jdbcType="VARCHAR" property="type" />
+				<result column="smAddress_detail" jdbcType="VARCHAR" property="detail" />
+				<result column="smAddress_zipcode" jdbcType="VARCHAR" property="zipcode" />
+				<result column="smAddress_district" jdbcType="VARCHAR" property="district" />				
+			</collection>
+			<collection property="smHonors" javaType="com.mpri.aio.schoolmate.model.SmHonor">
+				<id column="smHon_id" jdbcType="VARCHAR" property="id" />
+				<result column="smHon_infoval" jdbcType="VARCHAR" property="infoval" />
+				<result column="smHon_name" jdbcType="VARCHAR" property="name" />
+				<result column="smHon_type" jdbcType="VARCHAR" property="type" />
+				<result column="smHon_date" jdbcType="TIMESTAMP" property="date" />
+				<result column="smHon_industry" jdbcType="VARCHAR" property="industry" />				
+			</collection>
+			<collection property="smProfessions" javaType="com.mpri.aio.schoolmate.model.SmProfession">
+				<id column="smProfe_id" jdbcType="VARCHAR" property="id" />
+				<result column="smProfe_district" jdbcType="VARCHAR" property="district" />
+				<result column="smProfe_province" jdbcType="VARCHAR" property="province" />
+				<result column="smProfe_end_date" jdbcType="TIMESTAMP" property="endDate" />
+				<result column="smProfe_fax" jdbcType="VARCHAR" property="fax" />
+				<result column="smProfe_start_date" jdbcType="TIMESTAMP" property="startDate" />
+				<result column="smProfe_city" jdbcType="VARCHAR" property="city" />
+				<result column="smProfe_status" jdbcType="VARCHAR" property="status" />
+				<result column="smProfe_country" jdbcType="VARCHAR" property="country" />
+				<result column="smProfe_telephone" jdbcType="VARCHAR" property="telephone" />
+				<result column="smProfe_industry" jdbcType="VARCHAR" property="industry" />
+				<result column="smProfe_department" jdbcType="VARCHAR" property="department" />
+				<result column="smProfe_nature" jdbcType="VARCHAR" property="nature" />
+				<result column="smProfe_workplace" jdbcType="VARCHAR" property="workplace" />
+				<result column="smProfe_detail" jdbcType="VARCHAR" property="detail" />
+				<result column="smProfe_position" jdbcType="VARCHAR" property="position" />				
+			</collection>
+			<collection property="smSocials" javaType="com.mpri.aio.schoolmate.model.SmSocial">
+				<id column="smSoci_id" jdbcType="VARCHAR" property="id" />
+				<result column="smSoci_name" jdbcType="VARCHAR" property="name" />
+				<result column="smSoci_position" jdbcType="VARCHAR" property="position" />
+				<result column="smSoci_startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="smSoci_enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="smSoci_status" jdbcType="VARCHAR" property="status" />
+				<result column="smSoci_infoval" jdbcType="VARCHAR" property="infoval" />				
+			</collection>
+			<collection property="smPolitics" javaType="com.mpri.aio.schoolmate.model.SmPolitics">
+				<id column="smPoli_id" jdbcType="VARCHAR" property="id" />
+				<result column="smPoli_name" jdbcType="VARCHAR" property="name" />
+				<result column="smPoli_position" jdbcType="VARCHAR" property="position" />
+				<result column="smPoli_startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="smPoli_enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="smPoli_type" jdbcType="VARCHAR" property="type" />
+				<result column="smPoli_infoval" jdbcType="VARCHAR" property="infoval" />				
+			</collection>
+			<collection property="smHistorydatas" javaType="com.mpri.aio.schoolmate.model.SmHistorydata">
+				<id column="smHist_id" jdbcType="VARCHAR" property="id" />
+				<result column="smHist_join_date" jdbcType="TIMESTAMP" property="joinDate" />
+				<result column="smHist_native_adress" jdbcType="VARCHAR" property="nativeAdress" />
+				<result column="smHist_other_degree" jdbcType="VARCHAR" property="otherDegree" />
+				<result column="smHist_before_school_unit" jdbcType="VARCHAR" property="beforeSchoolunit" />
+				<result column="smHist_other_school" jdbcType="VARCHAR" property="otherSchool" />
+				<result column="smHist_other_specialty" jdbcType="VARCHAR" property="otherSpecialty" />
+				<result column="smHist_degree_date" jdbcType="TIMESTAMP" property="degreeDate" />
+				<result column="smHist_person_love" jdbcType="VARCHAR" property="personLove" />
+				<result column="smHist_trust_unit" jdbcType="VARCHAR" property="trustUnit" />				
+			</collection>	 												
+	</resultMap>
+
+
+	<!-- 基础返回值定义 -->
+	<resultMap id="AppBaseResultMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="complete" jdbcType="INTEGER" property="complete" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+		<result column="nation" jdbcType="VARCHAR" property="nation" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+		<result column="card_num" jdbcType="VARCHAR" property="cardNum" />
+		<result column="card_status" jdbcType="VARCHAR" property="cardStatus" />
+		<result column="is_show" jdbcType="VARCHAR" property="isShow" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="card_type" jdbcType="VARCHAR" property="cardType" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+	</resultMap>
+	<!-- 基础字段定义app -->
+	<sql id="App_Base_Column_List">
+		sm_s.id, sm_s.complete, sm_s.name, sm_s.birthday,  sm_s.nation, sm_s.sex, sm_s.card_id,sm_s.politics,
+		 sm_s.card_num, sm_s.is_show,  sm_s.type, sm_s.card_type,  sm_s.user_id,sm_s.true_photo
+	</sql>
+
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	sm_s.id, sm_s.complete, sm_s.mark_ids, sm_s.politics,sm_s.pos_lat, sm_s.create_date, sm_s.marks, sm_s.pos_long, sm_s.don_fee, sm_s.name, sm_s.remark, sm_s.birthday, sm_s.eg_name,
+    	sm_s.nation, sm_s.sex, sm_s.card_id, sm_s.flag, sm_s.openid, sm_s.status, sm_s.card_num, sm_s.pinyin, sm_s.true_photo, sm_s.card_status,
+    	 sm_s.is_show, sm_s.point, sm_s.type, sm_s.card_type, sm_s.level, sm_s.pos_city, sm_s.user_id
+	</sql>
+	
+	<!-- 基础字段定义(带用户信息) -->
+	<sql id="Info_Base_Column_List">
+		sm_s.id, sm_s.complete, sm_s.mark_ids,sm_s.politics, sm_s.pos_lat, sm_s.create_date, sm_s.marks, sm_s.pos_long,
+		 sm_s.don_fee, sm_s.name, sm_s.remark, sm_s.birthday, sm_s.eg_name, sm_s.nation, sm_s.sex, sm_s.card_id, 
+		 sm_s.flag, sm_s.openid, sm_s.status, sm_s.card_num, sm_s.pinyin, true_photo, card_status, 
+		 sm_s.is_show, sm_s.point, sm_s.type, sm_s.card_type, sm_s.level, sm_s.pos_city, sm_s.user_id,
+		sys_u.id as sysUserId ,sys_u.username as username
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.complete != null and entity.complete!='' ">
+        		and complete=#{entity.complete}
+      		</if>	      	
+			<if test="entity.markIds != null and entity.markIds!='' ">
+        		and mark_ids=#{entity.markIds}
+      		</if>	      	
+			<if test="entity.posLat != null and entity.posLat!='' ">
+        		and pos_lat=#{entity.posLat}
+      		</if>	      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.marks != null and entity.marks!='' ">
+        		and marks=#{entity.marks}
+      		</if>
+			<if test="entity.politics != null and entity.politics!='' ">
+				and politics=#{entity.politics}
+			</if>
+			<if test="entity.posLong != null and entity.posLong!='' ">
+        		and pos_long=#{entity.posLong}
+      		</if>	      	
+			<if test="entity.donFee != null and entity.donFee!='' ">
+        		and don_fee=#{entity.donFee}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and (name like   replace (#{entity.name},'*','%%') 
+	           		or name like concat('%', #{entity.name},'%')
+	           		or pinyin = #{entity.name})
+	       	</if>		
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.birthday != null">
+        		and date_format(birthday ,'%Y-%m-%d')= (select DATE_FORMAT(#{entity.birthday},'%Y-%m-%d'))
+      		</if>	      	
+			<if test="entity.egName != null and entity.egName!='' ">
+        		and eg_name=#{entity.egName}
+      		</if>	      	
+			<if test="entity.nation != null and entity.nation!='' ">
+        		and nation=#{entity.nation}
+      		</if>	      	
+			<if test="entity.sex != null and entity.sex!='' ">
+        		and sex=#{entity.sex}
+      		</if>	      	
+			<if test="entity.cardId != null and entity.cardId!='' ">
+        		and card_id=#{entity.cardId}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.openid != null and entity.openid!='' ">
+        		and openid=#{entity.openid}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.cardNum != null and entity.cardNum!='' ">
+        		and card_num=#{entity.cardNum}
+      		</if>	      	
+			<if test="entity.pinyin != null and entity.pinyin!='' ">
+        		and pinyin=#{entity.pinyin}
+      		</if>	      	
+			<if test="entity.truePhoto != null and entity.truePhoto!='' ">
+        		and true_photo=#{entity.truePhoto}
+      		</if>	      	
+			<if test="entity.cardStatus != null and entity.cardStatus!='' ">
+        		and card_status=#{entity.cardStatus}
+      		</if>	      	
+			<if test="entity.isShow != null and entity.isShow!='' ">
+        		and is_show=#{entity.isShow}
+      		</if>	      	
+			<if test="entity.point != null and entity.point!='' ">
+        		and point=#{entity.point}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.cardType != null and entity.cardType!='' ">
+        		and card_type=#{entity.cardType}
+      		</if>	      	
+			<if test="entity.level != null and entity.level!='' ">
+        		and level=#{entity.level}
+      		</if>	      	
+			<if test="entity.posCity != null and entity.posCity!='' ">
+        		and pos_city=#{entity.posCity}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>      	
+		</if>
+	</sql>
+	<!-- 查询条件定义根据name查询 -->
+	<sql id="query_whereName">
+		<if test="entity!=null">
+			
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and (name like   replace (#{entity.name},'*','%%') 
+	           		or name like concat('%', #{entity.name},'%')
+	           		or pinyin = #{entity.name})
+	       	</if>		
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+		</if>
+	</sql>
+
+
+	<!--根据生日查询 -->
+	<sql id="query_where_byBirth">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.complete != null and entity.complete!='' ">
+        		and complete=#{entity.complete}
+      		</if>	      	
+			<if test="entity.markIds != null and entity.markIds!='' ">
+        		and mark_ids=#{entity.markIds}
+      		</if>	      	
+			<if test="entity.posLat != null and entity.posLat!='' ">
+        		and pos_lat=#{entity.posLat}
+      		</if>	      	
+			<if test="entity.createDate != null">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.marks != null and entity.marks!='' ">
+        		and marks=#{entity.marks}
+      		</if>
+			<if test="entity.politics != null and entity.politics!='' ">
+				and politics=#{entity.politics}
+			</if>
+			<if test="entity.posLong != null and entity.posLong!='' ">
+        		and pos_long=#{entity.posLong}
+      		</if>	      	
+			<if test="entity.donFee != null and entity.donFee!='' ">
+        		and don_fee=#{entity.donFee}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and (name like   replace (#{entity.name},'*','%%') 
+	           		or name like concat('%', #{entity.name},'%')
+	           		or pinyin = #{entity.name})
+	       	</if>		
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+        		and date_format(birthday ,'%m-%d')= (select DATE_FORMAT(NOW(),'%m-%d'))      	
+			<if test="entity.egName != null and entity.egName!='' ">
+        		and eg_name=#{entity.egName}
+      		</if>	      	
+			<if test="entity.nation != null and entity.nation!='' ">
+        		and nation=#{entity.nation}
+      		</if>	      	
+			<if test="entity.sex != null and entity.sex!='' ">
+        		and sex=#{entity.sex}
+      		</if>	      	
+			<if test="entity.cardId != null and entity.cardId!='' ">
+        		and card_id=#{entity.cardId}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.openid != null and entity.openid!='' ">
+        		and openid=#{entity.openid}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and status=#{entity.status}
+      		</if>	      	
+			<if test="entity.cardNum != null and entity.cardNum!='' ">
+        		and card_num=#{entity.cardNum}
+      		</if>	      	
+			<if test="entity.pinyin != null and entity.pinyin!='' ">
+        		and pinyin=#{entity.pinyin}
+      		</if>	      	
+			<if test="entity.truePhoto != null and entity.truePhoto!='' ">
+        		and true_photo=#{entity.truePhoto}
+      		</if>	      	
+			<if test="entity.cardStatus != null and entity.cardStatus!='' ">
+        		and card_status=#{entity.cardStatus}
+      		</if>	      	
+			<if test="entity.isShow != null and entity.isShow!='' ">
+        		and is_show=#{entity.isShow}
+      		</if>	      	
+			<if test="entity.point != null and entity.point!='' ">
+        		and point=#{entity.point}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.cardType != null and entity.cardType!='' ">
+        		and card_type=#{entity.cardType}
+      		</if>	      	
+			<if test="entity.level != null and entity.level!='' ">
+        		and level=#{entity.level}
+      		</if>	      	
+			<if test="entity.posCity != null and entity.posCity!='' ">
+        		and pos_city=#{entity.posCity}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>      	
+		</if>
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where_more">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and sm_s.id=#{entity.id}
+      		</if>	      	
+			<if test="entity.complete != null and entity.complete!='' ">
+        		and sm_s.complete=#{entity.complete}
+      		</if>	      	
+			<if test="entity.markIds != null and entity.markIds!='' ">
+        		and sm_s.mark_ids=#{entity.markIds}
+      		</if>
+			<if test="entity.politics != null and entity.politics!='' ">
+				and politics=#{entity.politics}
+			</if>
+			<if test="entity.posLat != null and entity.posLat!='' ">
+        		and sm_s.pos_lat=#{entity.posLat}
+      		</if>	      	
+			<if test="entity.createDate != null ">
+        		and sm_s.create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.marks != null and entity.marks!='' ">
+        		and sm_s.marks=#{entity.marks}
+      		</if>	      	
+			<if test="entity.posLong != null and entity.posLong!='' ">
+        		and sm_s.pos_long=#{entity.posLong}
+      		</if>	      	
+			<if test="entity.donFee != null and entity.donFee!='' ">
+        		and sm_s.don_fee=#{entity.donFee}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+	           	and (sm_s.name like   replace (#{entity.name},'*','%%') 
+	           		or sm_s.name like concat('%', #{entity.name},'%')
+	           		or sm_s.pinyin = #{entity.name})
+	       	</if>		
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and sm_s.remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.birthday != null">
+        		and 
+				date_format(birthday ,'%Y-%m-%d')= (select DATE_FORMAT(#{entity.birthday},'%Y-%m-%d'))
+      		</if>	      	
+			<if test="entity.egName != null and entity.egName!='' ">
+        		and sm_s.eg_name=#{entity.egName}
+      		</if>	      	
+			<if test="entity.nation != null and entity.nation!='' ">
+        		and sm_s.nation=#{entity.nation}
+      		</if>	      	
+			<if test="entity.sex != null and entity.sex!='' ">
+        		and sm_s.sex=#{entity.sex}
+      		</if>	      	
+			<if test="entity.cardId != null and entity.cardId!='' ">
+        		and sm_s.card_id=#{entity.cardId}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and sm_s.flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.openid != null and entity.openid!='' ">
+        		and sm_s.openid=#{entity.openid}
+      		</if>	      	
+			<if test="entity.status != null and entity.status!='' ">
+        		and sm_s.status=#{entity.status}
+      		</if>	      	
+			<if test="entity.cardNum != null and entity.cardNum!='' ">
+        		and sm_s.card_num=#{entity.cardNum}
+      		</if>	      	
+			<if test="entity.pinyin != null and entity.pinyin!='' ">
+        		and sm_s.pinyin=#{entity.pinyin}
+      		</if>	      	
+			<if test="entity.truePhoto != null and entity.truePhoto!='' ">
+        		and sm_s.true_photo=#{entity.truePhoto}
+      		</if>	      	
+			<if test="entity.cardStatus != null and entity.cardStatus!='' ">
+        		and sm_s.card_status=#{entity.cardStatus}
+      		</if>	      	
+			<if test="entity.isShow != null and entity.isShow!='' ">
+        		and sm_s.is_show=#{entity.isShow}
+      		</if>	      	
+			<if test="entity.point != null and entity.point!='' ">
+        		and sm_s.point=#{entity.point}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and sm_s.type=#{entity.type}
+      		</if>	      	
+			<if test="entity.cardType != null and entity.cardType!='' ">
+        		and sm_s.card_type=#{entity.cardType}
+      		</if>	      	
+			<if test="entity.level != null and entity.level!='' ">
+        		and sm_s.level=#{entity.level}
+      		</if>	      	
+			<if test="entity.posCity != null and entity.posCity!='' ">
+        		and sm_s.pos_city=#{entity.posCity}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and sm_s.user_id=#{entity.userId}
+      		</if>
+	        <if test="entity.orgId!=null and entity.orgId!='' ">
+<!-- 	           and sua.as_id   in (SELECT as_a.id FROM as_association as_a WHERE find_in_set(#{entity.orgId}, as_a.parent_ids) or as_a.id = #{entity.orgId})
+	    	   and     sua.as_id = #{entity.orgId}
+ -->
+ 				and sm_s.user_id in (SELECT sua.user_id FROM sys_user_asso sua WHERE  sua.as_id = #{entity.orgId} )
+ 			</if>	      	
+		</if>
+	</sql>
+
+	<!-- 根据userid查询 -->
+	<select id="getByUserId" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="AppBaseResultMap">
+		select
+		<include refid="App_Base_Column_List" />
+		from sm_schoolmate sm_s
+		where user_id = #{userId,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+	</select>
+
+  	<!--根据校友id获取校友的籍贯及默认的用户名 -->
+  	<select id="getSmInfoById" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Info_Base_Column_List" />
+    	from sm_schoolmate sm_s
+	    	left join sys_user sys_u on sm_s.user_id = sys_u.id
+    	where sm_s.id = #{id,jdbcType=VARCHAR} and 
+    		sm_s.flag = #{FLAG_NORMAL}
+    	and sys_u.flag = #{FLAG_NORMAL}
+  	</select>
+
+	<!-- 根据ID获取某个校友所有信息 -->
+	<select id ="getUserINfoById" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="BaseResultMap">
+    	select
+    		<include refid="Base_Column_List" />
+	    		,sm_c.id As smContact_id,sm_c.type As smContact_type,sm_c.contact As smContact_contact			
+				,sm_p.id As smProfe_id, sm_p.district As smProfe_district, sm_p.province As smProfe_province, sm_p.end_date As smProfe_end_date,
+				sm_p.fax As smProfe_fax, sm_p.start_date As smProfe_start_date, sm_p.city As smProfe_city, sm_p.status As smProfe_status, 
+				sm_p.country As smProfe_country, sm_p.telephone As smProfe_telephone, sm_p.industry As smProfe_industry,
+				sm_p.department As smProfe_department, sm_p.nature As smProfe_nature, sm_p.workplace As smProfe_workplace, 
+				sm_p.detail As smProfe_detail, sm_p.position As smProfe_position  			
+				
+				,sm_soci.id As smSoci_id, sm_soci.name As smSoci_name, sm_soci.position As smSoci_position, sm_soci.startdate As smSoci_startdate, sm_soci.enddate As smSoci_enddate,
+				sm_soci.status As smSoci_status,sm_soci.infoval As smSoci_infoval 	  			
+				
+				,sm_poli.id As smPoli_id, sm_poli.name As smPoli_name, sm_poli.position As smPoli_position, sm_poli.startdate As smPoli_startdate,
+				sm_poli.enddate As smPoli_enddate, sm_poli.type As smPoli_type,sm_poli.infoval As smPoli_infoval
+				
+				,sm_add.id As smAddress_id, sm_add.province As smAddress_province, sm_add.city As smAddress_city, sm_add.country As smAddress_country,
+				sm_add.type As smAddress_type,sm_add.detail As smAddress_detail, sm_add.zipcode As smAddress_zipcode, sm_add.district As smAddress_district    			
+	    		
+	    		,sm_exper.id As smExper_id, sm_exper.name As smExper_name, sm_exper.position As smExper_position, 
+				sm_exper.content As smExper_content,sm_exper.start_date As smExper_start_date, sm_exper.end_date As smExper_end_date   			
+	    		
+	    		,sm_hon.id As smHon_id, sm_hon.infoval As smHon_infoval, sm_hon.name As smHon_name,sm_hon.type as smHon_type,
+	    		sm_hon.date As smHon_date, sm_hon.industry As smHon_industry   			
+				
+				,sm_edu.id As smEdu_id, sm_edu.degree_type, sm_edu.temp_specialty, sm_edu.edu_model, sm_edu.school, sm_edu.edu_record, sm_edu.schoollen, sm_edu.edu_type, sm_edu.series, sm_edu.classes, 
+				sm_edu.enddate, sm_edu.specialty, sm_edu.college, sm_edu.startdate, sm_edu.student_no, sm_edu.degree, sm_edu.temp_series			
+				
+				,sm_his_da.id As smHist_id, sm_his_da.join_date As smHist_join_date ,sm_his_da.native_adress As smHist_native_adress,sm_his_da.other_degree as smHist_other_degree,
+				sm_his_da.before_school_unit As smHist_before_school_unit,sm_his_da.other_school As smHist_other_school, sm_his_da.other_specialty As smHist_other_specialty,
+				sm_his_da.degree_date As smHist_degree_date, sm_his_da.person_love As smHist_person_love, sm_his_da.trust_unit As smHist_trust_unit 
+				
+				,sm_faml.id As smFam_id, sm_faml.name As smFam_name, sm_faml.phone As smFam_phone, sm_faml.profession As smFam_profession, sm_faml.birthday As smFam_birthday, 
+				sm_faml.relation As smFam_relation, sm_faml.sex As smFam_sex,sm_faml.isschool As smFam_isschool, sm_faml.workplace As smFam_workplace				  			    	   		
+    	from sm_schoolmate  sm_s
+    		
+    		left join sm_contact sm_c on sm_s.user_id = sm_c.user_id  and sm_c.flag = #{entity.FLAG_NORMAL} 
+    			
+    		left join sm_profession sm_p on sm_s.user_id = sm_p.user_id   and sm_p.flag = #{entity.FLAG_NORMAL} 			
+    			
+    		left join sm_social sm_soci on sm_s.user_id = sm_soci.user_id  and sm_soci.flag = #{entity.FLAG_NORMAL}   			
+    			
+    		left join sm_politics sm_poli on sm_s.user_id = sm_poli.user_id and sm_poli.flag = #{entity.FLAG_NORMAL}   			
+    			
+    		left join sm_address sm_add on sm_s.user_id = sm_add.user_id and sm_add.flag = #{entity.FLAG_NORMAL} 			
+    			
+    		left join sm_experience sm_exper on sm_s.user_id = sm_exper.user_id and sm_exper.flag = #{entity.FLAG_NORMAL}  			
+    			
+    		left join sm_honor sm_hon on sm_s.user_id = sm_hon.user_id   and sm_hon.flag = #{entity.FLAG_NORMAL}
+    			
+    		left join sm_education sm_edu on sm_s.user_id = sm_edu.user_id and sm_edu.flag = #{entity.FLAG_NORMAL} 
+    			 			
+    		left join sm_history_data sm_his_da on sm_s.user_id = sm_his_da.user_id  and sm_his_da.flag = #{entity.FLAG_NORMAL} 
+	
+    		LEFT JOIN  sm_family sm_faml ON  sm_s.user_id =  sm_faml.user_id and sm_faml.flag = #{entity.FLAG_NORMAL}      	     	     	      	      	       	    	
+    	<where>
+	  		<include refid="query_where_more"></include>
+    	</where>		
+	</select>
+	
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_schoolmate sm_s
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+		insert into sm_schoolmate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="complete != null">
+	    		complete,
+	  		</if>
+	   		<if test="markIds != null">
+	    		mark_ids,
+	  		</if>
+	   		<if test="posLat != null">
+	    		pos_lat,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="marks != null">
+	    		marks,
+	  		</if>
+	   		<if test="posLong != null">
+	    		pos_long,
+	  		</if>
+	   		<if test="donFee != null">
+	    		don_fee,
+	  		</if>
+	   		<if test="name != null">
+	    		name,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="birthday != null">
+	    		birthday,
+	  		</if>
+	   		<if test="egName != null">
+	    		eg_name,
+	  		</if>
+	   		<if test="nation != null">
+	    		nation,
+	  		</if>
+	   		<if test="sex != null">
+	    		sex,
+	  		</if>
+	   		<if test="cardId != null">
+	    		card_id,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="openid != null">
+	    		openid,
+	  		</if>
+	   		<if test="status != null">
+	    		status,
+	  		</if>
+	   		<if test="cardNum != null">
+	    		card_num,
+	  		</if>
+	   		<if test="pinyin != null">
+	    		pinyin,
+	  		</if>
+	   		<if test="truePhoto != null">
+	    		true_photo,
+	  		</if>
+	   		<if test="cardStatus != null">
+	    		card_status,
+	  		</if>
+	   		<if test="isShow != null">
+	    		is_show,
+	  		</if>
+	   		<if test="point != null">
+	    		point,
+	  		</if>
+	   		<if test="type != null">
+	    		type,
+	  		</if>
+	   		<if test="cardType != null">
+	    		card_type,
+	  		</if>
+	   		<if test="level != null">
+	    		level,
+	  		</if>
+	   		<if test="posCity != null">
+	    		pos_city,
+	  		</if>
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>
+			<if test="politics != null">
+				politics,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="complete != null">
+	   			#{complete,jdbcType=INTEGER},
+	  		</if>
+	   		<if test="markIds != null">
+	   			#{markIds,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="posLat != null">
+	   			#{posLat,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="marks != null">
+	   			#{marks,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="posLong != null">
+	   			#{posLong,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="donFee != null">
+	   			#{donFee,jdbcType=DECIMAL},
+	  		</if>
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="birthday != null">
+	   			#{birthday,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="egName != null">
+	   			#{egName,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="nation != null">
+	   			#{nation,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="sex != null">
+	   			#{sex,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="cardId != null">
+	   			#{cardId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="openid != null">
+	   			#{openid,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="status != null">
+	   			#{status,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="cardNum != null">
+	   			#{cardNum,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="pinyin != null">
+	   			#{pinyin,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="truePhoto != null">
+	   			#{truePhoto,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="cardStatus != null">
+	   			#{cardStatus,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="isShow != null">
+	   			#{isShow,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="point != null">
+	   			#{point,jdbcType=INTEGER},
+	  		</if>
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="cardType != null">
+	   			#{cardType,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="level != null">
+	   			#{level,jdbcType=INTEGER},
+	  		</if>
+	   		<if test="posCity != null">
+	   			#{posCity,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="politics != null">
+				#{politics,jdbcType=VARCHAR},
+			</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+    	update sm_schoolmate
+    	<set>
+			<if test="complete != null">
+	   			complete = #{complete,jdbcType=INTEGER},
+	  		</if>
+			<if test="markIds != null">
+	   			mark_ids = #{markIds,jdbcType=VARCHAR},
+	  		</if>
+			<if test="posLat != null">
+	   			pos_lat = #{posLat,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="marks != null">
+	   			marks = #{marks,jdbcType=VARCHAR},
+	  		</if>
+			<if test="posLong != null">
+	   			pos_long = #{posLong,jdbcType=VARCHAR},
+	  		</if>
+			<if test="donFee != null">
+	   			don_fee = #{donFee,jdbcType=DECIMAL},
+	  		</if>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="birthday != null">
+	   			birthday = #{birthday,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="egName != null">
+	   			eg_name = #{egName,jdbcType=VARCHAR},
+	  		</if>
+			<if test="nation != null">
+	   			nation = #{nation,jdbcType=VARCHAR},
+	  		</if>
+			<if test="sex != null">
+	   			sex = #{sex,jdbcType=VARCHAR},
+	  		</if>
+			<if test="cardId != null">
+	   			card_id = #{cardId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="openid != null">
+	   			openid = #{openid,jdbcType=VARCHAR},
+	  		</if>
+			<if test="status != null">
+	   			status = #{status,jdbcType=VARCHAR},
+	  		</if>
+			<if test="cardNum != null">
+	   			card_num = #{cardNum,jdbcType=VARCHAR},
+	  		</if>
+			<if test="pinyin != null">
+	   			pinyin = #{pinyin,jdbcType=VARCHAR},
+	  		</if>
+			<if test="truePhoto != null">
+	   			true_photo = #{truePhoto,jdbcType=VARCHAR},
+	  		</if>
+			<if test="cardStatus != null">
+	   			card_status = #{cardStatus,jdbcType=VARCHAR},
+	  		</if>
+			<if test="isShow != null">
+	   			is_show = #{isShow,jdbcType=VARCHAR},
+	  		</if>
+			<if test="point != null">
+	   			point = #{point,jdbcType=INTEGER},
+	  		</if>
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>
+			<if test="cardType != null">
+	   			card_type = #{cardType,jdbcType=VARCHAR},
+	  		</if>
+			<if test="level != null">
+	   			level = #{level,jdbcType=INTEGER},
+	  		</if>
+			<if test="posCity != null">
+	   			pos_city = #{posCity,jdbcType=VARCHAR},
+	  		</if>
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="politics != null">
+				politics = #{politics,jdbcType=VARCHAR},
+			</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<!-- 根据标签获取校友列表 -->
+	<select id="loadSmsByMark"  parameterType="com.mpri.aio.schoolmate.model.SmMark" resultMap="BaseResultMap" >
+		select 
+			id ,marks ,mark_ids
+		from 
+		sm_schoolmate sm_s
+		where sm_s.user_id in (
+			   SELECT
+		sms.sys_user_id 
+			FROM
+		sm_mark_schoolmate sms
+		     where
+		     sms.mark_id = #{id,jdbcType=VARCHAR}
+		)
+ 	</select>
+ 	
+	<!-- 校友取消标签 -->
+	<delete id="deleteUserMark">
+		delete from sm_mark_schoolmate where
+		sys_user_id=#{userId}
+	</delete>
+	<!-- 校友设置标签 -->
+	<insert id="insertUserMark">
+		insert into sm_mark_schoolmate(mark_id, sys_user_id)
+		<foreach collection="markList" item="mark" separator=" union all ">
+			select
+			#{mark.id},#{userId}
+			from dual
+		</foreach>		
+	</insert>
+	
+	
+	<select id="getListCompare"
+		parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate"
+		resultMap="BaseResultMap">
+		select 
+			distinct 
+			<include refid="Base_Column_List" />
+		from sm_schoolmate sm_s
+		LEFT JOIN sm_education sm_e on sm_s.user_id = sm_e.user_id
+		LEFT JOIN sm_contact sm_c on sm_s.user_id = sm_c.user_id
+		<where>
+			<include refid="compare_query_where" />
+		</where>
+		ORDER BY create_date DESC
+	</select>
+	<sql id="compare_query_where">
+		<if test="name!=null and name !='' ">and name = #{name}</if>
+		<if test="sex != null and sex !='' ">and sex=#{sex}</if>
+		<if test="cardNum != null and cardNum !='' ">and card_num=#{cardNum}</if>
+		<if test="cardType != null and cardType !='' ">and card_type=#{cardType}</if>
+		<if test="smEducation.school != null and smEducation.school !='' ">and school=#{smEducation.school}</if>
+		<if test="smEducation.college != null and smEducation.college !='' ">and college=#{smEducation.college}</if>
+		<if test="smEducation.specialty != null and smEducation.specialty !='' ">and specialty=#{smEducation.specialty}</if>
+		<if test="smEducation.series != null and smEducation.series !='' ">and series=#{smEducation.series}</if>
+		<if test="smEducation.startdate != null ">and startdate=#{smEducation.startdate}</if>
+		<if test="smEducation.enddate != null  ">and enddate=#{smEducation.enddate}</if>
+		<if test="flag != null and flag!='' ">and sm_e.flag= sm_c.flag = sm_c.flag =  #{FLAG_NORMAL}</if>
+	</sql>	
+</mapper>

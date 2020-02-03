@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>知名校友管理</title>
+<script type="text/javascript" charset="UTF-8"
+	src="../../../../static/js/header_base.js"></script>
+<script type="text/javascript" charset="UTF-8"
+	src="../../../../static/js/header_ztree.js"></script>
+<script type="text/javascript" charset="UTF-8"
+	src="../../../../static/js/header_com.js"></script>
+</head>
+<style>
+.layui-table-cell {
+	height: 100%
+}
+</style>
+<body class="childrenBody">
+
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space11">
+			<div class="layui-col-md12">
+				<div class="layui-field-box">
+					<div class="layui-col-md12 layui-col-space1">
+						<blockquote class="layui-elem-quote quoteBox">
+							<div class="layui-inline">
+								<div class="layui-input-inline">
+									<input type="text" class="layui-input searchVal"
+										placeholder="请输入知名校友名字" />
+								</div>
+								<a class="layui-btn search_btn" data-type="reload">搜索</a>
+							</div>
+						</blockquote>
+						<div layui-inline class="layui-but-per">
+							<div class="layui-btn-group" id="but_per"></div>
+						</div>
+						<table id="famousList" lay-filter="famousList"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="outerdiv"
+			style="position: fixed; top: 0; left: 0; background: rgba(0, 0, 0, 0.7); z-index: 2; width: 100%; height: 100%; display: none;">
+			<div id="innerdiv" style="position: absolute;">
+				<img id="bigimg" style="border: 5px solid #fff;" src="" />
+			</div>
+		</div>
+	</div>
+		<script type="text/javascript"
+			src="../../../../static/js/modules/schoolmate/famous/famouslist.js"></script>
+</body>
+</html>

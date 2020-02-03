@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>定时通知消息管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/ckeditor5-build-classic/ckeditor.js
+	"></script>	
+<style>
+	.ck-content {
+		min-height: 300px;
+	}
+	.headImgs {
+		width: 110px;
+		height: 110px;
+	}
+	.ImgLi{
+		position: relative;
+		float:left;
+	}
+	.selectedImg{
+		
+	}
+	.selected {
+		font-size: 20px;
+		font-weight: bolder ;
+		color: #00D20D;
+		position: absolute; 
+		bottom: 0px;
+		right: 0px;
+	}
+</style>			
+</head>
+<body class="childrenBody">
+<div class="layui-fluid">
+	<form class="layui-form" id= "mesGroupForm" style="width:98%;margin-top:15px;">
+		<input type="text" class="layui-input id"  style="display: none;">
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">名称<span class="span-required">*<span></label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input name" id="name" lay-verify="required" placeholder="请输入组名(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12" >
+			<div class="layui-col-md6 layui-col-xs12">
+				<label class="layui-form-label">日期</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input date"  id="date" lay-verify="required" readonly="readonly">
+				</div>
+			</div>
+			<div class="layui-col-md6 layui-col-xs12">
+				<label class="layui-form-label">发送方式<span class="span-required">*<span></label> 
+				<div class="layui-input-block">
+					<select class="layui-form" name='sendType' id='sendType' lay-verify="required" >
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12" >
+			<div class="layui-col-md12 layui-col-xs12">
+				<label class="layui-form-label">模板选择</label>
+				<div class="layui-input-block">
+					<select class="layui-form" name='mesTemplate' id='mesTemplate' lay-filter="mesTemplate">
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12" id = "contentDiv">
+			<label class="layui-form-label">内容<span class="span-required">*<span></label>
+			<div class="layui-input-block">
+				<textarea namen="content" id="content" class="ck-content" lay-verify="content" name="content">
+				</textarea>
+			</div>			
+		</div>					
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<label class="layui-form-label">备注信息</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入备注信息(最大长度256位)" class="layui-textarea remark" maxlength ="256"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-row layui-col-xs12">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addMesScheduler">确认</button>
+				<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+			</div>
+		</div>
+	</form>
+</div>
+	<script type="text/javascript" src="../../../../static/js/modules/message/mesScheduler/mesSchedulerAdd.js"></script>
+</body>
+</html>

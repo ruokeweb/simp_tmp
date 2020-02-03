@@ -1,0 +1,195 @@
+<html>
+<head>
+    <title>值年返校统计</title>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+    <script src="../../../../static/js/g2/data-set.min.js"></script>
+    <script src="../../../../static/js/g2/g2.min.js"></script>
+    <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+</head>
+<style type="text/css">
+    .childrenBody {
+        height: 88% !important;
+    }
+    .layui-fluid {
+        margin: 1.5rem !important;
+    }
+</style>
+<body class="childrenBody">
+<div class="layui-fluid" style="">
+    <div class="layui-row layui-form layui-col-xs12" style="position: absolute;background: #fff;z-index: 15; ">
+        <div class="magb15 layui-col-md2 layui-col-xs12">
+            <label class="layui-form-label">活动状态：</label>
+            <div class="layui-input-block">
+                <select class="layui-form" id="status" name="status" >
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md3 layui-col-xs12">
+            <label class="layui-form-label">月份：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input " id="rangYear" placeholder="yyyy-mm" readonly="readonly">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md1 layui-col-xs12">
+            <a class="layui-btn" lay-submit="" class="layui-btn search_btn" id="search">查询</a>
+        </div>
+    </div>
+    <div class="layui-row" id="xyCount">
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    layui.config({
+        base: "../../../../static/js/"
+    }).extend({
+        "application": "application",
+        "publicUtil": "publicUtil",
+        "treeSelect": "treeSelect",
+        "dateUtils"  : "dateUtils"
+    })
+    layui.use(['layer', 'application', "publicUtil", 'application', 'laydate', 'jquery', 'treeSelect','form','dateUtils'], function() {
+        layer = parent.layer,
+            laydate = layui.laydate,
+            application = layui.application,
+            publicUtil = layui.publicUtil,
+            form = layui.form,
+            dateUtils = layui.dateUtils,
+            treeSelect = layui.treeSelect;
+        $ = layui.jquery;
+
+        // var treeSelect;
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            check: {
+                enable: true,
+                chkStyle: "radio",
+                radioType: "all"
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "parentId"
+                }
+            }
+        }
+        var chart = new G2.Chart({
+            container: 'xyCount',
+            forceFit: true,
+            height: window.innerHeight-100,
+            padding: [100, 100, 100, 100]
+        });
+
+        laydate.render({
+            elem: '#rangYear',
+            theme: 'molv',
+            type: 'month',
+            trigger: 'click',
+            range: true
+        });
+
+
+
+        $("#search").click(function() {
+            var value = $("#rangYear").val();
+            var difference = null;
+            var queryBeginDate = null;
+            var queryEndDate = null;
+            if (null != value && value.length > 0) {
+                var strs = new Array();
+                strs = value.split(" - ");
+                queryBeginDate = strs[0].trim();
+                queryEndDate = strs[1].trim();
+                difference = dateUtils.datemonth(queryEndDate,queryBeginDate) + 1;
+            } else {
+                value = null;
+                difference = null;
+            }
+            if(difference >12){
+                layer.msg("只能查询12个月的数据", {icon: 5, shift: 6});
+                return false;
+            }
+
+            $.ajax({
+                url: application.SERVE_URL + "/chart/activity/actBackChart",
+                data:{
+                    chartStartDate: queryBeginDate,
+                    chartEndDate: queryEndDate,
+                    paramA: difference == null ? 12:difference,
+                    status: $("#status").val()
+                },
+                success: function(res) {
+                    chart.changeData(res);
+                    chart.repaint();
+                }
+            })
+        })
+        initAssoSelect("association");
+        //加载校友会下拉列表
+        function initAssoSelect(selectid) {
+
+            //初始化状态
+            var dict=sessionStorage.getItem("dictCache");
+            //抓取相关字段属性
+            var data=JSON.parse(dict)['SELFORG_STATUS'];
+            $("#status" ).empty();
+            for(var i =0;i<data.length;i++){
+                if(data[i].value=='SUCCESS')
+                    $("#status" ).append('<option  value="'+data[i].value+'" >'+data[i].label+' </option>');//往下拉菜单里添加元素
+            }
+            form.render();//菜单渲染 把内容加载进去
+        }
+
+        initBarChart();
+
+
+        function initBarChart() {
+            var loadingindex = layer.msg("数据获取中", {
+                icon: 16,
+                shade: 0.3,
+                time: 3000
+            });
+            var value = $("#rangYear").val();
+            var difference = null;
+            var queryBeginDate = null;
+            var queryEndDate = null;
+            if (null != value && value.length > 0) {
+                var strs = new Array();
+                strs = value.split(" - ");
+                queryBeginDate = strs[0].trim();
+                queryEndDate = strs[1].trim();
+                difference = dateUtils.datemonth(queryEndDate,queryBeginDate) + 1;
+            } else {
+                value = null;
+                difference = null;
+            }
+            if(difference >12){
+                layer.msg("只能查询12个月的数据", {icon: 5, shift: 6});
+                return false;
+            }
+
+            $.ajax({
+                url: application.SERVE_URL + "/chart/activity/actBackChart",
+                data:{
+                    chartStartDate: queryBeginDate,
+                    chartEndDate: queryEndDate,
+                    paramA: difference == null ? 12:difference,
+                    status: $("#status").val(),
+                },
+                success: function(data) {
+                    chart.source(data);
+                    chart.scale('count', {
+                        alias: '次数'
+                    });
+                    chart.interval().position('name*count');
+                    chart.render();
+                    layer.close(loadingindex);
+                }
+            })
+        }
+    });
+</script>
+</html>

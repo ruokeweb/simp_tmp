@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<title>菜单选择</title>
+	<meta charset="utf-8">
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+
+	<style>
+		.subject{
+			position:relative;
+			vertical-align:top;
+			display:inline-block;
+			float:left;
+			max-height:1200px;
+			width:95%;
+			margin-left:10px;
+			margin-top:5px;
+			margin-bottom:5px;
+			border:1px solid #E4E4E4;
+			text-align: left;
+		}
+		.oneSubject{
+            float: left;
+            line-height: 0.5;
+            margin-bottom: 5px;
+            margin-right: 10px;
+
+		}
+		.realSubject{
+			width: 100%;
+			margin: auto;
+            padding-bottom: 10px;
+            background-color:#009688;
+            font-weight:900;
+            color: white;
+		}
+		.realSubject input{
+			margin: auto;
+		}
+        .layui-form-radio>i {
+            margin-right: 8px;
+            font-size: 18px;
+            color: #c2c2c2;
+        }
+        .layui-form-radio {
+            line-height: 15px;
+            margin: 6px 10px 0 0;
+            padding-left: 12px;
+            cursor: pointer;
+            font-size: 0;
+        }
+        .layui-form-radio * {
+            font-size: 13px;
+        }
+        .layui-icon-triangle-d:before {
+            content: "\e625";
+            margin-left: -16px;
+            position: relative;
+            top: 5px;
+        }
+        .realSubject .layui-form-radio>i:hover, .realSubject .layui-form-radioed>i {
+            color:  #f8f8f8;
+        }
+        .oneSubject .layui-form-radio>i:hover, .oneSubject .layui-form-radioed>i {
+            color:  #5FB878;
+        }
+        #hiddenDiv .layui-form-radio>i:hover, #hiddenDiv .layui-form-radioed>i {
+            color:  #5FB878;
+        }
+        #hiddenDiv{
+            max-width: 400px;
+            display: none;
+            position: absolute;
+            left: 118px;
+            top: 141px;
+            line-height: 36px;
+            padding: 5px;
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px;
+            border: 1px solid rgb(210, 210, 210);
+            background-color: #f2f2f2;
+            z-index: 100;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+    </style>
+
+</HEAD>
+
+<body class="childrenBody">
+<form class="layui-form " style="width: 99%;">
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <div class="content layui-form-item layui-row layui-col-xs11">
+                    <div class="magb15 layui-col-md3 layui-col-xs12" id="oneColumn"></div>
+                    <div class="magb15 layui-col-md3 layui-col-xs12" id="twoColumn"></div>
+                    <div class="magb15 layui-col-md3 layui-col-xs12" id="threeColumn"></div>
+                    <div class="magb15 layui-col-md3 layui-col-xs12" id="fourColumn"></div>
+                </div>
+                <div class="layui-form-item layui-row layui-col-xs1">
+
+                </div>
+            </div>
+		<!--<div class="layui-form-item layui-row layui-col-xs12" style="float: right; bottom: 10px; position:fixed;">-->
+			<div style="margin-bottom: 10px;z-index: 1;bottom: 50px;width: 12px;right: 57px;position: fixed;">
+				<a class="layui-btn layui-btn-sm" lay-submit="" lay-filter="getSelectData" id="getSelectData">确认</a>
+            </div>
+		<!--</div>-->
+    <div id="hiddenDiv"></div>
+</form>
+
+
+<script>
+    var layer;
+    var parentId="0";
+    var childrens=[];
+    var subjects={};
+    var oneSubjects={};//13个学科门类的集合
+    var twoSubjects={};//每个学科门类下的一级学科集合
+    var oneSubjectId;
+    layui.config({
+        base : "../../../../static/js/"
+    }).extend({
+        "application" : "application",
+        "publicUtil"  : "publicUtil"
+    })
+    layui.use(['element', 'layer', 'form','table','application','publicUtil'], function () {
+        var form = layui.form;
+        layer = parent.layer,
+            application = layui.application,
+            publicUtil  = layui.publicUtil,
+            element = layui.element,
+            _$ = layui.jquery;
+        //先去根据root获取学科门类
+        _$.ajax({
+            url: application.SERVE_URL+"/settings/settingSubject/loadAllListBy", //ajax请求地址
+            async:false,
+            //data: {parentId:parentId},
+            success: function (res) {
+                subjects=res;
+                $.each(res,function (index,re) {
+                   if(re.parentId==0){
+                       oneSubjects[re.id]=re;
+                   }
+                });
+                subject();
+                form.render();
+            }
+        });
+        function subject() {
+            var one ={};
+            $.each(oneSubjects,function (index,res) {
+               let tag= $(".parentId",parent.document).val()==res.id?true:false;
+
+                if(res.code=='08'){
+                    $("#oneColumn").append("<div class='subject' id="+res.id+" ><div class='realSubject'><input  type='radio'  name='subjectId' value="+res.name+" title="+res.name+"></div></div>");
+                }else if(res.code=="01"||res.code=="09"||res.code=="02"||res.code=="06"||res.code=="05"||res.code=="04"){
+                    $("#twoColumn").append("<div class='subject' id="+res.id+" ><div class='realSubject'><input  type='radio' name='subjectId' value="+res.name+" title="+res.name+"></div></div>");
+                }else if(res.code=="12"||res.code=="11"||res.code=="10"){
+                    $("#threeColumn").append("<div class='subject' id="+res.id+"><div class='realSubject'><input  type='radio' name='subjectId' value="+res.name+" title="+res.name+"></div></div>");
+                }else if(res.code=="07"||res.code=="13"||res.code=="03") {
+                    $("#fourColumn").append("<div class='subject' id="+res.id+"><div class='realSubject'><input  type='radio' name='subjectId' value="+res.name+" title="+res.name+"></div></div>");
+                }
+                if(tag){
+                    $("input[value="+res.name+"]").attr("checked",true);
+                }
+                $.each(subjects,function (index,re) {
+                    let tag1= $(".parentId",parent.document).val()==re.id?true:false;
+                    if(re.parentId == res.id){
+                        $("#"+res.id ).append("<div class='oneSubject' id="+re.id+"><div><input  type='radio' name='subjectId' value="+re.name+" title="+re.name+"><i class='layui-icon layui-icon-triangle-d downselect' name="+re.id+"></i></div></div>");
+                        one[re.id]=re;
+                    }
+                    if(tag1){
+                        $("input[value="+re.name+"]").attr("checked",true);
+                    }
+
+                })
+            });
+
+            $.each(one,function (index,res) {//一级学科遍历
+                var two ={};
+                 $.each(subjects,function(index,re){//和全部的对比，得出二级学科的集合
+                      if(re.parentId == res.id){
+                           two[re.id]=re;
+                      }
+                 });
+                 twoSubjects[res.id]=two;
+
+            });
+        }
+        $(document).on('click','.downselect',function() {
+            if($(this).attr("name")==oneSubjectId){
+                $("#hiddenDiv").hide();
+                oneSubjectId=null;
+            }else{
+                $("#hiddenDiv").empty();
+                oneSubjectId= $(this).attr("name");
+                if(!$.isEmptyObject(twoSubjects[oneSubjectId])){
+                    $("#hiddenDiv").css("position", "absolute");
+                    $("#hiddenDiv").css("z-index", "9999");
+                    $("#hiddenDiv").css("top", $(this).offset().top);
+                    $("#hiddenDiv").css("left", $(this).offset().left);
+                    if ($("#hiddenDiv").css("display") == "none") {
+                        $("#hiddenDiv").show();
+                    }
+                    $.each(twoSubjects[oneSubjectId], function (index, re) {
+                        let tag= $(".parentId",parent.document).val()==re.id?true:false;
+                        $("#hiddenDiv").append("<div  id="+re.id+"><div ><input  type='radio' name='subjectId' value="+re.name+" title="+re.name+"></div></div>");//往下拉菜单里添加元素
+                        if(re.id==$(".parentId",parent.document).val()){
+                            $("#hiddenDiv").val($(".parentId",parent.document).val());
+                        }
+                        if(tag){
+                            $("input[value="+re.name+"]").attr("checked",true);
+                        }
+                    })
+                }else{
+                    $("#hiddenDiv").hide();
+                    top.layer.msg("没有二级学科");
+                }
+                form.render();
+            }
+
+
+        })
+
+
+
+
+
+        $(document).on('click','#getSelectData',function(){
+            let subjectId =$('input[name="subjectId"]:checked').parent().parent().attr("id");
+            if(subjectId ===undefined){
+                layer.msg("上级学科不能为空",{time: 1000});
+            }else{
+                $(window.parent.document).find(".parentId").val(subjectId);
+                $(window.parent.document).find(".parentName").val($('input[name="subjectId"]:checked').val());
+                let index=parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+        })
+    });
+</script>
+</body>
+
+</HTML>

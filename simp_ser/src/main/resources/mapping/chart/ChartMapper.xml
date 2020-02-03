@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.chart.mapper.ChartMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.chart.vo.DataSetForG2">
+			<result column="property" jdbcType="VARCHAR" javaType="string" property="property" />
+			<result column="value" jdbcType="VARCHAR" javaType="long" property="value" />
+			<result column="percent" jdbcType="DOUBLE" javaType="double" property="percent" />
+	</resultMap>
+	
+    <!-- 日期格式化 -->
+    <sql id="date_format">
+        DATE_FORMAT(
+        <!-- 通过参数选择不同的需要格式化的列 -->
+        <choose>
+            <when test="'${column}' == 'dateSequence'">
+                <include refid="date_column"/>
+            </when>
+            <otherwise>
+                ${dateColumn}
+            </otherwise>
+        </choose>
+        ,
+        <!-- 通过参数选择不同的格式 -->
+        <choose>
+            <when test="groupType == 'day'">
+                '%Y-%m-%d'
+            </when>
+            <when test="groupType == 'month'">
+                '%Y-%m'
+            </when>
+            <when test="groupType == 'year'">
+                '%Y'
+            </when>
+            <otherwise>
+                '%Y'
+            </otherwise>
+        </choose>
+        )
+    </sql>
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="date_column"> 
+        <choose>
+            <when test="enddate != null">
+<!--                DATE_SUB(STR_TO_DATE(to_char(${enddate}),'%a %b %e %T GMT+08:00 %Y %Y %Y'),INTERVAL @i :=@i + 1  -->
+               DATE_SUB('${enddate}',INTERVAL @i :=@i + 1 
+            </when>
+            <otherwise>
+                DATE_SUB(CURDATE(),INTERVAL @i :=@i + 1 
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="groupType == 'day'">
+                DAY)
+            </when>
+            <when test="groupType == 'month'">
+                MONTH)
+            </when>
+            <when test="groupType == 'year'">
+                YEAR)
+            </when>
+            <otherwise>
+                YEAR)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="querySQL!=null">
+            querySQL
+        </if>
+    </sql>
+    
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="count_column">
+        <choose>
+            <when test="countColumn != null and countColumn!='' and countColumn!='id'">
+                count(${countColumn})
+            </when>
+            <otherwise>
+                COUNT(id)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 通过createDate列统计数据 -->
+    <select id="groupByData" resultType="java.util.HashMap">
+        SELECT <include refid="count_column"/> count,tmp_date.date date FROM ${tableName} RIGHT JOIN (
+            SELECT 
+            <include refid="date_format">
+                <property name="column" value="dateSequence"/>
+            </include>
+            AS date 
+            FROM(
+                <!-- 构造连续的日期数据 -->
+                <foreach collection="num" separator="UNION ALL" >
+                    SELECT 1
+                </foreach>
+            ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON 
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <if test="querySQL!=null and querySQL!=''">
+            and ${querySQL}
+        </if>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+	
+	<select id="smCountBarChart" resultType="java.util.HashMap">  
+        SELECT <include refid="count_column"/> count,tmp_date.date date FROM sm_schoolmate maintab RIGHT JOIN (
+            SELECT 
+            <include refid="date_format">
+                <property name="column" value="dateSequence"/>
+            </include>
+            AS date 
+            FROM(
+                <!-- 构造连续的日期数据 -->
+                <foreach collection="num" separator="UNION ALL" >
+                    SELECT 1
+                </foreach>
+            ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON 
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> &lt;= tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+        	flag = #{entity.FLAG_NORMAL}
+<!--        		<if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+	                <if test="entity.chartStartDate != null">
+                    	and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(create_date,'%Y-%m') 
+	                </if>
+	                <if test="entity.chartEndDate!= null" >
+	                	and   DATE_FORMAT(create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m') 
+	                </if>
+			</if> -->
+       		<if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+	        	and maintab.user_id in (
+	        		select user_id from sm_education where 
+	        		flag = #{entity.FLAG_NORMAL}
+		      		and school=#{entity.paramB} or series=#{entity.paramB} or 
+		      		college=#{entity.paramB} or specialty=#{entity.paramB}
+		      	)
+			</if>
+       		<if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+	        	and maintab.user_id in (
+	        		select user_id from sys_user_asso where 
+		      	    as_id=#{entity.orgId}
+		      	)
+			</if>
+            <if test="entity.type != null and entity.type!='' ">
+                and type=#{entity.type}
+            </if>
+       	</where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+	</select>  
+	
+	
+   <!--校友学历统计 -->
+    <select id="qualificationsChart" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultType="java.util.HashMap">
+		select count(1) as count ,sm_edu.edu_record as eduRecord
+		from sm_schoolmate sm_s 
+		left join sm_education sm_edu on sm_s.user_id =  sm_edu.user_id	
+        <where>
+        	sm_s.flag = 'NORMAL'	
+			<include refid="query_where_chart"></include>
+        </where>
+        GROUP BY sm_edu.edu_record
+    </select>   
+	
+	<sql id="query_where_chart">
+		<if test = 'entity != null'>
+	     	<if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+		         and sm_edu.flag = #{entity.FLAG_NORMAL}
+			     and (school=#{entity.paramB} or series=#{entity.paramB} or 
+			     college=#{entity.paramB} or specialty=#{entity.paramB})
+			</if>
+	    	<if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+		         and sm_s.user_id in (
+		         select user_id from sys_user_asso where 
+			     as_id=#{entity.orgId}
+			     )
+			</if>
+	        <if test="entity.type != null and entity.type!='' ">
+	             and sm_s.type=#{entity.type}
+	        </if>
+	        <if test="entity.smEducation != null">
+	            <if test="entity.smEducation.startYearInternalFirst != null and entity.smEducation.startYearInternalSencond != null  and entity.smEducation.startYearInternalFirst!=''  and  entity.smEducation.startYearInternalSencond != '' ">
+	                and 
+	                DATE_FORMAT(sm_edu.startdate,'%Y') between #{entity.smEducation.startYearInternalFirst}  and  #{entity.smEducation.startYearInternalSencond}
+	            </if>
+	            <if test="entity.smEducation.endYearInternalFirst != null and entity.smEducation.endYearInternalFirst!=''  and entity.smEducation.endYearInternalSencond != null and entity.smEducation.endYearInternalSencond!='' ">
+	                and 
+	                DATE_FORMAT(sm_edu.enddate,'%Y') between #{entity.smEducation.endYearInternalFirst}  and  #{entity.smEducation.endYearInternalSencond}
+	            </if>
+	        </if>
+        </if>
+	</sql>
+    <!--校友新增人数统计(统计按照性别)-->
+    <select id="smNewNumberBySex" resultType="java.util.HashMap">
+        SELECT <include refid="count_column"/> count,tmp_date.date date ,maintab.sex FROM sm_schoolmate maintab right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            flag = #{entity.FLAG_NORMAL}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY tmp_date.date ,maintab.sex
+        ORDER BY tmp_date.date
+    </select>
+
+    <!--校友工作单位性质统计(统计按照性别)-->
+    <select id="unitPropertyChart" resultType="java.util.HashMap">
+        SELECT count( maintab.id )  count,
+        sm_p.nature ,
+        maintab.sex
+        FROM sm_schoolmate maintab
+        right join sm_profession sm_p on maintab.user_id = sm_p.user_id and sm_p.flag=#{entity.FLAG_NORMAL} and sm_p.status <![CDATA[!= ]]> 'JOIN_OUT'
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and maintab.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY
+        sm_p.nature,maintab.sex
+    </select>
+    <!--校友政治面貌统计(统计按照性别)-->
+    <select id="politicCountenanceChart" resultType="java.util.HashMap">
+        SELECT count( maintab.id )  count,
+        maintab.politics ,
+        maintab.sex
+        FROM sm_schoolmate maintab
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and maintab.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY
+        maintab.politics,maintab.sex
+    </select>
+    <!--校友年龄段统计(统计按照性别)-->
+    <select id="ageGroupChart" resultType="java.util.HashMap">
+        SELECT count( maintab.id )  count,
+        DATE_FORMAT( birthday, '%Y' ) birthday,
+        maintab.sex
+        FROM sm_schoolmate maintab
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and maintab.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY
+        DATE_FORMAT( birthday, '%Y' ) ,maintab.sex
+        ORDER BY DATE_FORMAT( birthday, '%Y' )
+    </select>
+
+    <!--校友信息完整度统计(统计按照性别)-->
+    <select id="smCompleteChart" resultType="java.util.HashMap">
+        SELECT count( maintab.id )  count,
+         complete
+        FROM sm_schoolmate maintab
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = 'NORMAL'
+            <if test = 'entity != null'>
+                <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                    and maintab.user_id in (
+                    select user_id from sm_education where
+                    flag = #{entity.FLAG_NORMAL}
+                    and school=#{entity.paramB} or series=#{entity.paramB} or
+                    college=#{entity.paramB} or specialty=#{entity.paramB}
+                    )
+                </if>
+                <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                    and maintab.user_id in (
+                    select user_id from sys_user_asso where
+                    as_id=#{entity.orgId}
+                    )
+                </if>
+                <if test="entity.type != null and entity.type!='' ">
+                    and maintab.type=#{entity.type}
+                </if>
+                <if test="entity.sex != null and entity.sex!='' ">
+                    and maintab.sex=#{entity.sex}
+                </if>
+            </if>
+        </where>
+        GROUP BY
+        maintab.complete
+    </select>
+    <!--校友籍贯统计（热力地图）-->
+    <select id="smNationPlaceChart" resultType="java.util.HashMap">
+        select count( maintab.id ) count,
+        sm_a.province
+        from sm_schoolmate maintab
+        left join sm_address sm_a on maintab.user_id = sm_a.user_id  and  sm_a.flag ='NORMAL' and sm_a.type='IS_NATION_PLACE' and sm_a.country ='000000'
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = 'NORMAL'
+            <if test = 'entity != null'>
+                <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                    and maintab.user_id in (
+                    select user_id from sm_education where
+                    flag = #{entity.FLAG_NORMAL}
+                    and school=#{entity.paramB} or series=#{entity.paramB} or
+                    college=#{entity.paramB} or specialty=#{entity.paramB}
+                    )
+                </if>
+                <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                    and maintab.user_id in (
+                    select user_id from sys_user_asso where
+                    as_id=#{entity.orgId}
+                    )
+                </if>
+                <if test="entity.type != null and entity.type!='' ">
+                    and maintab.type=#{entity.type}
+                </if>
+                <if test="entity.sex != null and entity.sex!='' ">
+                    and maintab.sex=#{entity.sex}
+                </if>
+            </if>
+        </where>
+        group by
+        sm_a.province
+    </select>
+    <!--校友工作地点（热力地图）-->
+    <select id="smWorkPlaceChart" resultType="java.util.HashMap">
+        select count( maintab.id ) count,
+        sm_p.province
+        from sm_schoolmate maintab
+        right join sm_profession sm_p on maintab.user_id = sm_p.user_id  and  sm_p.flag =#{entity.smProfession.flag} and  sm_p.status =#{entity.smProfession.status} and   sm_p.country ='000000'
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = 'NORMAL'
+            <if test = 'entity != null'>
+                <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                    and maintab.user_id in (
+                    select user_id from sm_education where
+                    flag = #{entity.FLAG_NORMAL}
+                    and school=#{entity.paramB} or series=#{entity.paramB} or
+                    college=#{entity.paramB} or specialty=#{entity.paramB}
+                    )
+                </if>
+                <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                    and maintab.user_id in (
+                    select user_id from sys_user_asso where
+                    as_id=#{entity.orgId}
+                    )
+                </if>
+                <if test="entity.type != null and entity.type!='' ">
+                    and maintab.type=#{entity.type}
+                </if>
+                <if test="entity.sex != null and entity.sex!='' ">
+                    and maintab.sex=#{entity.sex}
+                </if>
+            </if>
+        </where>
+        group by
+        sm_p.province
+    </select>
+
+
+</mapper>

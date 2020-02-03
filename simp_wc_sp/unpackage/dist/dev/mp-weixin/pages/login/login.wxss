@@ -1,0 +1,52 @@
+
+.content {
+    padding: 120rpx 70rpx;
+}
+.input_login {
+    border-bottom: 1px solid #e6e6e6;
+    height: 2rem;
+}
+.input-group {
+    margin-top: 150rpx;
+}
+.input-row {
+    margin-top: 40rpx;
+}
+.action-row-center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+.action-row-right {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+}
+.action-row navigator {
+    color: #999999;
+    padding-top: 10rpx;
+}
+.input-row button {
+    margin: 20rpx 0;
+}
+

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.act.mapper.AppActSelforgContentMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.act.model.ActSelforgContent">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="act_selforg_id" jdbcType="VARCHAR" property="actSelforgId" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+	<resultMap id="ActSelf" type="com.mpri.aio.app.act.vo.ActSelfVo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="act_date" jdbcType="TIMESTAMP" property="actDate" />
+		<result column="ready_no" jdbcType="INTEGER" property="readyNo" />
+		<result column="limit_no" jdbcType="INTEGER" property="limitNo" />
+		<result column="true_photo" jdbcType="VARCHAR" property="truePhoto" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="virtual_name" jdbcType="VARCHAR" property="virtualName" />
+		<result column="virtual_photo" jdbcType="VARCHAR" property="virtualPhoto" />
+	</resultMap>
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, flag, user_id, act_selforg_id, create_date, remark
+	</sql>
+	<!-- 基础字段定义 新增name -->
+	<sql id="Base_Column_List_NAME">
+    	selforg.id , selforg.flag, selforg.user_id, selforg.act_selforg_id , selforg.create_date , selforg.remark ,sm.name
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.actSelforgId != null and entity.actSelforgId!='' ">
+        		and act_selforg_id=#{entity.actSelforgId}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+		</if>
+	</sql>
+
+  	<!-- 根据id查询 -->
+  	<select id="getNumByUserId" parameterType="com.mpri.aio.act.model.ActSelforgContent" resultType="java.lang.Integer">
+		select
+		count(0)
+		from act_selforg_content
+		<where>
+			<include refid="query_where"></include>
+		</where>
+  	</select>
+
+	<!-- 分页查询 -->
+	<select id="getActSelfList" parameterType="com.mpri.aio.act.model.ActSelforgContent" resultMap="ActSelf" >
+		select
+		act.id id, act.status status, act.end_date end_date, act.create_date create_date,
+		act.act_date act_date,act.name name, act.ready_no ready_no,sys.virtual_name virtual_name
+		,sys.virtual_photo virtual_photo
+		from act_selforg act
+		left join sys_user sys  on act.user_id = sys.id
+		WHERE
+	 	act.id in (  select act_selforg_id from act_selforg_content where flag = #{entity.FLAG_NORMAL}
+		AND user_id = #{entity.userId} )
+		and act.flag ='NORMAL'
+		order by act.create_date desc
+	</select>
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.act.model.ActSelforgContent" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from act_selforg_content 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 获取我参与的条数 -->
+	<select id="getMyActSelfNum" parameterType="com.mpri.aio.act.model.ActSelforgContent" resultType="java.lang.Integer" >
+		SELECT count(0)
+		from act_selforg_content act
+		<where>
+			<include refid="query_where"></include>
+		</where>
+	</select>
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.act.model.ActSelforgContent">
+		insert into act_selforg_content
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+	   		<if test="actSelforgId != null">
+	    		act_selforg_id,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="actSelforgId != null">
+	   			#{actSelforgId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+
+
+</mapper>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.schoolmate.mapper.MergeSchoolmateInfoMapper">
+	
+  	<!-- 教育经历返回值定义 -->
+	<resultMap id="EduResultMap" type="com.mpri.aio.schoolmate.model.SmEducation">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="degree_type" jdbcType="VARCHAR" property="degreeType" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="temp_specialty" jdbcType="VARCHAR" property="tempSpecialty" />
+			<result column="edu_model" jdbcType="VARCHAR" property="eduModel" />
+			<result column="school" jdbcType="VARCHAR" property="school" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+			<result column="schoollen" jdbcType="VARCHAR" property="schoollen" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="academy" jdbcType="VARCHAR" property="academy" />
+			<result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+			<result column="series" jdbcType="VARCHAR" property="series" />
+			<result column="classes" jdbcType="VARCHAR" property="classes" />
+			<result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+			<result column="specialty" jdbcType="VARCHAR" property="specialty" />
+			<result column="college" jdbcType="VARCHAR" property="college" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+			<result column="degree" jdbcType="VARCHAR" property="degree" />
+			<result column="is_default" jdbcType="VARCHAR" property="isDefault" />
+			<result column="temp_series" jdbcType="VARCHAR" property="tempSeries" />
+	</resultMap>
+
+  	<!-- 联系方式返回值定义 -->
+	<resultMap id="ContactResultMap" type="com.mpri.aio.schoolmate.model.SmContact">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="contact" jdbcType="VARCHAR" property="contact" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="is_default" jdbcType="VARCHAR" property="isDefault" />
+	</resultMap>
+	
+	<!--地址返回值定义-->
+	<resultMap id="AddrResultMap" type="com.mpri.aio.schoolmate.model.SmAddress">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="province" jdbcType="VARCHAR" property="province" />
+			<result column="city" jdbcType="VARCHAR" property="city" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="country" jdbcType="VARCHAR" property="country" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="detail" jdbcType="VARCHAR" property="detail" />
+			<result column="zipcode" jdbcType="VARCHAR" property="zipcode" />
+			<result column="district" jdbcType="VARCHAR" property="district" />
+	</resultMap>
+	
+	<!--职业经理-->
+	<resultMap id="ProResultMap" type="com.mpri.aio.schoolmate.model.SmProfession">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="district" jdbcType="VARCHAR" property="district" />
+			<result column="province" jdbcType="VARCHAR" property="province" />
+			<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="fax" jdbcType="VARCHAR" property="fax" />
+			<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+			<result column="city" jdbcType="VARCHAR" property="city" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="country" jdbcType="VARCHAR" property="country" />
+			<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="industry" jdbcType="VARCHAR" property="industry" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<result column="department" jdbcType="VARCHAR" property="department" />
+			<result column="nature" jdbcType="VARCHAR" property="nature" />
+			<result column="workplace" jdbcType="VARCHAR" property="workplace" />
+			<result column="detail" jdbcType="VARCHAR" property="detail" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="position" jdbcType="VARCHAR" property="position" />
+	</resultMap>	
+		<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="userId !=null">      	
+			<if test="userId != null and userId!='' ">
+        		and user_id=#{userId}
+      		</if>	      	 	
+			<if test="flag != null and flag!='' ">
+        		and flag= #{FLAG_NORMAL}
+      		</if>     	
+		</if>
+	</sql>
+	<!--获取教育经历重复的User_id-->
+	<select id="getEduRepeatUserIdByStuNo"  resultMap="EduResultMap">
+			select 
+			DISTINCT 
+			res.user_id
+			from	(
+			select 
+				count(0) as count ,e.user_id
+				from sm_education e
+				where flag = 'NORMAL'
+				and e.student_no is not null 
+				GROUP BY e.user_id ,e.student_no HAVING count >1 
+			) res
+	</select>
+	
+	
+	<!--获取教育经历重复的User_id-->
+	<select id="getEduRepeatUserIdBySclasses"  resultMap="EduResultMap">
+			select 
+			DISTINCT 
+			res.user_id
+			from	(
+			select 
+				count(0) as count ,e.user_id
+				from sm_education e
+				where flag = 'NORMAL'
+				and e.classes is not null and e.startdate is not null
+				GROUP BY e.user_id ,e.classes,DATE_FORMAT (e.startdate, '%Y') HAVING count >1 
+			) res
+	</select>
+		
+	
+	<!--获取教育经历重复的User_id-->
+	<select id="getEduRepeatUserIdByEclasses"  resultMap="EduResultMap">
+			select 
+			DISTINCT 
+			res.user_id
+			from	(
+			select 
+				count(0) as count ,e.user_id
+				from sm_education e
+				where flag = 'NORMAL'
+				and e.classes is not null and e.enddate is not null
+				GROUP BY e.user_id ,e.classes,DATE_FORMAT (e.enddate, '%Y') HAVING count >1 
+			) res
+	</select>
+	
+	<!--获取教育经历重复的User_id-->
+	<select id="getEduRepeatUserIdByEndDate"  resultMap="EduResultMap">
+			select 
+			DISTINCT 
+			res.user_id
+			from	(
+			select 
+				count(0) as count ,e.user_id
+				from sm_education e
+				where flag = 'NORMAL'
+				and e.college is not null and e.specialty is not null and e.enddate is not null and e.series is not null
+				GROUP BY e.user_id ,e.college,e.series,e.specialty,DATE_FORMAT (e.enddate, '%Y') HAVING count >1 
+			) res
+	</select>
+
+	
+	<!--获取联系方式重复的User_id-->
+	<select id="getContactRepeatUserIdBy" resultMap="ContactResultMap">
+			select 
+			DISTINCT 
+			res.user_id,res.type,res.contact
+			from	(
+			select 
+				count(0) as count ,c.user_id,c.type,c.contact
+				from sm_contact c
+				where flag = 'NORMAL'
+				and c.type is not null and c.contact is not null
+				GROUP BY c.user_id ,c.type,c.contact HAVING count >1 
+			) res
+	</select>
+		
+	<!--获取教育经历重复的User_id-->
+	<select id="getEduRepeatUserIdByStartDate"  resultMap="EduResultMap">
+			select 
+			DISTINCT 
+			res.user_id,res.college,res.series,res.specialty,(select str_to_date(CONCAT(res.startdate,'-01-01'),'%Y-%m-%d')) as startdate
+			from	(
+			select 
+				count(0) as count ,e.user_id,e.college,e.series,e.specialty,DATE_FORMAT(e.startdate, '%Y') as startdate
+				from sm_education e
+				where flag = 'NORMAL'
+				and e.college is not null and e.specialty is not null and e.startdate is not null and e.series is not null
+				GROUP BY e.user_id ,e.college,e.series,e.specialty,DATE_FORMAT (e.startdate, '%Y') HAVING count >1 
+			) res
+	</select>
+	
+	
+
+	
+	<!--获取通讯地址重复的User_id-->
+	<select id="getAddrRepeatUserIdBy" resultMap="AddrResultMap">
+			select 
+			DISTINCT 
+			res.user_id,res.country,res.province,res.city,res.detail
+			from	(
+			select 
+				count(0) as count ,a.user_id,a.country,a.province,a.city,a.detail
+				from sm_address a
+				where flag = 'NORMAL'
+				and a.country is not null and a.province is not null and a.city is not null and a.detail is not null
+				GROUP BY a.user_id ,a.country,a.province,a.city,a.detail HAVING count >1 
+			) res
+	</select>	
+
+	<!--获取职业经历重复的User_id-->
+	<select id="getProRepeatUserIdBy" resultMap="ProResultMap">
+			select 
+			DISTINCT 
+			res.user_id,res.workplace
+			from	(
+			select 
+				count(0) as count ,p.user_id,p.workplace
+				from sm_profession p
+				where flag = 'NORMAL'
+				and p.workplace is not null
+				GROUP BY p.user_id ,p.workplace HAVING count >1 
+			) res
+	</select>		
+	
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadEduListBy"  parameterType="com.mpri.aio.schoolmate.model.SmEducation" resultMap="EduResultMap" >
+    	select
+	    	id, degree_type, remark, temp_specialty, edu_model, school, type, edu_record, schoollen, user_id, academy, edu_type, series, classes, enddate, specialty, college, flag, startdate, create_date, student_no, degree, is_default, temp_series
+    	from sm_education 
+		<where>
+	  		<include refid="query_where"></include>
+	  		and college = #{college}
+			and series = #{series}
+			and specialty = #{specialty}
+			and  date_format(startdate ,'%Y')= (select DATE_FORMAT(#{startdate},'%Y'))
+    	</where>
+    	order by create_date desc
+  	</select>
+	
+	
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadContListBy"  parameterType="com.mpri.aio.schoolmate.model.SmContact" resultMap="ContactResultMap" >
+    	select
+    		id, remark, type, user_id, contact, create_date, flag, is_default
+    	from sm_contact 
+		<where>
+	  		<include refid="query_where"></include>
+	  		and type = #{type}
+			and contact = #{contact}
+    	</where>
+    	order by  create_date desc
+  	</select>
+  	
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAddrListBy"  parameterType="com.mpri.aio.schoolmate.model.SmAddress" resultMap="AddrResultMap" >
+    	select
+		   	id, flag, province, city, remark, country, type, create_date, user_id, detail, zipcode, district
+    	from sm_address 
+		<where>
+	  		<include refid="query_where"></include>
+	  		and country = #{country}
+			and province = #{province}
+			and city = #{city}
+			and detail = #{detail}
+    	</where>
+    	order by create_date desc
+  	</select>
+  	
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadProListBy"  parameterType="com.mpri.aio.schoolmate.model.SmProfession" resultMap="ProResultMap" >
+    	select
+    		id, district, province, end_date, remark, fax, start_date, city, flag, status, country, type,  telephone, create_date, industry, user_id, department, nature, workplace, detail, position
+    	from sm_profession 
+		<where>
+	  		<include refid="query_where"></include>
+	  		and workplace = #{workplace}
+    	</where>
+    	order by create_date desc
+  	</select>
+</mapper>

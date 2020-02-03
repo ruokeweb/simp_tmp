@@ -1,0 +1,458 @@
+{
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages	
+		{
+			"path": "pages/tabbar/index/index",
+			"style": {
+				"navigationBarTitleText": "校友卡小程序"
+			}
+		},
+		{
+			"path": "pages/tabbar/don/don",
+			"style": {}
+		},
+		{
+			"path": "pages/tabbar/service/service",
+			"style": {}
+		},
+		{
+			"path": "pages/tabbar/act/act",
+			"style": {}
+		},
+		{
+			"path": "pages/tabbar/mine/mine",
+			"style": {}
+		},
+		{
+			"path": "pages/login/regist",
+			"style": {
+				"navigationBarTitleText": "认证信息"
+			}
+		},
+		{
+			"path": "pages/login/info",
+			"style": {
+				"navigationBarTitleText": "校友卡说明"
+			}
+		},
+		{
+			"path": "pages/login/authrule",
+			"style": {
+				"navigationBarTitleText": "认证规则"
+			}
+		},
+		{
+			"path": "pages/login/invite",
+			"style": {
+				"navigationBarTitleText": "邀请认证"
+			}
+		},
+		{
+			"path": "pages/login/identifyResult",
+			"style": {
+				"navigationBarTitleText": "校友认证"
+			}
+		},
+		{
+			"path": "pages/login/barcode",
+			"style": {
+				"navigationBarTitleText": "认证码"
+			}
+		},
+		{
+			"path": "pages/login/cardstatusAuthing",
+			"style": {
+				"navigationBarTitleText": "信息审核"
+			}
+		},
+		{
+			"path": "pages/login/cardstatusFail",
+			"style": {
+				"navigationBarTitleText": "信息审核"
+			}
+		},
+		{
+			"path": "pages/login/cardstatusSuccess",
+			"style": {
+				"navigationBarTitleText": "信息审核"
+			}
+		},
+		{
+			"path": "pages/login/nocard",
+			"style": {
+				"navigationBarTitleText": "欢迎申领校友卡"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录校友卡"
+			}
+		},
+		{
+			"path": "pages/login/updatePass",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		},
+		{
+			"path": "pages/login/confirmInfo",
+			"style": {
+				"navigationBarTitleText": "信息确认"
+			}
+		},
+		{
+			"path": "pages/login/camera",
+			"style": {
+				"navigationBarTitleText": "拍照"
+			}
+		},
+		{
+			"path": "pages/don/donDetail",
+			"style": {
+				"navigationBarTitleText": "回馈详情"
+			}
+		},
+		{
+			"path": "pages/don/donPersons",
+			"style": {
+				"navigationBarTitleText": "回馈成员列表"
+			}
+		},
+		{
+			"path": "pages/don/launchTeamDon",
+			"style": {
+				"navigationBarTitleText": "发起共同献爱心"
+			}
+		},
+		{
+			"path": "pages/don/ImmediateDon",
+			"style": {
+				"navigationBarTitleText": "支付详情"
+			}
+		},
+		{
+			"path": "pages/don/payResult",
+			"style": {
+				"navigationBarTitleText": "回馈结果"
+			}
+		},
+		{
+			"path": "pages/don/donPay",
+			"style": {
+				"navigationBarTitleText": "支付详情"
+			}
+		},
+		{
+			"path": "pages/act/actDetail",
+			"style": {
+				"navigationBarTitleText": "活动详情"
+			}
+		},
+		{
+			"path": "pages/act/actResult",
+			"style": {
+				"navigationBarTitleText": "报名结果"
+			}
+		},
+		{
+			"path": "pages/act/backSchoolDetail",
+			"style": {
+				"navigationBarTitleText": "值年返校详情"
+			}
+		},
+		{
+			"path": "pages/act/backSchoolInfo",
+			"style": {
+				"navigationBarTitleText": "值年返校"
+			}
+		},
+		{
+			"path": "pages/act/launchBackSchool",
+			"style": {
+				"navigationBarTitleText": "发起值年返校"
+			}
+		},
+		{
+			"path": "pages/act/backSchoolResult",
+			"style": {
+				"navigationBarTitleText": "值年返校结果页"
+			}
+		},
+		{
+			"path": "pages/act/partakeAct",
+			"style": {
+				"navigationBarTitleText": "活动报名"
+			}
+		},
+		{
+			"path": "pages/index/news/newsDetail",
+			"style": {
+				"navigationBarTitleText": "新闻详情"
+			}
+		},
+		{
+			"path": "pages/index/news/newsList",
+			"style": {
+				"navigationBarTitleText": "新闻动态"
+			}
+		},
+		{
+			"path": "pages/index/association/association",
+			"style": {
+				"navigationBarTitleText": "校友会"
+			}
+		}, {
+			"path": "pages/tabbar/index/mediaMessage/mediaMessage",
+			"style": {}
+		}
+	],
+	"subPackages": [{
+		"root": "pages_mine",
+		"pages": [{
+				"path": "message/message",
+				"style": {
+					"navigationBarTitleText": "通知消息"
+				}
+			},
+
+			{
+				"path": "infomation/base/base",
+				"style": {
+					"navigationBarTitleText": "基本信息"
+				}
+			},
+			{
+				"path": "infomation/edu/edu",
+				"style": {
+					"navigationBarTitleText": "教育经历"
+				}
+			},
+			{
+				"path": "infomation/edu/eduDetail",
+				"style": {
+					"navigationBarTitleText": "教育经历编辑"
+				}
+			},
+			{
+				"path": "infomation/hisEdu/hisEdu",
+				"style": {
+					"navigationBarTitleText": "教育经历"
+				}
+			},
+			{
+				"path": "infomation/hisEdu/hisEduDetail",
+				"style": {
+					"navigationBarTitleText": "教育经历编辑"
+				}
+			},
+			{
+				"path": "infomation/addr/addr",
+				"style": {
+					"navigationBarTitleText": "通讯地址"
+				}
+			},
+			{
+				"path": "infomation/addr/addrDetail",
+				"style": {
+					"navigationBarTitleText": "通讯地址编辑"
+				}
+			},
+			{
+				"path": "infomation/contact/contact",
+				"style": {
+					"navigationBarTitleText": "联系方式"
+				}
+			},
+			{
+				"path": "infomation/contact/contactDetail",
+				"style": {
+					"navigationBarTitleText": "联系方式编辑"
+				}
+			},
+			{
+				"path": "infomation/social/social",
+				"style": {
+					"navigationBarTitleText": "社会经历"
+				}
+			},
+			{
+				"path": "infomation/social/socialDetail",
+				"style": {
+					"navigationBarTitleText": "社会经历编辑"
+				}
+			},
+			{
+				"path": "infomation/honor/honor",
+				"style": {
+					"navigationBarTitleText": "荣誉成果"
+				}
+			},
+			{
+				"path": "infomation/honor/honorDetail",
+				"style": {
+					"navigationBarTitleText": "荣誉成果编辑"
+				}
+			},
+			{
+				"path": "infomation/profession/profession",
+				"style": {
+					"navigationBarTitleText": "职业经历"
+				}
+			},
+			{
+				"path": "infomation/profession/professionDetail",
+				"style": {
+					"navigationBarTitleText": "职业经历编辑"
+				}
+			},
+			{
+				"path": "myCard/myCard",
+				"style": {
+					"navigationBarTitleText": "我的校友卡"
+				}
+			},
+			{
+				"path": "myCard/cardRank",
+				"style": {
+					"navigationBarTitleText": "领卡排名"
+				}
+			},
+			{
+				"path": "myCard/shareRank",
+				"style": {
+					"navigationBarTitleText": "分享排名"
+				}
+			},
+			{
+				"path": "myCard/proveRank",
+				"style": {
+					"navigationBarTitleText": "认证排名"
+				}
+			},
+			{
+				"path": "myCard/donRank",
+				"style": {
+					"navigationBarTitleText": "捐赠排名"
+				}
+			},
+
+			{
+				"path": "myDon/myDon",
+				"style": {
+					"navigationBarTitleText": "我的回馈"
+				}
+			},
+			{
+				"path": "myDon/myCertificate",
+				"style": {
+					"navigationBarTitleText": "我的证书"
+				}
+			},
+			{
+				"path": "myAct/myAct",
+				"style": {
+					"navigationBarTitleText": "我的活动"
+				}
+			},
+			{
+				"path": "myAssociation/myAssociationDetail",
+				"style": {
+					"navigationBarTitleText": "校友会详情页面"
+				}
+			},
+			{
+				"path": "myAssociation/myAssociation",
+				"style": {
+					"navigationBarTitleText": "我的校友会"
+				}
+			},
+			{
+				"path": "myAssociation/memberDetail",
+				"style": {}
+			},
+			{
+				"path": "myAssociation/schoolMember",
+				"style": {
+					"navigationBarTitleText": "校友会成员"
+				}
+			},
+			{
+				"path": "setting/setting",
+				"style": {
+					"navigationBarTitleText": "账号管理"
+				}
+			},
+			{
+				"path": "setting/changeMobile",
+				"style": {
+					"navigationBarTitleText": "手机号"
+				}
+			},
+			{
+				"path": "setting/changePwd",
+				"style": {
+					"navigationBarTitleText": "密码管理"
+				}
+			}, {
+				"path": "infomation/info/info",
+				"style": {
+					"navigationBarTitleText": "个人中心"
+				}
+			}
+		]
+	}],
+	"preloadRule": {
+		"pages/tabbar/mine/mine": {
+			"network": "all",
+			"packages": ["pages_mine"]
+		}
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "校友卡小程序",
+		"navigationBarBackgroundColor": "#272d3d",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"backgroundColor": "#fff",
+		"color": "#8F8F94",
+		"selectedColor": "#CBA770",
+		"list": [{
+				"pagePath": "pages/tabbar/index/index",
+				"iconPath": "static/img/tabbar/home.png",
+				"selectedIconPath": "static/img/tabbar/homeactive.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/tabbar/don/don",
+				"iconPath": "static/img/tabbar/donate.png",
+				"selectedIconPath": "static/img/tabbar/donateactive.png",
+				"text": "回馈"
+			},
+			{
+				"pagePath": "pages/tabbar/service/service",
+				"iconPath": "static/img/tabbar/service.png",
+				"selectedIconPath": "static/img/tabbar/serviceactive.png",
+				"text": "服务"
+			},
+			{
+				"pagePath": "pages/tabbar/act/act",
+				"iconPath": "static/img/tabbar/act.png",
+				"selectedIconPath": "static/img/tabbar/actactive.png",
+				"text": "活动"
+			},
+			{
+				"pagePath": "pages/tabbar/mine/mine",
+				"iconPath": "static/img/tabbar/me.png",
+				"selectedIconPath": "static/img/tabbar/meactive.png",
+				"text": "我的"
+			}
+		]
+	},
+	"condition": {
+		"current": 0,
+		"list": ["/pages/login/cardstatusSuccess"]
+	}
+}

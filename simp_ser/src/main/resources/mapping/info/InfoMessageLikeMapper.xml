@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.info.mapper.InfoMessageLikeMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.info.model.InfoMessageLike">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="message_id" jdbcType="VARCHAR" property="messageId" />
+			<result column="pub_user" jdbcType="VARCHAR" property="pubUser" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, message_id, pub_user
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.messageId != null and entity.messageId!='' ">
+        		and message_id=#{entity.messageId}
+      		</if>	      	
+			<if test="entity.pubUser != null and entity.pubUser!='' ">
+        		and pub_user=#{entity.pubUser}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.info.model.InfoMessageLike" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from info_message_like
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.info.model.InfoMessageLike" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from info_message_like 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.info.model.InfoMessageLike" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from info_message_like 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.info.model.InfoMessageLike">
+    	update info_message_like set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.info.model.InfoMessageLike">
+		insert into info_message_like
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="messageId != null">
+	    		message_id,
+	  		</if>   			
+	   		<if test="pubUser != null">
+	    		pub_user,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="messageId != null">
+	   			#{messageId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="pubUser != null">
+	   			#{pubUser,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+	
+	<!--获取此人是否点赞了某条评论  -->
+	<select id="msgLikes" parameterType="com.mpri.aio.info.model.InfoMessageLike" resultType="java.lang.Integer">
+		select count(1) from 
+		info_message_like 
+		where message_id=#{messageId} and pub_user=#{pubUser}
+	</select>
+	
+	<!-- 删除此条点赞 -->
+	<delete id = "disLikeMes" parameterType="com.mpri.aio.info.model.InfoMessageLike">
+		delete 
+			from 
+		info_message_like 
+		where message_id=#{messageId} and pub_user=#{pubUser}
+	</delete>
+</mapper>

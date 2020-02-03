@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>捐赠信息管理</title>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	</head>
+	<body class="childrenBody">
+		<div class="layui-fluid">
+
+			<!--<blockquote class="layui-elem-quote ">
+				<form class="layui-form">
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input searchVal" placeholder="请输入搜索捐赠人名称" />
+							<input type="number" class="layui-input searchNumVal" placeholder="请输入搜索的捐赠钱数" />
+						</div>
+						<a class="layui-btn search_btn" data-type="reload">搜索</a>
+					</div>
+
+				</form>
+			</blockquote>-->
+
+				<blockquote class="layui-elem-quote quoteBox">
+					<form class="layui-form">
+						<div class="layui-inline" style="margin-left: 15px">
+							<label>捐赠人名称：</label>
+							<div class="layui-input-inline">
+								<input type="text" class="layui-input" id="name" placeholder="请输入捐赠人名称" />
+							</div>
+						</div>
+						<div class="layui-inline" style="margin-left: 15px">
+							<label>捐赠日期：</label>
+							<div class="layui-input-inline">
+								<input class="layui-input" placeholder="捐赠日期" name="time" id="time" readonly="readonly">
+							</div>
+						</div>
+						<div class="layui-inline" style="margin-left: 15px">
+							<label>收款类型：</label>
+							<div class="layui-input-inline">
+                                <select id="style">
+									<option value=""></option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<a class="layui-btn search_btn" lay-submit="" lay-filter="searchForm">
+								<i class="layui-icon layui-icon-search"></i>查询	</a>
+						</div>
+					</form>
+				</blockquote>
+			<!--操作-->
+			<div layui-inline class="layui-but-per">
+				<div class="layui-btn-group" id="but_per">
+
+				</div>
+			</div>
+
+            <table id="recordList" lay-filter="recordList"></table>
+
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../../static/js/modules/donation/statement/statementlist.js"></script>
+</html>

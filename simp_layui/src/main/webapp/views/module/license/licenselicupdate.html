@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>license信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/header_ztree.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/header_com.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../static/js/jquery.min.js"></script>
+</head>
+<body class="childrenBody">
+
+
+<form class="layui-form" style="width:80%;margin-top:100px;margin-left: 50px">
+    <input type="hidden" class="layui-input id"  id='licenseid'>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-col-md12 layui-col-xs12">
+
+            <div class="layui-form-item layui-row  layui-col-xs12">
+
+                <div class="magb15 layui-col-md6 layui-col-xs12">
+                    <label class="layui-form-label">公钥</label>
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="publicKey">选择公钥文件(publicKeys.store)</button>
+                        <span class="span-required" style="display: none" id="publicKeyId" >上传成功</span>
+                        <span class="span-required" style="display: none" id="publicKeyIdFail" >上传失败</span>
+                        <button type="button" class="layui-btn" id="publicKeyAction">开始上传</button>
+                        <p id="publicKeyValue" style="display: none;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row  layui-col-xs12">
+
+                <div class="magb15 layui-col-md6 layui-col-xs12">
+                    <label class="layui-form-label">认证证书</label>
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="licenseKey">选择证书文件(license.lic)</button>
+                        <span class="span-required" style="display: none" id="licenseKeyId" >上传成功</span>
+                        <span class="span-required" style="display: none" id="licenseKeyIdFail" >上传失败</span>
+                        <button type="button" class="layui-btn" id="licenseKeyAction">开始上传</button>
+                        <p id="licenseKeyValue" style="display: none;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <div class="layui-col-md6 layui-col-xs12">
+                    <label class="layui-form-label">备注信息</label>
+                    <div class="layui-input-block">
+                            1、请上传相关证书
+                        <br/>
+                            2、证书上传完成后，<a href ="/login.html" style="color:red" >点击此处重新登陆</a>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+<script type="text/javascript">
+    layui.config({
+        base: "../../../static/js/"
+    }).extend({
+        "application": "application"
+    })
+
+    layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'application','upload'], function () {
+        var form = layui.form,
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+        $ = layui.jquery,
+        application = layui.application,
+        upload = layui.upload,
+         table = layui.table
+
+        //application.init();
+
+        upload.render({
+            elem: '#publicKey'
+            ,exts: 'store'
+            ,accept: 'file'
+            ,url: application.SERVE_URL + '/licensefile/uploadLicense/'
+            ,auto: false
+            ,data: { schoolName : $("#schoolName").val()}
+            //,multiple: true
+            ,bindAction: '#publicKeyAction'
+            ,done: function(res){
+                if(res.msg == "上传成功") {
+                    $("#publicKeyValue").val(res.data);
+                    $("#publicKeyId").css('display', '');
+                    $("#publicKeyAction").css('display', 'none');
+                }else{
+                    $("#publicKeyIdFail").css('display','');
+                }
+            }
+        });
+
+        $("#publicKey").click(function(){
+            $("#publicKeyId").css('display','none');
+            $("#publicKeyIdFail").css('display','none');
+            $("#publicKeyAction").css('display','');
+        });
+
+        upload.render({
+            elem: '#licenseKey'
+            ,exts: 'lic'
+            ,accept: 'file'
+            ,url: application.SERVE_URL + '/licensefile/uploadLicense/'
+            ,auto: false
+            ,data: { schoolName : $("#schoolName").val()}
+            //,multiple: true
+            ,bindAction: '#licenseKeyAction'
+            ,done: function(res){
+                if(res.msg == "上传成功") {
+                    $("#licenseKeyValue").val(res.data);
+                    $("#licenseKeyId").css('display', '');
+                    $("#licenseKeyAction").css('display', 'none');
+                }else{
+                    $("#licenseKeyIdFail").css('display','');
+                }
+            }
+        });
+
+        $("#refreshLogin").click(function(){
+            alert();
+            Window.location.href = application.BASE_URL+"/login.html";
+        });
+    })
+</script>
+
+</body>
+</html>

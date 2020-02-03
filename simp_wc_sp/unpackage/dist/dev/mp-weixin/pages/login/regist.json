@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "认证信息",
+  "usingComponents": {
+    "multiple-linkage": "/components/multipleLlinkage/multiple-linkage"
+  }
+}

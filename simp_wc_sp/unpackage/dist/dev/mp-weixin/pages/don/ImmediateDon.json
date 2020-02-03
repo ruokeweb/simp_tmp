@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "支付详情",
+  "usingComponents": {
+    "u-parse": "/components/uParse/src/wxParse",
+    "cmd-nav-bar": "/components/cmd-nav-bar/cmd-nav-bar",
+    "cmd-page-body": "/components/cmd-page-body/cmd-page-body",
+    "cmd-transition": "/components/cmd-transition/cmd-transition",
+    "cmd-cel-item": "/components/cmd-cell-item/cmd-cell-item",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

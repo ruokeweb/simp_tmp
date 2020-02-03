@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>报表图形</title>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_ztree.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+    <script src="../../../../static/js/g2/data-set.min.js"></script>
+    <script src="../../../../static/js/g2/g2.min.js"></script>
+    <script src="../../../../static/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+</head>
+<body>
+
+<body class="childrenBody">
+<div class="layui-fluid">
+    <div class="layui-row layui-col-xs11" style="position: absolute;background: #fff;z-index: 15; ">
+        <div class="magb15 layui-col-md3 layui-col-xs5" >
+            <label class="layui-form-label">院系/专业：</label>
+            <div class="layui-input-block">
+                <input type="text" id="department" lay-filter="department" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-md2"  style=" width: 15%; " >
+            <label class="layui-form-label">入学区间：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input " id="startYearInternal"
+                       placeholder="yyyy" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-col-md2"  style=" width: 15%; " >
+            <label class="layui-form-label">毕业区间：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input " id="endYearInternal"
+                       placeholder="yyyy" readonly="readonly">
+            </div>
+        </div>
+        <div class="magb15 layui-col-md2 layui-col-xs12">
+            <a class="layui-btn search_btn" lay-submit="" lay-filter="searchForm">查询</a>
+        </div>
+    </div>
+    <div class="layui-row" id="xydwxztj">
+    </div>
+</div>
+</body>
+<script type="text/javascript"
+        src="../../../../static/js/modules/statistic/politicalappearance/politicalappearancestatistics.js"></script>
+</body>
+</html>

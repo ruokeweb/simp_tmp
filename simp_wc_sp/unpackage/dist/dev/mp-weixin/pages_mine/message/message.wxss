@@ -1,0 +1,56 @@
+
+Page {
+    background-color: #f2f2f2;
+}
+.list-cell {
+    height: 140rpx;
+    background-color: #fff;
+    margin-bottom: 10rpx;
+    padding: 10rpx;
+}
+.uni-row {
+    background-color: #fff;
+}
+.flex-item {
+    width: 50%;
+    height: 100rpx;
+    text-align: center;
+    line-height: 100rpx;
+}
+.line {
+    width: 56rpx !important;
+    height: 6rpx !important;
+    background-color: #262f43;
+    border-radius: 3rpx !important;
+    position: absolute;
+    top: 98rpx;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.title {
+    line-height: 1.2;
+    height: 68rpx;
+    overflow: hidden;
+    font-size: 30rpx;
+}
+.time {
+    font-size: 24rpx;
+    float: right;
+    color: #999999;
+    margin-top: 26rpx;
+}
+.segmented-control {
+    padding: 25rpx 0 19rpx 155rpx !important;
+}
+.segmented-control-item:last-child {
+    margin-left: 150rpx;
+}
+.on {
+    border-bottom: 4rpx solid #272D3D;
+}
+.flex-item text {
+    height: 100rpx;
+    display: inline-block;
+}
+

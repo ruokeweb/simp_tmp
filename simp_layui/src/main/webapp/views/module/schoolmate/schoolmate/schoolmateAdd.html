@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>校友管理</title>
+        <link rel='stylesheet' href='../../../../static/css/cropperjs-master/cropper.css' media='all' />
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+        <style type="text/css">
+            .layui-input-defind,
+            .layui-textarea-defind {
+                display: block;
+                width: 95%;
+                padding-left: 10px;
+            }
+
+            .layui-form-label-defind {
+                float: left;
+                display: block;
+                padding: 9px 15px;
+                width: 112px;
+                font-weight: 400;
+                line-height: 20px;
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body class="childrenBody">
+        <div class="layui-tab layui-tab-card" lay-filter="info">
+            <ul class="layui-tab-title">
+				<li class="layui-this" lay-id="0">基本信息</li>
+				<li lay-id="1">教育经历</li>
+				<li lay-id="2">职业经历</li>
+                <li lay-id="3">联系方式</li>
+				<li lay-id="4">通讯地址</li>
+				<li lay-id="5">荣誉成果</li>
+				<li lay-id="6">社会经历</li>
+                <li lay-id="7">历史数据</li>
+                <li lay-id="8">其他信息</li>
+                <li lay-id="9">其他教育经历</li>
+				<!-- <li lay-id="10">政治面貌</li> -->
+				<!-- <li lay-id="11">家庭成员</li> -->
+				<!-- <li lay-id="12">校园经历</li> -->
+            </ul>
+     
+            <div class="layui-tab-content">
+                <!--基本信息 -->
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form" style="width:100%;">
+                        <input type="hidden" id='userId' />
+                        <fieldset class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input " id='schoolmate_id' />
+                            <input type="hidden" class="layui-input truePhoto" name='truePhoto' placeholder="上传照片" />
+                            <div class="layui-row">
+                                <div class="magb15 layui-col-md6 layui-col-xs12">
+                                    <div class="layui-row">
+                                        <div class="magb15 layui-col-md6 layui-col-xs12">
+                                            <label class="layui-form-label">姓名<span class="span-required">*</span></label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input name" lay-verify="required"
+                                                    placeholder="请输入姓名(最大长度64位)" maxlength="64" />
+                                            </div>
+                                        </div>
+                                        <div class="magb15 layui-col-md6 layui-col-xs12">
+                                            <label class="layui-form-label">性别<span class="span-required">*</span></label>
+                                            <div class="layui-input-block">
+                                                <select id="sex">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12 layui-col-xs12">
+                                                <label class="layui-form-label">登录名<span class="span-required">*</span></label>
+                                                <input type="hidden" class="layui-input " id='smcontact_Id' />
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input contact" id="contact"
+                                                         lay-verify="required|user_exist|user_login" placeholder="请输入手机号"
+                                                        maxlength="32" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12 layui-col-xs12">
+                                                <label class="layui-form-label">校友类型<span class="span-required">*</span></label>
+                                                <div class="layui-input-block">
+                                                    <select id="type">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12 layui-col-xs12">
+                                                <label class="layui-form-label">民族<span class="span-required">*</span></label>
+                                                <div class="layui-input-block">
+                                                    <select id="nation">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12 layui-col-xs12">
+                                                <label class="layui-form-label">证件类型</label>
+                                                <div class="layui-input-block">
+                                                    <select id="cardType">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row">
+                                            <div class="magb15 layui-col-md12 layui-col-xs12">
+                                                <label class="layui-form-label">证件号码</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" class="layui-input cardNum" placeholder="请输入证件号码(最大长度20位)"
+                                                        maxlength="20">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="magb15 layui-col-md6 layui-col-xs12">
+                                    <div class="layui-upload" style="display: flex;justify-content: center;align-items: center;">
+                                        <div class="layui-upload-list">
+                                            <img class="layui-upload-img" id="virtualPhoto" src="../../../../static/images/default.jpg"
+                                                onerror="this.src='../../../../static/images/default.jpg'" style="width:150px;height:200px;" />
+                                            <p id="photoPath" style="display: none;"></p>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="layui-btn" id="selectphoto">上传图片</button>
+
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15 layui-col-md6 layui-col-xs12">
+                                    <label class="layui-form-label">出生日期</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input birthday" id="birthday" placeholder="yyyy-MM-dd"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                                <!--                                <div class="magb15 layui-col-md6 layui-col-xs12">
+                                    <label class="layui-form-label">籍贯</label>
+                                    <input type="hidden" class="layui-input " id='smAddress_Id' />
+                                    <div class="layui-input-block">
+                                        <select name="native_city" xm-select="native_place" xm-select-radio="">
+                                            <option value="">请选择籍贯</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                                
+                                <div class="magb15 layui-col-md6 layui-col-xs12">
+                                    <label class="layui-form-label">政治面貌</label>
+                                    <div class="layui-input-block">
+                                        <select id="politics">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-row">
+                                <div class="magb15 layui-col-md12 layui-col-xs12">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <textarea placeholder="请输入备注(最大长度512位)" id="remark" class="layui-textarea remark"
+                                            maxlength="512"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-layer-btn ">
+                                <button class="layui-btn" lay-submit="" lay-filter="addSchoolfellow">保存</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>              
+                <!--教育经历 -->
+                <div class="layui-tab-item" id="eduDiv">
+                    <form class="layui-form" style="width:100%;" id='eduFrom'>
+                        <fieldset class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="eduId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs8">
+                                    <label class="layui-form-label">院系<span class="span-required">*</span></label>
+                                    <div class="layui-col-xs2">
+                                        <select id="school_0" lay-filter="school" lay-verify="required">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="college_0" lay-filter="college">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="series_0" lay-filter="series">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="specialty_0" lay-filter="specialty">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">书院</label>
+                                    <div class="layui-input-block">
+                                        <select id='academy_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">临时系</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='edu_tempSeries_0' placeholder="请输入临时系(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">临时专业</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='edu_tempSpecialty_0' placeholder="请输入临时专业(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">学科</label>
+                                    <div class="layui-input-block">
+                                        <!-- <select id='edu_degreeType_0' lay-verify="required">
+										</select>	 -->
+                                        <input type="text" class="layui-input edu_degreeType" id="edu_degreeType_0"
+                                            style="display: none;">
+                                        <input type="text" class="layui-input edu_subjectName" id="edu_subjectName_0"
+                                             readonly="readonly">
+
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">班级</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='edu_classes_0' placeholder="请输入班级(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs3">
+                                    <label class="layui-form-label">学历</label>
+                                    <div class="layui-input-block">
+                                        <select id='eduRecord_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs3">
+                                    <label class="layui-form-label">学位类型</label>
+                                    <div class="layui-input-block">
+                                        <select id='edu_degree_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs3">
+                                    <label class="layui-form-label">学号</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='edu_studentNo_0' 
+                                            placeholder="请输入学号(最大长度16位)" maxlength="16">
+                                    </div>
+                                </div>
+                                <div class="magb15 layui-col-xs3">
+                                    <label class="layui-form-label">学制</label>
+                                    <div class="layui-input-block">
+                                        <select id='edu_schoollen_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">教育方式</label>
+                                    <div class="layui-input-block">
+                                        <select id='edu_model_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">培养方式</label>
+                                    <div class="layui-input-block">
+                                        <select id='edu_type_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">入学日期</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="edu_startdate_0" lay-verify="edu_start_date"
+                                            placeholder="yyyy-mm-dd" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">毕业日期</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="edu_enddate_0" lay-verify="edu_end_date"
+                                            placeholder="yyyy-mm-dd" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15 layui-col-md12 layui-col-xs12">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <textarea placeholder="请输入备注(最大长度512位)" id="edu_remark_0" class="layui-textarea remark"
+                                            maxlength="512"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="layui-layer-btn">
+                            <button class="layui-btn layui-btn-danger delEdu">删除</button>
+                            <!--                            <button class="layui-btn setDefEdu" id='setDefEdu_0'>设为默认</button> -->
+                            <button class="layui-btn" lay-submit="" lay-filter="addEdu">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="eduPos">
+                        <button class="layui-btn layui-btn-normal" id='addEduinfo' style="width:100%;">新增教育信息</button>
+                    </div>
+                </div>
+				
+			    <!--职业经历-->
+                <div class="layui-tab-item" id="profession">
+                    <form class="layui-form" style="width:100%;" id="professionForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="professionId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">工作单位<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='profession_workplace_0' lay-verify="required"
+                                            placeholder="请输入工作单位(最大长度128位)" maxlength="128">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">单位性质</label>
+                                    <div class="layui-input-block">
+                                        <select id='profession_nature_0'>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs8">
+                                    <label class="layui-form-label">地址</label>
+                                    <div class="layui-col-xs2">
+                                        <select id="pro_country_0" lay-filter="pro_country">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="pro_province_0" lay-filter="pro_province">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="pro_city_0" lay-filter="pro_city">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="pro_district_0" lay-filter="pro_district">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">详细地址</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='profession_detail_0' placeholder="请输入详细地址(最大长度128位)"
+                                            maxlength="128">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">行业</label>
+                                    <div class="layui-input-block">
+                                        <!-- <input type="text" class="layui-input " id='profession_industry_0' lay-verify="required" > -->
+                                        <input type="text" class="layui-input profession_industry" id="profession_industry_0"
+                                            style="display: none;">
+                                        <input type="text" class="layui-input profession_industryName" id="profession_industryName_0"
+                                             readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">部门</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='profession_department_0'
+                                            placeholder="请输入部门(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">职位</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='profession_position_0' placeholder="请输入职位(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">在职状态</label>
+                                    <div class="layui-input-block">
+                                        <select id='profession_status_0'>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">电话</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='profession_telephone_0'
+                                            placeholder="请输入电话(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">传真</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='profession_fax_0' placeholder="请输入传真(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">入职时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="profession_startDate_0" placeholder="yyyy-MM-dd"
+                                            lay-verify="profession_start_date" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">离职时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="profession_endDate_0" placeholder="yyyy-MM-dd"
+                                            lay-verify="profession_end_date" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15 layui-col-md12 layui-col-xs12">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <textarea placeholder="请输入备注(最大长度512位)" id="profess_remark_0" class="layui-textarea remark"
+                                            maxlength="512"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="layui-layer-btn ">
+                            <!-- <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="delContact">删除</button> -->
+                            <button class="layui-btn layui-btn-danger delProfession">删除</button> 
+                            <button class="layui-btn" lay-submit="" lay-filter="addProfession">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="ProfessionPos">
+                        <button class="layui-btn layui-btn-normal" id='addProfessioninfo' style="width:100%;">新增职业经历数据</button>
+                    </div>
+                </div>	
+			
+			<!--联系方式 -->
+                <div class="layui-tab-item" id="contact">
+                    <form class="layui-form" style="width:100%;" id="contactForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="contId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">联系方式<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='type_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs8">
+                                    <label class="layui-form-label">内容<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="contact_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delContact"  >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addContact">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="contactPos">
+                        <button class="layui-btn layui-btn-normal" id='addContactinfo' style="width:100%;">新增联系方式</button>
+                    </div>
+                </div>
+				
+			<!--通讯地址 -->
+                <div class="layui-tab-item">
+                    <form class="layui-form" style="width:100%;" id="addFrom">
+                        <fieldset class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="addId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs12">
+                                    <label class="layui-form-label">地址<span class="span-required">*</span></label>
+                                    <div class="layui-col-xs2">
+                                        <select id="country_0" lay-filter="country" lay-verify="required">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="province_0" lay-filter="province">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="city_0" lay-filter="city">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-col-xs2">
+                                        <select id="district_0" lay-filter="district">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">类型</label>
+                                    <div class="layui-input-block">
+                                        <select id="add_type_0" >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">详细地址</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='detail_0' placeholder="请输入详细地址(最大长度128位)"
+                                            maxlength="128">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">邮编</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id='zipcode_0' placeholder="请输入邮编(最大长度16位)"
+                                            maxlength="16">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id='remark_0' placeholder="请输入备注(最大长度512位)"
+                                            maxlength="512">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delAddress" >删除</button> 
+                            <button class="layui-btn" lay-submit="" lay-filter="addAddress">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="addPos">
+                        <button class="layui-btn layui-btn-normal" id='addAddressinfo' style="width:100%;">新增通讯地址信息</button>
+                    </div>
+                </div>
+				
+			 <!--荣誉成果-->
+                <div class="layui-tab-item" id="honor">
+                    <form class="layui-form" style="width:100%;" id="honorForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="honorId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">名称<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="honor_name_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                                <!--                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">类型<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='honor_type_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div> -->
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">获得时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="honor_date_0" placeholder="yyyy-MM-dd"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">行业</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input honer_industry" id="honor_industry_0"
+                                            style="display: none;">
+                                        <input type="text" class="layui-input honer_industryName" id="honor_industryName_0"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">详细说明</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="historydata_infoval_0" placeholder="请输入内容(最大长度256位)"
+                                            maxlength="256">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delHonor">删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addHonor">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="HonorPos">
+                        <button class="layui-btn layui-btn-normal" id='addHonorinfo' style="width:100%;">新增荣誉成果数据</button>
+                    </div>
+                </div>	
+				
+			<!--社会经历-->
+                <div class="layui-tab-item" id="smSocial">
+                    <form class="layui-form" style="width:100%;" id="smSocialForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="smSocialId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">名称<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="smSocial_name_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">职务</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="smSocial_position_0" 
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">加入时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="smSocial_startdate_0" placeholder="yyyy-MM-dd"
+                                            lay-verify="smSocial_start_date" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">退出时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="smSocial_enddate_0" placeholder="yyyy-MM-dd"
+                                            lay-verify="smSocial_end_date" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">详细说明</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="smSocial_infoval_0" placeholder="请输入内容(最大长度256位)"
+                                            maxlength="256">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">状态</label>
+                                    <div class="layui-input-block">
+                                        <select id='smSocial_type_0' >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delSocial" >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addSmSocial">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="smSocialPos">
+                        <button class="layui-btn layui-btn-normal" id='addSmSocialinfo' style="width:100%;">新增社会兼职信息</button>
+                    </div>
+                </div>	
+				
+			<!--历史数据-->
+                <div class="layui-tab-item" id="historydata">
+                    <form class="layui-form" style="width:100%;" id="historydataForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="historydataId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">其他学校<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="historydata_otherSchool_0" lay-verify="required" placeholder="请输入内容(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">其他学校院系专业</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="historydata_otherSpecialty_0" placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">入学时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind "
+                                            placeholder="yyyy-MM-dd" id="historydata_joinDate_0" lay-verify="historydata_start_date"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">毕业时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            placeholder="yyyy-MM-dd" id="historydata_degreeDate_0" lay-verify="historydata_end_date"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">定向委培单位</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="historydata_trustUnit_0" placeholder="请输入内容(最大长度128位)" maxlength="128">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">入学前地区单位</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="historydata_beforeSchoolunit_0" placeholder="请输入内容(最大长度128位)" maxlength="128">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">原始通讯地址</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="historydata_nativeAdress_0" placeholder="请输入内容(最大长度128位)" maxlength="128">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">个人爱好</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="historydata_personLove_0" placeholder="请输入内容(最大长度256位)" maxlength="256">
+                                    </div>
+                                </div>
+                            </div> -->
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delHistorydata">删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addHistorydata">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="historydataPos">
+                        <button class="layui-btn layui-btn-normal" id='addHistorydatainfo' style="width:100%;">新增校园历史数据</button>
+                    </div>
+                </div>
+                <!-- 其他信息 -->
+                <div class="layui-tab-item" id="smOtherInfo">
+                    <form class="layui-form" style="width:100%;" id="smOtherInfoForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="smOtherInfo_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">名称<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='otherType_0' lay-verify="required" lay-filter="otherSelect">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs8">
+                                    <label class="layui-form-label">信息内容<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="otherInfo_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度128位)" maxlength="128">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delSmOther" >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addSmOther">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="otherInfoPos">
+                        <button class="layui-btn layui-btn-normal" id='addSmOtherInfo' style="width:100%;">新增其他信息</button>
+                    </div>
+                </div>
+
+                <!--其他教育经历-->
+                <div class="layui-tab-item" id="hisEdu">
+                    <form class="layui-form" style="width:100%;" id="hisEduForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="hisEduId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">教育信息<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            id="hisEdu_education_0" lay-verify="required" placeholder="请输入教育信息(最大长度128位)"
+                                            maxlength="128">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">类型<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='hisEdu_type_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">入学年</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind "
+                                            placeholder="yyyy" id="hisEdu_startdate_0" lay-verify="hisEdu_start_date"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label-defind">毕业年</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input layui-input-defind layui-textarea-defind"
+                                            placeholder="yyyy" id="hisEdu_enddate_0" lay-verify="hisEdu_end_date"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delHisEdu"  >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addHisEdu">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="hisEduPos">
+                        <button class="layui-btn layui-btn-normal" id='addHisEduinfo' style="width:100%;">新增其他教育经历</button>
+                    </div>
+                </div>
+			 <!--政治面貌-->
+<!--                <div class="layui-tab-item" id="politics">
+                    <form class="layui-form" style="width:100%;" id="politicsForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="politicsId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">名称<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='name_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">职务<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="position_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">加入时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="politics_startdate_0" lay-verify="politics_start_date"
+                                            placeholder="yyyy-MM-dd" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">退出时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="politics_enddate_0" lay-verify="politics_end_date"
+                                            placeholder="yyyy-MM-dd" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">详细说明</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="infoval_0" placeholder="请输入详细说明(最大长度256位)"
+                                            maxlength="256">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">状态<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='politics_type_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delPolitics" >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addPolitics">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="politicsPos">
+                        <button class="layui-btn layui-btn-normal" id='addPoliticsinfo' style="width:100%;">新增政治面貌信息</button>
+                    </div>
+                </div> -->
+                <!--家庭成员-->
+                <!--               <div class="layui-tab-item" id="famliy">
+                    <form class="layui-form" style="width:100%;" id="famliyForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="famliyId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">关系<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='famliy_relation_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">姓名<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="famliy_name_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">性别<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='famliy_sex_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">出生日期</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="famliy_birthday_0" placeholder="yyyy-MM-dd"
+                                            readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">联系电话</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="famliy_phone_0" lay-verify="mobile"
+                                            maxlength="11" placeholder='请输入手机号'>
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs4">
+                                    <label class="layui-form-label">是否校友<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <select id='isschool_0' lay-verify="required">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">职业</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="famliy_profession_0" placeholder="请输入内容(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">工作单位</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="famliy_workplace_0" placeholder="请输入内容(最大长度64位)"
+                                            maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                        <button class="layui-btn layui-btn-danger delFamliy"  >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addFamliy">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="famliyPos">
+                        <button class="layui-btn layui-btn-normal" id='addFamliyinfo' style="width:100%;">新增家庭成员信息</button>
+                    </div>
+                </div> -->
+                
+                <!--校园经历-->
+<!--                <div class="layui-tab-item" id="SmExperience">
+                    <form class="layui-form" style="width:100%;" id="SmExperienceForm">
+                        <fieldset  class="layui-elem-field site-demo-button" style="padding:15px;">
+                            <input type="hidden" class="layui-input mark" id="smExperienceId_0">
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">组织名称<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="smExperience_name_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">职务<span class='span-required'>*</span></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="smExperience_position_0" lay-verify="required"
+                                            placeholder="请输入内容(最大长度64位)" maxlength="64">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">加入时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="smExperience_startDate_0"
+                                            placeholder="yyyy-MM-dd" lay-verify="smExperience_start_date" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="magb15  layui-col-xs6">
+                                    <label class="layui-form-label">退出时间</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input " id="smExperience_endDate_0" placeholder="yyyy-MM-dd"
+                                            lay-verify="smExperience_end_date" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="magb15  layui-col-xs12">
+                                    <label class="layui-form-label">详细说明</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="smExperience_content_0" placeholder="请输入详细说明(最大长度64位)"
+                                            maxlength="64"> 
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="layui-layer-btn ">
+                            <button class="layui-btn layui-btn-danger delSmExperience" >删除</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="addSmExperience">保存</button>
+                        </div>
+                    </form>
+                    <div class="layui-layer-btn " id="smExperiencePos">
+                        <button class="layui-btn layui-btn-normal" id='addSmExperienceinfo' style="width:100%;">新增校园经历信息</button>
+                    </div>
+                </div> -->	
+            </div>
+		</div>
+    </body>
+    <script type="text/javascript" src="../../../../static/js/modules/schoolmate/schoolmate/schoolmateAdd.js"></script>
+</html>

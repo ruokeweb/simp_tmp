@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>导出信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_ztree.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="layui-form" style="width: 400px ; height: 200px" >
+    <table class="layui-table" style=" margin-left: 50px ; margin-top: 20px" >
+        <colgroup>
+            <col width="100" style=" display: none">
+            <col width="100">
+            <col width="100">
+        </colgroup>
+        <thead>
+        <tr>
+            <th style=" display: none">type</th>
+            <th style="text-align: center;">导出类型</th>
+            <th style="text-align: center;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style=" display: none">telephoneType</td>
+            <td style="text-align: center;">手机信息</td>
+            <td style="text-align: center;"><input class="layui-btn  but telephoneType" value="导出手机信息" style="margin-left: 0px"; type="button" /></td>
+        </tr>
+        <tr>
+            <td style=" display: none">emailType</td>
+            <td style="text-align: center;">邮箱信息</td>
+            <td style="text-align: center;"> <input class="layui-btn  but emailType" value="导出邮箱信息" style="margin-left: 0px"; type="button" /></td>
+        </tr>
+        <tr>
+            <td style=" display: none">baseType</td>
+            <td style="text-align: center;">常用信息</td>
+            <td style="text-align: center;"> <input class="layui-btn  but baseType" value="导出常用信息" style="margin-left: 0px"; type="button" /></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="../../../../static/js/modules/schoolmate/schoolmate/schoolmateInfoSelectExport.js"></script>
+
+</body>
+</html>

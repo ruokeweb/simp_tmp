@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>校友管理</title>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+</head>
+
+<body class="childrenBody">
+<form class="layui-form "  style="width:98%;">
+	<input type="text" class="layui-input id"  style="display: none;">
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">姓名</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input name" name='name' lay-verify="required"  placeholder="请输入姓名(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">性别</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input sex"  placeholder="请输入性别(最大长度64位)" lay-verify="required" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">生日</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input birthday" id= "birthday"  placeholder="生日" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">证件号</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input cardNum"  placeholder="请输入证件号(最大长度32位)" lay-verify="required" maxlength ="32">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">证件类型</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input cardType"  placeholder="请输入证件类型(最大长度32位)" lay-verify="required" maxlength ="32">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">校友类型</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input type"  placeholder="请输入姓名(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">籍贯</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input nativePlace" placeholder="请输入籍贯(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">民族</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input nation"  placeholder="请输入民族(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">住址</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input address"  placeholder="请输入住址(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">学校</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input school" placeholder="请输入学校(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">书院</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input academy"  placeholder="请输入书院(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">学院</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input college"  placeholder="请输入学院(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">系</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input series"  placeholder="请输入系(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">专业</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input specialty"  placeholder="请输入专业(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">班级</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input smclass"  placeholder="请输入班级(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">学历</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input degree"  placeholder="请输入学历(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">学历教育类型</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input degreetype"  placeholder="请输入学历教育类型(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">学号</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input studentid"  placeholder="请输入学号(最大长度64位)" maxlength ="64">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">学制</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input schoollen"  placeholder="请输入学制(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">入学时间</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input startdate" id="startdate" placeholder="入学时间">
+			</div>
+		</div>
+	</div>		
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">毕业时间</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input enddate" id="enddate"  placeholder="毕业时间">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">邮箱</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input email"  placeholder="请输入邮箱(最大长度128位)" maxlength ="128">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row  layui-col-xs12">
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">电话</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input phone"  placeholder="请输入电话(最大长度64位)" maxlength ="64">
+			</div>
+		</div>	
+		<div class="magb15 layui-col-md6 layui-col-xs12">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input remark"  placeholder="请输入备注(最大长度512位)" maxlength ="512">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addSmTemp">确认</button>
+			<button class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+			<button class="layui-btn layui-btn-sm layui-btn-normal" id="close">关闭</button>
+		</div>
+	</div>
+</form>
+	<script type="text/javascript" src="../../../../static/js/modules/schoolmate/smtempdata/smtempdataadd.js"></script>
+</body>
+</html>

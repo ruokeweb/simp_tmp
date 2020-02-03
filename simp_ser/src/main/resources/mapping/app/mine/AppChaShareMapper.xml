@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppChaShareMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.app.mine.vo.AppChaShareVo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="year" jdbcType="VARCHAR" property="year" />
+		<result column="month" jdbcType="VARCHAR" property="month" />
+		<result column="share_times" jdbcType="INTEGER" property="shareTimes" />
+		<result column="ranking" jdbcType="INTEGER" property="ranking" />
+		<association property="smSchoolmate" column="user_id" select="getSchoolmate"></association>
+	</resultMap>
+
+	<resultMap id="schoolmateMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="truePhoto" jdbcType="VARCHAR" property="true_photo" />
+	</resultMap>
+
+	<select id="getSchoolmate" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="schoolmateMap">
+		select name,sex,true_photo from sm_schoolmate where user_id = #{entity.userId} and flag = 'NORMAL'
+	</select>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, user_id, year, month, share_times
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+			<if test="entity.year != null and entity.year!='' ">
+        		and year=#{entity.year}
+      		</if>	      	
+			<if test="entity.month != null and entity.month!='' ">
+        		and month=#{entity.month}
+      		</if>	      	
+			<if test="entity.shareTimes != null and entity.shareTimes!='' ">
+        		and share_times=#{entity.shareTimes}
+      		</if>	      	
+		</if>
+	</sql>
+
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.app.mine.vo.AppChaShareVo" resultMap="BaseResultMap" >
+<!--    	select-->
+<!--    		<include refid="Base_Column_List" />-->
+<!--    	from cha_share -->
+<!--    	<where>-->
+<!--	  		<include refid="query_where"></include>-->
+<!--    	</where>-->
+		select  a.user_id, a.share_times ,a.rowNum as ranking from (
+			SELECT
+				@rowNum := @rowNum + 1 AS rowNum,
+				chaShare.user_id,
+				chaShare.shareTimesNum as share_times
+				FROM
+				(
+				SELECT  user_id,  SUM(share_times) as shareTimesNum FROM cha_share  where id !=""
+				<if test="entity.year != null and entity.year!=''">
+					and year = #{entity.year}
+				</if>
+				<if test="entity.month != null and entity.month!='' ">
+					and month = #{entity.month}
+				</if>
+				GROUP BY user_id  ORDER BY shareTimesNum  DESC
+			) chaShare,
+			( SELECT @rowNum := 0 ) c
+		)a
+
+  	</select>
+
+
+	<!-- 查询当前校友前后N个排序  -->
+	<select id="getShareRanking" parameterType="com.mpri.aio.app.mine.vo.AppChaShareVo" resultMap="BaseResultMap" >
+		select  a.user_id, a.share_times ,a.rowNum as ranking from (
+			SELECT
+			@rowNum := @rowNum + 1 AS rowNum,
+			chaShare.user_id,
+			chaShare.shareTimesNum as share_times
+			FROM
+			(
+				SELECT  user_id,  SUM(share_times) as shareTimesNum FROM cha_share  where id !=""
+				<if test="entity.year != null and entity.year!=''">
+					and year = #{entity.year}
+				</if>
+				<if test="entity.month != null and entity.month!='' ">
+					and month = #{entity.month}
+				</if>
+				GROUP BY user_id  ORDER BY shareTimesNum  DESC
+			) chaShare,
+			( SELECT @rowNum := 0 ) c
+		)a
+
+<!--		<if test="entity.max != null and entity.max!='' and entity.min != null and entity.min!='' ">-->
+			WHERE	a.rowNum BETWEEN #{entity.min} AND #{entity.max}
+<!--		</if>-->
+	</select>
+
+	<!-- 查询当前校友分享的坐标  -->
+	<select id="getRanking" parameterType="com.mpri.aio.app.mine.vo.AppChaShareVo" resultType="java.lang.Integer"  >
+		select a.rowNum from (
+		SELECT
+		@rowNum := @rowNum + 1 AS rowNum,
+		chaShare.user_id
+		FROM
+		(
+			SELECT user_id,SUM(share_times) as shareTimesNum FROM cha_share  where id !=""
+			<if test="entity.year != null and entity.year!=''">
+				and year = #{entity.year}
+			</if>
+			<if test="entity.month != null and entity.month!='' ">
+				and month = #{entity.month}
+			</if>
+			GROUP BY user_id  ORDER BY shareTimesNum  DESC
+			) chaShare,
+			( SELECT @rowNum := 0 ) c
+		)a
+		<if test="entity.userId != null and entity.userId!=''  ">
+			WHERE	a.user_id = #{entity.userId}
+		</if>
+	</select>
+
+	<!-- 查询一个有多少个分享  -->
+	<select id="getMaxRanking" parameterType="com.mpri.aio.app.mine.vo.AppChaShareVo" resultType="java.lang.Integer"  >
+		select max(a.rowNum) from (
+			SELECT
+			@rowNum := @rowNum + 1 AS rowNum,
+			chaShare.user_id
+			FROM
+			(
+				SELECT user_id,SUM(share_times) as shareTimesNum FROM cha_share  where id !=""
+				<if test="entity.year != null and entity.year!=''">
+					and year = #{entity.year}
+				</if>
+				<if test="entity.month != null and entity.month!='' ">
+					and month = #{entity.month}
+				</if>
+				GROUP BY user_id  ORDER BY shareTimesNum  DESC
+			) chaShare,
+			( SELECT @rowNum := 0 ) c
+		)a
+	</select>
+</mapper>

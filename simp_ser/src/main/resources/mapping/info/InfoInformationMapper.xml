@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.info.mapper.InfoInformationMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.info.model.InfoInformation">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="author" jdbcType="VARCHAR" property="author" />
+			<result column="content" jdbcType="VARCHAR" property="content" />	
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="index_images" jdbcType="VARCHAR" property="indexImages" />
+			<result column="index_img_pos" jdbcType="VARCHAR" property="indexImgPos" />
+			<result column="is_topnic" jdbcType="VARCHAR" property="isTopnic" />
+			<result column="message_num" jdbcType="INTEGER" property="messageNum" />
+			<result column="pub_status" jdbcType="VARCHAR" property="pubStatus" />
+			<result column="pub_time" jdbcType="TIMESTAMP" property="pubTime" />
+			<result column="pub_user" jdbcType="VARCHAR" property="pubUser" />
+			<result column="read_num" jdbcType="INTEGER" property="readNum" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="second_title" jdbcType="VARCHAR" property="secondTitle" />
+			<result column="sort" jdbcType="INTEGER" property="sort" />
+			<result column="title" jdbcType="VARCHAR" property="title" />
+			<result column="type_id" jdbcType="VARCHAR" property="typeId" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	author, content, create_date, flag, id, index_images, index_img_pos, is_topnic, message_num, pub_status, pub_time, pub_user, read_num, remark, second_title, sort, title, type_id
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.author != null and entity.author!='' ">
+        		and author=#{entity.author}
+      		</if>	      	
+			<if test="entity.content != null and entity.content!='' ">
+        		and content=#{entity.content}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.indexImages != null and entity.indexImages!='' ">
+        		and index_images=#{entity.indexImages}
+      		</if>	      	
+			<if test="entity.indexImgPos != null and entity.indexImgPos!='' ">
+        		and index_img_pos=#{entity.indexImgPos}
+      		</if>	      	
+			<if test="entity.isTopnic != null and entity.isTopnic!='' ">
+        		and is_topnic=#{entity.isTopnic}
+      		</if>	      	
+			<if test="entity.messageNum != null and entity.messageNum!='' ">
+        		and message_num=#{entity.messageNum}
+      		</if>	      	
+			<if test="entity.pubStatus != null and entity.pubStatus!='' ">
+        		and pub_status=#{entity.pubStatus}
+      		</if>	      	
+			<if test="entity.pubTime != null and entity.pubTime!='' ">
+        		and pub_time=#{entity.pubTime}
+      		</if>	      	
+			<if test="entity.pubUser != null and entity.pubUser!='' ">
+        		and pub_user=#{entity.pubUser}
+      		</if>	      	
+			<if test="entity.readNum != null and entity.readNum!='' ">
+        		and read_num=#{entity.readNum}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.secondTitle != null and entity.secondTitle!='' ">
+        		and second_title=#{entity.secondTitle}
+      		</if>	      	
+			<if test="entity.sort != null and entity.sort!='' ">
+        		and sort=#{entity.sort}
+      		</if>	      	
+			<if test="entity.title != null and entity.title!='' ">
+        		and title like concat('%', #{entity.title},'%') 
+      		</if>	      	
+			<if test="entity.typeId != null and entity.typeId!='' ">
+        		and type_id=#{entity.typeId}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.info.model.InfoInformation" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from info_information
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.info.model.InfoInformation" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from info_information 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.info.model.InfoInformation" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from info_information 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.info.model.InfoInformation">
+    	update info_information set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.info.model.InfoInformation">
+		insert into info_information
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="author != null">
+	    		author,
+	  		</if>   			
+	   		<if test="content != null">
+	    		content,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="indexImages != null">
+	    		index_images,
+	  		</if>   			
+	   		<if test="indexImgPos != null">
+	    		index_img_pos,
+	  		</if>   			
+	   		<if test="isTopnic != null">
+	    		is_topnic,
+	  		</if>   			
+	   		<if test="messageNum != null">
+	    		message_num,
+	  		</if>   			
+	   		<if test="pubStatus != null">
+	    		pub_status,
+	  		</if>   			
+	   		<if test="pubTime != null">
+	    		pub_time,
+	  		</if>   			
+	   		<if test="pubUser != null">
+	    		pub_user,
+	  		</if>   			
+	   		<if test="readNum != null">
+	    		read_num,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="secondTitle != null">
+	    		second_title,
+	  		</if>   			
+	   		<if test="sort != null">
+	    		sort,
+	  		</if>   			
+	   		<if test="title != null">
+	    		title,
+	  		</if>   			
+	   		<if test="typeId != null">
+	    		type_id,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="author != null">
+	   			#{author,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="content != null">
+	   			#{content,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="indexImages != null">
+	   			#{indexImages,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="indexImgPos != null">
+	   			#{indexImgPos,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="isTopnic != null">
+	   			#{isTopnic,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="messageNum != null">
+	   			#{messageNum,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="pubStatus != null">
+	   			#{pubStatus,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="pubTime != null">
+	   			#{pubTime,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="pubUser != null">
+	   			#{pubUser,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="readNum != null">
+	   			#{readNum,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="secondTitle != null">
+	   			#{secondTitle,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="sort != null">
+	   			#{sort,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="title != null">
+	   			#{title,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="typeId != null">
+	   			#{typeId,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.info.model.InfoInformation">
+    	update info_information
+    	<set>
+			<if test="author != null">
+	   			author = #{author,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="content != null">
+	   			content = #{content,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="indexImages != null">
+	   			index_images = #{indexImages,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="indexImgPos != null">
+	   			index_img_pos = #{indexImgPos,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="isTopnic != null">
+	   			is_topnic = #{isTopnic,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="messageNum != null">
+	   			message_num = #{messageNum,jdbcType=INTEGER},
+	  		</if>  
+			<if test="pubStatus != null">
+	   			pub_status = #{pubStatus,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="pubTime != null">
+	   			pub_time = #{pubTime,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="pubUser != null">
+	   			pub_user = #{pubUser,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="readNum != null">
+	   			read_num = #{readNum,jdbcType=INTEGER},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="secondTitle != null">
+	   			second_title = #{secondTitle,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="sort != null">
+	   			sort = #{sort,jdbcType=INTEGER},
+	  		</if>  
+			<if test="title != null">
+	   			title = #{title,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="typeId != null">
+	   			type_id = #{typeId,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+	<!--更新阅读量-->
+	<update id = "updateReadNum" parameterType="java.lang.String">
+		update info_information
+		<set>
+			read_num = ifnull(read_num,0) + 1
+		</set>
+		where id = #{id} 
+	</update>
+	
+	<!--更新评论量-->
+	<update id = "updatemessageNum" parameterType="java.lang.String">
+		update info_information
+		<set>
+			message_num = ifnull(read_num,0) + 1
+		</set>
+		where id = #{id} 
+	</update>	
+</mapper>

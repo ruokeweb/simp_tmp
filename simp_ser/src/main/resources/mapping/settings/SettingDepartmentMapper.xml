@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.settings.mapper.SettingDepartmentMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.settings.model.SettingDepartment">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="code" jdbcType="VARCHAR" property="code" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="grade" jdbcType="INTEGER" property="grade" />
+			<result column="icon" jdbcType="VARCHAR" property="icon" />
+			<result column="master" jdbcType="VARCHAR" property="master" />
+			<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+			<result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="sort" jdbcType="INTEGER" property="sort" />
+			<result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="url" jdbcType="VARCHAR" property="url" />
+	</resultMap>
+  	<!-- 系专业合并返回值定义 -->
+	<resultMap id="DepartmentMergeMap" type="com.mpri.aio.settings.vo.DepartmentMerge">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="schoolName" jdbcType="VARCHAR" property="schoolName" />
+			<result column="schoolId" jdbcType="VARCHAR" property="schoolId" />
+			<result column="collegeName" jdbcType="VARCHAR" property="collegeName" />
+			<result column="collegeId" jdbcType="VARCHAR" property="collegeId" />
+			<result column="seriesName" jdbcType="VARCHAR" property="seriesName" />
+			<result column="seriesId" jdbcType="VARCHAR" property="seriesId" />
+			<result column="tempSeries" jdbcType="VARCHAR" property="tempSeries" />
+			<result column="specialtyName" jdbcType="VARCHAR" property="specialtyName" />
+			<result column="specialtyId" jdbcType="VARCHAR" property="specialtyId" />
+			<result column="tempSpecialty" jdbcType="VARCHAR" property="tempSpecialty" />
+			<result column="num" jdbcType="INTEGER" property="num" />
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	code, create_date, end_date, flag, grade, icon, id, master, mobile, name, parent_id, parent_ids, remark, sort, start_date, type, url
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.code != null and entity.code!='' ">
+        		and code=#{entity.code}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.endDate != null and entity.endDate!='' ">
+        		and end_date=#{entity.endDate}
+      		</if>	      	
+			<if test="entity.flag != null and entity.flag!='' ">
+        		and flag= #{entity.FLAG_NORMAL}
+      		</if>
+			<if test="entity.grade != null and entity.grade!='' ">
+        		and grade=#{entity.grade}
+      		</if>	      	
+			<if test="entity.icon != null and entity.icon!='' ">
+        		and icon=#{entity.icon}
+      		</if>	      	
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.master != null and entity.master!='' ">
+        		and master=#{entity.master}
+      		</if>	      	
+			<if test="entity.mobile != null and entity.mobile!='' ">
+        		and mobile=#{entity.mobile}
+      		</if>	      	
+	       	<if test="entity.name!=null and entity.name!='' ">
+				and ( name like   replace (#{entity.name},'*','%%')
+				or name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.parentId != null and entity.parentId!='' ">
+        		and parent_id=#{entity.parentId}
+      		</if>	      	
+			<if test="entity.parentIds != null and entity.parentIds!='' ">
+        		and parent_ids=#{entity.parentIds}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+			<if test="entity.sort != null and entity.sort!='' ">
+        		and sort=#{entity.sort}
+      		</if>	      	
+			<if test="entity.startDate != null and entity.startDate!='' ">
+        		and start_date=#{entity.startDate}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.url != null and entity.url!='' ">
+        		and url=#{entity.url}
+      		</if>	      	
+		</if>
+	</sql>
+	<!--系专业合并查询条件定义 -->
+	<sql id="query_Merge_where">
+		<if test="entity!=null">
+			<if test="entity.schoolId != null and entity.schoolId!='' ">
+        		and school=#{entity.schoolId}
+      		</if>
+			<if test="entity.collegeId != null and entity.collegeId!='' ">
+        		and college=#{entity.collegeId}
+      		</if>
+			<if test="entity.seriesId != null and entity.seriesId!='' ">
+        		and series=#{entity.seriesId}
+      		</if>
+			<if test="entity.tempSeries != null and entity.tempSeries!='' ">
+        		and temp_series= #{entity.tempSeries}
+      		</if>
+			<if test="entity.specialtyId != null and entity.specialtyId!='' ">
+        		and specialty=#{entity.specialtyId}
+      		</if>
+			<if test="entity.tempSpecialty != null and entity.tempSpecialty!='' ">
+        		and temp_specialty=#{entity.tempSpecialty}
+      		</if>
+
+		</if>
+	</sql>
+
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.settings.model.SettingDepartment" resultMap="BaseResultMap">
+   	    select
+    		<include refid="Base_Column_List" />
+    	from setting_department
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.settings.model.SettingDepartment" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_department
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by sort asc
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.settings.model.SettingDepartment" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from setting_department
+		<where>
+			<include refid="query_where"></include>
+		</where>
+		order by sort asc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.settings.model.SettingDepartment">
+    	update setting_department set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.settings.model.SettingDepartment">
+		insert into setting_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="code != null">
+	    		code,
+	  		</if>
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>
+	   		<if test="endDate != null">
+	    		end_date,
+	  		</if>
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>
+	   		<if test="grade != null">
+	    		grade,
+	  		</if>
+	   		<if test="icon != null">
+	    		icon,
+	  		</if>
+	   		<if test="id != null">
+	    		id,
+	  		</if>
+	   		<if test="master != null">
+	    		master,
+	  		</if>
+	   		<if test="mobile != null">
+	    		mobile,
+	  		</if>
+	   		<if test="name != null">
+	    		name,
+	  		</if>
+	   		<if test="parentId != null">
+	    		parent_id,
+	  		</if>
+	   		<if test="parentIds != null">
+	    		parent_ids,
+	  		</if>
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>
+	   		<if test="sort != null">
+	    		sort,
+	  		</if>
+	   		<if test="startDate != null">
+	    		start_date,
+	  		</if>
+	   		<if test="type != null">
+	    		type,
+	  		</if>
+	   		<if test="url != null">
+	    		url,
+	  		</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="code != null">
+	   			#{code,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="endDate != null">
+	   			#{endDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="grade != null">
+	   			#{grade,jdbcType=INTEGER},
+	  		</if>
+	   		<if test="icon != null">
+	   			#{icon,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="master != null">
+	   			#{master,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="mobile != null">
+	   			#{mobile,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="parentId != null">
+	   			#{parentId,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="parentIds != null">
+	   			#{parentIds,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="sort != null">
+	   			#{sort,jdbcType=INTEGER},
+	  		</if>
+	   		<if test="startDate != null">
+	   			#{startDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>
+	   		<if test="url != null">
+	   			#{url,jdbcType=VARCHAR},
+	  		</if>
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.settings.model.SettingDepartment">
+    	update setting_department
+    	<set>
+			<if test="code != null">
+	   			code = #{code,jdbcType=VARCHAR},
+	  		</if>
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>
+	   			end_date = #{endDate,jdbcType=TIMESTAMP},
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>
+			<if test="grade != null">
+	   			grade = #{grade,jdbcType=INTEGER},
+	  		</if>
+			<if test="icon != null">
+	   			icon = #{icon,jdbcType=VARCHAR},
+	  		</if>
+			<if test="master != null">
+	   			master = #{master,jdbcType=VARCHAR},
+	  		</if>
+			<if test="mobile != null">
+	   			mobile = #{mobile,jdbcType=VARCHAR},
+	  		</if>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>
+			<if test="parentId != null">
+	   			parent_id = #{parentId,jdbcType=VARCHAR},
+	  		</if>
+			<if test="parentIds != null">
+	   			parent_ids = #{parentIds,jdbcType=VARCHAR},
+	  		</if>
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>
+			<if test="sort != null">
+	   			sort = #{sort,jdbcType=INTEGER},
+	  		</if>
+			<if test="startDate != null">
+	   			start_date = #{startDate,jdbcType=TIMESTAMP},
+	  		</if>
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>
+			<if test="url != null">
+	   			url = #{url,jdbcType=VARCHAR},
+	  		</if>
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- 分页查询系别名 -->
+    <select id="loadAllTempSeries" parameterType="com.mpri.aio.settings.vo.DepartmentMerge" resultMap="DepartmentMergeMap" >
+    	SELECT
+		    s1.NAME as schoolName,
+			sm_education.school as schoolId,
+			s2.NAME as collegeName,
+			sm_education.college 	as collegeId,
+			temp_series as tempSeries,
+			count( 1 ) as num
+		FROM
+			sm_education
+			  LEFT JOIN setting_department s1 ON  s1.id = sm_education.school
+			  LEFT JOIN setting_department s2 ON  s2.id = sm_education.college
+		WHERE
+			temp_series IS NOT NULL
+			and
+			series is  null
+		GROUP BY
+			school,
+			college,
+			temp_series
+		ORDER BY num desc
+
+  	</select>
+	<!-- 分页查询专业别名 -->
+    <select id="loadAllTempSpecialty" parameterType="com.mpri.aio.settings.vo.DepartmentMerge" resultMap="DepartmentMergeMap" >
+    	/*SELECT
+			s1.NAME AS schoolName,
+			sm_education.school AS schoolId,
+			s2.NAME AS collegeName,
+			sm_education.college AS collegeId,
+			s3.NAME AS seriesName,
+			sm_education.series AS seriesId,
+			temp_specialty AS tempSpecialty,
+			count( 0 ) AS num
+		FROM
+			sm_education
+			LEFT JOIN setting_department s1 ON s1.id = sm_education.school
+			LEFT JOIN setting_department s2 ON s2.id = sm_education.college
+			LEFT JOIN setting_department s3 ON s3.id = sm_education.series
+		WHERE
+			temp_specialty IS NOT NULL
+			AND specialty IS NULL
+		GROUP BY
+			school,
+			college,
+			series,
+		temp_specialty
+		ORDER BY num DESC*/
+
+		SELECT
+			sm_education.school AS schoolId,
+			sm_education.college AS collegeId,
+			sm_education.series AS seriesId,
+			temp_specialty AS tempSpecialty,
+			count( 0 ) AS num
+		FROM
+			sm_education
+
+		WHERE
+			temp_specialty IS NOT NULL
+			AND specialty IS NULL
+		GROUP BY
+			school,
+			college,
+			series,
+		  temp_specialty
+		ORDER BY num DESC
+  	</select>
+    <select id="loadByMerge" parameterType="com.mpri.aio.settings.vo.DepartmentMerge" resultMap="DepartmentMergeMap" >
+    	SELECT
+		   id
+		FROM
+			sm_education
+		where
+		1=1
+		<if test="entity.schoolId != null and entity.schoolId!='' ">
+			and school=#{entity.schoolId}
+		</if>
+		<if test="entity.schoolId == null or  entity.schoolId ==''">
+			and school is null
+		</if>
+
+		<if test="entity.collegeId != null and entity.collegeId!='' ">
+			and college=#{entity.collegeId}
+		</if>
+		<if test="entity.collegeId == null or entity.collegeId == '' ">
+			and college is null
+		</if>
+
+		<if test="entity.tempSeries != null and entity.tempSeries!='' ">
+			and temp_series= #{entity.tempSeries}
+		</if>
+		<if test="entity.tempSeries == null or entity.tempSeries == ''">
+			and temp_series is null
+		</if>
+	</select>
+    <select id="loadBySpecialtyMerge" parameterType="com.mpri.aio.settings.vo.DepartmentMerge" resultMap="DepartmentMergeMap" >
+    	SELECT
+		   id
+		FROM
+			sm_education
+		where
+		1=1
+		<if test="entity.schoolId != null and entity.schoolId!='' ">
+			and school=#{entity.schoolId}
+		</if>
+		<if test="entity.schoolId == null or  entity.schoolId ==''">
+			and school is null
+		</if>
+
+		<if test="entity.collegeId != null and entity.collegeId!='' ">
+			and college=#{entity.collegeId}
+		</if>
+		<if test="entity.collegeId == null or entity.collegeId == '' ">
+			and college is null
+		</if>
+		<if test="entity.seriesId != null and entity.seriesId!='' ">
+			and series=#{entity.seriesId}
+		</if>
+		<if test="entity.seriesId == null or entity.seriesId == '' ">
+			and series is null
+		</if>
+
+		<if test="entity.tempSpecialty != null and entity.tempSpecialty!='' ">
+			and temp_specialty= #{entity.tempSpecialty}
+		</if>
+		<if test="entity.tempSpecialty == null or entity.tempSpecialty == ''">
+			and temp_specialty is null
+		</if>
+
+
+
+
+	</select>
+
+
+
+	<update id="mergeSeries" parameterType="com.mpri.aio.settings.vo.DepartmentMerge">
+
+		update sm_education
+			SET school = #{school,jdbcType=VARCHAR}
+			, college = #{college,jdbcType=VARCHAR}
+			,series = #{series,jdbcType=VARCHAR}
+		where id in
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator="," >
+			#{item.id,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+	<update id="mergeSpecialty" parameterType="com.mpri.aio.settings.vo.DepartmentMerge">
+
+		update sm_education
+			SET school = #{school,jdbcType=VARCHAR}
+			, college = #{college,jdbcType=VARCHAR}
+			,series = #{series,jdbcType=VARCHAR}
+			,specialty = #{specialty,jdbcType=VARCHAR}
+		where id in
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator="," >
+			#{item.id,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+
+</mapper>

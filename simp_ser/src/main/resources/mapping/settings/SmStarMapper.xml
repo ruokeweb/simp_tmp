@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.settings.mapper.SmStarMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.settings.model.SmStar">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="info_level" jdbcType="INTEGER" property="infoLevel" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<collection property="smStarSminfos" javaType="com.mpri.aio.settings.model.SmStarSminfo">
+				<id column="starInfo_id" jdbcType="VARCHAR" property="id" />
+				<result column="sm_star_id" jdbcType="VARCHAR" property="smStarId" />
+				<result column="sm_sminfo_id" jdbcType="VARCHAR" property="smSminfoId" />
+				<result column="sm_sminfo_code" jdbcType="VARCHAR" property="smSminfoCode" />
+			</collection>
+	</resultMap>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	id, name, info_level, type, create_date, remark, flag
+	</sql>
+
+	<sql id="info_Column_List">
+    	ss.id, ss.name, ss.info_level, ss.type, ss.create_date, ss.remark, ss.flag,
+    	ss_i.id as starInfo_id,ss_i.sm_star_id,ss_i.sm_sminfo_id,ss_i.sm_sminfo_code
+	</sql>
+	
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>
+			<if test="entity.flag != null and entity.flag!='' ">
+				and flag= #{entity.FLAG_NORMAL}
+			</if>
+	       	<if test="entity.name!=null and entity.name!='' ">
+				and ( name like   replace (#{entity.name},'*','%%')
+				or name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.infoLevel != null and entity.infoLevel!='' ">
+        		and info_level=#{entity.infoLevel}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and type=#{entity.type}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and remark=#{entity.remark}
+      		</if>	      	
+		</if>
+	</sql>
+	
+	<sql id="info_query_where">
+		<if test="entity!=null">
+			<if test="entity.id != null and entity.id!='' ">
+        		and ss.id=#{entity.id}
+      		</if>
+			<if test="entity.flag != null and entity.flag!='' ">
+				and ss.flag= #{entity.FLAG_NORMAL}
+			</if>
+	       	<if test="entity.name!=null and entity.name!='' ">
+				and ( ss.name like   replace (#{entity.name},'*','%%')
+				or ss.name like concat('%', #{entity.name},'%'))
+	       	</if>		
+			<if test="entity.infoLevel != null and entity.infoLevel!='' ">
+        		and ss.info_level=#{entity.infoLevel}
+      		</if>	      	
+			<if test="entity.type != null and entity.type!='' ">
+        		and ss.type=#{entity.type}
+      		</if>	      	
+			<if test="entity.createDate != null and entity.createDate!='' ">
+        		and ss.create_date=#{entity.createDate}
+      		</if>	      	
+			<if test="entity.remark != null and entity.remark!='' ">
+        		and ss.remark=#{entity.remark}
+      		</if>	      	
+		</if>
+	</sql>
+	
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.settings.model.SmStar" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from sm_star
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.settings.model.SmStar" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_star 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by info_level desc
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.settings.model.SmStar" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from sm_star 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by info_level desc
+  	</select>
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadInfoListBy"  parameterType="com.mpri.aio.settings.model.SmStar" resultMap="BaseResultMap" >
+    	select
+    		<include refid="info_Column_List" />
+    	from sm_star ss
+    	left join sm_star_sminfo ss_i on ss.id = ss_i.sm_star_id and ss_i.flag= #{entity.FLAG_NORMAL}
+		<where>
+	  		<include refid="info_query_where"></include>
+    	</where>
+    	order by info_level desc
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.settings.model.SmStar">
+    	update sm_star set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.settings.model.SmStar">
+		insert into sm_star
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="name != null">
+	    		name,
+	  		</if>   			
+	   		<if test="infoLevel != null">
+	    		info_level,
+	  		</if>   			
+	   		<if test="type != null">
+	    		type,
+	  		</if>   			
+	   		<if test="createDate != null">
+	    		create_date,
+	  		</if>   			
+	   		<if test="remark != null">
+	    		remark,
+	  		</if>   			
+	   		<if test="flag != null">
+	    		flag,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="name != null">
+	   			#{name,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="infoLevel != null">
+	   			#{infoLevel,jdbcType=INTEGER},
+	  		</if>   			
+	   		<if test="type != null">
+	   			#{type,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="createDate != null">
+	   			#{createDate,jdbcType=TIMESTAMP},
+	  		</if>   			
+	   		<if test="remark != null">
+	   			#{remark,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="flag != null">
+	   			#{flag,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.settings.model.SmStar">
+    	update sm_star
+    	<set>
+			<if test="name != null">
+	   			name = #{name,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="infoLevel != null">
+	   			info_level = #{infoLevel,jdbcType=INTEGER},
+	  		</if>  
+			<if test="type != null">
+	   			type = #{type,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="createDate != null">
+	   			create_date = #{createDate,jdbcType=TIMESTAMP},
+	  		</if>  
+			<if test="remark != null">
+	   			remark = #{remark,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="flag != null">
+	   			flag = #{flag,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

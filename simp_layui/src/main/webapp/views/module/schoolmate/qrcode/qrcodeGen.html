@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>二维码生成</title>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	</head>
+	<style>
+		li {
+			padding-bottom: 20px;
+		}
+		.float_div{
+			position:absolute;
+			right:0px;
+			top:0px;
+			z-index:100;
+		
+		}
+
+</style>
+	<body class="childrenBody">
+		<div class="layui-fluid">
+			<div class="layui-row">
+				<div class="layui-col-md3">
+					
+					<ul>
+						<li>
+							<a class="layui-btn layui-btn-sm" id="mini_program">
+								小程序二维码生成
+							</a>
+						</li>
+						<li>
+							<a class="layui-btn layui-btn-sm" id="manager_server">
+								管理端二维码生成
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="layui-col-md9">
+					<!-- <a class="float_div layui-btn layui-btn-sm" id= "download">下载</a> -->
+					<div class="layui-row" align="center">
+						<fieldset class=".float_div">
+							点击左侧按钮可生成对应的二维码
+						</fieldset>
+						<img src ="" id="codeImg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			layui.config({
+				base: "../../../../static/js/"
+			}).extend({
+				"application": "application",
+				"publicUtil": "publicUtil"
+			})
+			layui.use(['element', 'layer','publicUtil', 'application'], function () {
+				var $ = layui.jquery,
+				application = layui.application,
+				publicUtil =  layui.publicUtil;
+				
+				
+				//小程序
+				$("#mini_program").click(function(){
+					document.getElementById("codeImg").src=application.SERVE_URL+"/wc/weichat/miniProQrcode";				
+				})
+				
+				//服务端
+				$("#manager_server").click(function(){
+					document.getElementById("codeImg").src=application.SERVE_URL+"/managerServerQrcode";				
+				})
+						
+			})
+		</script>
+	</body>
+</html>

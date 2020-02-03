@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.chart.mapper.ActiveChartMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.chart.vo.DataSetForG2">
+			<result column="property" jdbcType="VARCHAR" javaType="string" property="property" />
+			<result column="value" jdbcType="VARCHAR" javaType="long" property="value" />
+			<result column="percent" jdbcType="DOUBLE" javaType="double" property="percent" />
+	</resultMap>
+	
+    <!-- 日期格式化 -->
+    <sql id="date_format">
+        DATE_FORMAT(
+        <!-- 通过参数选择不同的需要格式化的列 -->
+        <choose>
+            <when test="'${column}' == 'dateSequence'">
+                <include refid="date_column"/>
+            </when>
+            <otherwise>
+                ${dateColumn}
+            </otherwise>
+        </choose>
+        ,
+        <!-- 通过参数选择不同的格式 -->
+        <choose>
+            <when test="groupType == 'day'">
+                '%Y-%m-%d'
+            </when>
+            <when test="groupType == 'month'">
+                '%Y-%m'
+            </when>
+            <when test="groupType == 'year'">
+                '%Y'
+            </when>
+            <otherwise>
+                '%Y'
+            </otherwise>
+        </choose>
+        )
+    </sql>
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="date_column"> 
+        <choose>
+            <when test="enddate != null">
+<!--                DATE_SUB(STR_TO_DATE(to_char(${enddate}),'%a %b %e %T GMT+08:00 %Y %Y %Y'),INTERVAL @i :=@i + 1  -->
+               DATE_SUB('${enddate}',INTERVAL @i :=@i + 1 
+            </when>
+            <otherwise>
+                DATE_SUB(CURDATE(),INTERVAL @i :=@i + 1 
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="groupType == 'day'">
+                DAY)
+            </when>
+            <when test="groupType == 'month'">
+                MONTH)
+            </when>
+            <when test="groupType == 'year'">
+                YEAR)
+            </when>
+            <otherwise>
+                YEAR)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="querySQL!=null">
+            querySQL
+        </if>
+    </sql>
+    
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="count_column">
+        <choose>
+            <when test="countColumn != null and countColumn!='' and countColumn!='id'">
+                count(${countColumn})
+            </when>
+            <otherwise>
+                COUNT(id)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 通过createDate列统计数据 -->
+    <select id="groupByData" resultType="java.util.HashMap">
+        SELECT <include refid="count_column"/> count,tmp_date.date date FROM ${tableName} RIGHT JOIN (
+            SELECT 
+            <include refid="date_format">
+                <property name="column" value="dateSequence"/>
+            </include>
+            AS date 
+            FROM(
+                <!-- 构造连续的日期数据 -->
+                <foreach collection="num" separator="UNION ALL" >
+                    SELECT 1
+                </foreach>
+            ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON 
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <if test="querySQL!=null and querySQL!=''">
+            and ${querySQL}
+        </if>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+
+    <!--月活跃校友统计（三折线）-->
+    <select id="activeMonthlyChart" resultType="java.util.HashMap">
+        SELECT 		tmp_main.date date,
+        count( tmp_main.user_id ) '总人数',
+        sum( CASE WHEN tmp_main.sex = 'MALE' THEN 1 ELSE 0 END ) '男',
+        sum( CASE WHEN tmp_main.sex = 'FEMALE' THEN 1 ELSE 0 END ) '女'
+        from (
+        select distinct(maintable.user_id) ,tmp_date.date date ,sm_s.sex
+        FROM 	point_login_sign maintable
+        LEFT JOIN sm_schoolmate sm_s ON maintable.user_id = sm_s.user_id
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            sm_s.flag = #{entity.FLAG_NORMAL}
+            AND maintable.flag =  #{entity.FLAG_NORMAL}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintable.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintable.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintable.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintable.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>) as tmp_main
+        GROUP BY
+        tmp_main.date
+        order by tmp_main.date
+    </select>
+    <!--日活跃校友统计（三折线）-->
+    <select id="activeEverydayChart" resultType="java.util.HashMap">
+        SELECT 		tmp_date.date date,
+        count( maintable.id ) '总人数',
+        sum( CASE WHEN sm_s.sex = 'MALE' THEN 1 ELSE 0 END ) '男',
+        sum( CASE WHEN sm_s.sex = 'FEMALE' THEN 1 ELSE 0 END ) '女'
+        FROM 	point_login_sign maintable
+        LEFT JOIN sm_schoolmate sm_s ON maintable.user_id = sm_s.user_id
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            sm_s.flag = #{entity.FLAG_NORMAL}
+            AND maintable.flag =  #{entity.FLAG_NORMAL}
+            <if test='entity.chartStartDayDate  != null and entity.chartEndDayDate != null'>
+                <if test="entity.chartStartDayDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDayDate},'%Y-%m-%d')  &lt;= DATE_FORMAT(maintable.create_date,'%Y-%m-%d')
+                </if>
+                <if test="entity.chartEndDayDate!= null" >
+                    and   DATE_FORMAT(maintable.create_date,'%Y-%m-%d')  &lt;=  DATE_FORMAT(#{entity.chartEndDayDate},'%Y-%m-%d')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintable.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintable.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY
+        tmp_date.date
+        order by tmp_date.date
+    </select>
+
+    <!--捐赠人数统计（三折线）-->
+    <select id="donationMonthlyChart" resultType="java.util.HashMap">
+        SELECT 		tmp_main.date date,
+        count( tmp_main.user_id ) '总人数',
+        sum( CASE WHEN tmp_main.sex = 'MALE' THEN 1 ELSE 0 END ) '男',
+        sum( CASE WHEN tmp_main.sex = 'FEMALE' THEN 1 ELSE 0 END ) '女'
+        from (
+        select distinct(maintable.user_id) ,tmp_date.date date ,sm_s.sex
+        FROM 	don_record maintable
+        LEFT JOIN sm_schoolmate sm_s ON maintable.user_id = sm_s.user_id
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            sm_s.flag = #{entity.FLAG_NORMAL}
+            and maintable.flag =  #{entity.FLAG_NORMAL}
+            and maintable.state =#{donState}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintable.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintable.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintable.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintable.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>) as tmp_main
+        GROUP BY
+        tmp_main.date
+        order by tmp_main.date
+    </select>
+
+    <!--活动参与人数统计（三折线）-->
+    <select id="activityMonthlyChart" resultType="java.util.HashMap">
+        SELECT 		tmp_main.date date,
+        count( tmp_main.user_id ) '总人数',
+        sum( CASE WHEN tmp_main.sex = 'MALE' THEN 1 ELSE 0 END ) '男',
+        sum( CASE WHEN tmp_main.sex = 'FEMALE' THEN 1 ELSE 0 END ) '女'
+        from (
+        select distinct(maintable.user_id) ,tmp_date.date date ,sm_s.sex
+        FROM 	act_content maintable
+        LEFT JOIN sm_schoolmate sm_s ON maintable.user_id = sm_s.user_id
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            sm_s.flag = #{entity.FLAG_NORMAL}
+            AND maintable.flag =  #{entity.FLAG_NORMAL}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintable.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintable.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintable.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintable.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>) as tmp_main
+        GROUP BY
+        tmp_main.date
+        order by tmp_main.date
+    </select>
+
+    <!--祝福人数统计（三折线）-->
+    <select id="smWishMonthlyChart" resultType="java.util.HashMap">
+        SELECT 		tmp_main.date date,
+        count( tmp_main.user_id ) '总人数',
+        sum( CASE WHEN tmp_main.sex = 'MALE' THEN 1 ELSE 0 END ) '男',
+        sum( CASE WHEN tmp_main.sex = 'FEMALE' THEN 1 ELSE 0 END ) '女'
+        from (
+        select distinct(maintable.user_id) ,tmp_date.date date ,sm_s.sex
+        FROM 	sm_wish maintable
+        LEFT JOIN sm_schoolmate sm_s ON maintable.user_id = sm_s.user_id
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            sm_s.flag = #{entity.FLAG_NORMAL}
+            AND maintable.flag =  #{entity.FLAG_NORMAL}
+            AND maintable.isshow =  #{isshow}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintable.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintable.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintable.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintable.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>) as tmp_main
+        GROUP BY
+        tmp_main.date
+        order by tmp_main.date
+    </select>
+</mapper>

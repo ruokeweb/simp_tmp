@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>积分等级管理</title>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+	</head>
+	<style>
+		.layui-table-cell{height:100%}
+</style>
+	<body class="childrenBody">
+		<div class="layui-fluid">
+			<form class="layui-form">
+
+				<blockquote class="layui-elem-quote ">
+
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input searchVal" placeholder="请输入等级名称" />
+						</div>
+						<a class="layui-btn search_btn" data-type="reload">搜索</a>
+					</div>
+
+			</blockquote>
+
+			</form>
+			<!--操作-->
+			<div layui-inline class="layui-but-per">
+				<div class="layui-btn-group" id="but_per">
+
+				</div>
+			</div>
+
+			<table id="smlevelList" lay-filter="smlevelList"></table>
+
+		</div>
+		<script type="text/javascript" src="../../../../static/js/modules/setting/pointLevel/pointLevelList.js"></script>
+	</body>
+</html>

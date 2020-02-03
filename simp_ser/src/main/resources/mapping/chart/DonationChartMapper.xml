@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.chart.mapper.DonationChartMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.chart.vo.DataSetForG2">
+			<result column="property" jdbcType="VARCHAR" javaType="string" property="property" />
+			<result column="value" jdbcType="VARCHAR" javaType="long" property="value" />
+			<result column="percent" jdbcType="DOUBLE" javaType="double" property="percent" />
+	</resultMap>
+	
+    <!-- 日期格式化 -->
+    <sql id="date_format">
+        DATE_FORMAT(
+        <!-- 通过参数选择不同的需要格式化的列 -->
+        <choose>
+            <when test="'${column}' == 'dateSequence'">
+                <include refid="date_column"/>
+            </when>
+            <otherwise>
+                ${dateColumn}
+            </otherwise>
+        </choose>
+        ,
+        <!-- 通过参数选择不同的格式 -->
+        <choose>
+            <when test="groupType == 'day'">
+                '%Y-%m-%d'
+            </when>
+            <when test="groupType == 'month'">
+                '%Y-%m'
+            </when>
+            <when test="groupType == 'year'">
+                '%Y'
+            </when>
+            <otherwise>
+                '%Y'
+            </otherwise>
+        </choose>
+        )
+    </sql>
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="date_column"> 
+        <choose>
+            <when test="enddate != null">
+<!--                DATE_SUB(STR_TO_DATE(to_char(${enddate}),'%a %b %e %T GMT+08:00 %Y %Y %Y'),INTERVAL @i :=@i + 1  -->
+               DATE_SUB('${enddate}',INTERVAL @i :=@i + 1 
+            </when>
+            <otherwise>
+                DATE_SUB(CURDATE(),INTERVAL @i :=@i + 1 
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="groupType == 'day'">
+                DAY)
+            </when>
+            <when test="groupType == 'month'">
+                MONTH)
+            </when>
+            <when test="groupType == 'year'">
+                YEAR)
+            </when>
+            <otherwise>
+                YEAR)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="querySQL!=null">
+            querySQL
+        </if>
+    </sql>
+    
+    <!-- 动态生成的要查询的日期数据，根据参数生成连续的年、月、日数据 -->
+    <sql id="count_column">
+        <choose>
+            <when test="countColumn != null and countColumn!='' and countColumn!='id'">
+                count(${countColumn})
+            </when>
+            <otherwise>
+                COUNT(id)
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 捐赠金额统计 -->
+    <select id="donationMonthlyMoneyChart" resultType="java.util.HashMap">
+        SELECT
+         	sum( money ) sum,
+            tmp_date.date month
+        FROM don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        left join sm_schoolmate sm_s on maintab.user_id =sm_s.user_id and sm_s.flag =#{entity.FLAG_NORMAL}
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.state = 'NORMAL'
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    <!-- 捐赠总金额统计 -->
+    <select id="donationTotalMoneyChart" resultType="java.util.HashMap">
+        SELECT
+        sum( money ) sum,
+        tmp_date.date month
+        FROM don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        left join sm_schoolmate sm_s on maintab.user_id =sm_s.user_id and sm_s.flag =#{entity.FLAG_NORMAL}
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> &lt;= tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.state = 'NORMAL'
+           <!-- <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>-->
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    <!-- 捐赠次数统计 -->
+    <select id="donationMonthlyCountChart" resultType="java.util.HashMap">
+        SELECT
+        count( maintab.id ) sum,
+        tmp_date.date month
+        FROM don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        left join sm_schoolmate sm_s on maintab.user_id =sm_s.user_id and sm_s.flag =#{entity.FLAG_NORMAL}
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.state = #{entity.FLAG_NORMAL}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    <!-- 捐赠总次数统计 -->
+    <select id="donationTotalCountChart" resultType="java.util.HashMap">
+        SELECT
+        count( maintab.id ) sum,
+        tmp_date.date month
+        FROM don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        left join sm_schoolmate sm_s on maintab.user_id =sm_s.user_id and sm_s.flag =#{entity.FLAG_NORMAL}
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> &lt;= tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.state = #{entity.FLAG_NORMAL}
+            <!--<if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.create_date,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>-->
+            <if test='entity.paramB != null and entity.paramB!="" and entity.paramB != "0" '>
+                and maintab.user_id in (
+                select user_id from sm_education where
+                flag = #{entity.FLAG_NORMAL}
+                and school=#{entity.paramB} or series=#{entity.paramB} or
+                college=#{entity.paramB} or specialty=#{entity.paramB}
+                )
+            </if>
+            <if test='entity.orgId != null and entity.orgId!="" and entity.paramB != "root" '>
+                and maintab.user_id in (
+                select user_id from sys_user_asso where
+                as_id=#{entity.orgId}
+                )
+            </if>
+            <if test="entity.type != null and entity.type!='' ">
+                and sm_s.type=#{entity.type}
+            </if>
+        </where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    <!-- 项目类型金额统计  -->
+    <select id="donationProjectTypeChart" resultType="java.util.HashMap">
+        SELECT
+        sum(maintab.money) sum,
+        don_pro.type
+        from don_record maintab
+        left join don_project don_pro on maintab.don_project_id = don_pro.id AND don_pro.flag = #{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY don_pro.type
+    </select>
+    <!-- 捐赠项目金额统计（柱状）  -->
+    <select id="donationProjectMoneyChart" resultType="java.util.HashMap">
+        SELECT
+        sum(maintab.money) sum,
+        don_pro.name name
+        from don_record maintab
+        right join don_project don_pro on maintab.don_project_id = don_pro.id AND don_pro.flag = #{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            <if test="entity.projectType  != null and entity.projectType != ''">
+            and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY don_pro.id
+    </select>
+    <!-- 捐赠项目次数统计（柱状）  -->
+    <select id="donationProjectCountChart" resultType="java.util.HashMap">
+        SELECT
+        count(maintab.money) sum,
+        don_pro.name name
+        from don_record maintab
+        right join don_project don_pro on maintab.don_project_id = don_pro.id AND don_pro.flag = #{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            <if test="entity.projectType  != null and entity.projectType != ''">
+                and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY don_pro.id
+    </select>
+
+    <!--不同龄校友捐赠统计（柱状）-->
+    <select id="donationAgeGroupChart" resultType="java.util.HashMap">
+        SELECT
+        sum(maintab.money) money, DATE_FORMAT( sm_s.birthday, '%Y' ) birthday
+        from don_record maintab
+        left join sm_schoolmate sm_s on sm_s.user_id = maintab.user_id and sm_s.flag =#{entity.FLAG_NORMAL}
+        RIGHT JOIN don_project don_pro ON maintab.don_project_id = don_pro.id
+        AND don_pro.flag = #{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.user_id is not null
+            <if test="entity.projectType  != null and entity.projectType != ''">
+                and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY
+        DATE_FORMAT( birthday, '%Y' )
+        ORDER BY
+        DATE_FORMAT( birthday, '%Y' )
+    </select>
+
+    <!--捐赠金额区间统计（柱状）-->
+    <select id="donationSectionMoneyChart" resultType="java.util.HashMap">
+        SELECT
+        ELT( INTERVAL ( money, 0, 10, 100, 500, 1000 ,3000,5000,10000), '0-10(元)','10-100(元)','100-500(元)','500-1000(元)','1000-3000(元)','3000-5000(元)','5000-10000(元)','>10000(元)') as qujian
+         ,sum(money) money
+        from don_record maintab
+
+        RIGHT JOIN don_project don_pro ON maintab.don_project_id = don_pro.id
+        AND don_pro.flag = #{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.money is not null
+            <if test="entity.projectType  != null and entity.projectType != ''">
+                and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY qujian order by qujian
+    </select>
+    <!--捐赠金额区间统计（柱状）-->
+    <select id="donationSectionCountChart" resultType="java.util.HashMap">
+        SELECT
+        ELT( INTERVAL ( money, 0, 10, 100, 500, 1000 ,3000,5000,10000), '0-10(元)','10-100(元)','100-500(元)','500-1000(元)','1000-3000(元)','3000-5000(元)','5000-10000(元)','>10000(元)') as qujian
+        ,count(money) count
+        from don_record maintab
+
+        RIGHT JOIN don_project don_pro ON maintab.don_project_id = don_pro.id
+        AND don_pro.flag = #{entity.FLAG_NORMAL}
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.money is not null
+            <if test="entity.projectType  != null and entity.projectType != ''">
+                and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY qujian order by qujian
+    </select>
+    <!-- 一起捐金额统计 -->
+    <select id="donationTogetherMoneyChart" resultType="java.util.HashMap">
+        SELECT
+        sum( money ) sum,
+        tmp_date.date month
+        FROM don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.together_id is not null
+            <if test="entity.projectType  != null and entity.projectType != ''">
+                and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    <!-- 一起捐次数统计 -->
+    <select id="donationTogetherCountChart" resultType="java.util.HashMap">
+        SELECT
+        count( maintab.id ) sum,
+        tmp_date.date month
+        FROM don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        right JOIN (
+        SELECT
+        <include refid="date_format">
+            <property name="column" value="dateSequence"/>
+        </include>
+        AS date
+        FROM(
+        <!-- 构造连续的日期数据 -->
+        <foreach collection="num" separator="UNION ALL" >
+            SELECT 1
+        </foreach>
+        ) AS tmp,(SELECT @i := - 1) t
+        ) AS tmp_date ON
+        <!-- 日期关联条件 -->
+        <include refid="date_format">
+            <property name="column" value="${dateColumn}"/>
+        </include> = tmp_date.date
+        <!-- 外部条件 -->
+        <where>
+            maintab.flag = #{entity.FLAG_NORMAL}
+            and maintab.together_id is not null
+            <if test="entity.projectType  != null and entity.projectType != ''">
+                and don_pro.type =#{entity.projectType}
+            </if>
+            <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+                <if test="entity.chartStartDate != null">
+                    and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+                </if>
+                <if test="entity.chartEndDate!= null" >
+                    and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+                </if>
+            </if>
+            <if test="entity.state != null and entity.state!='' ">
+                and  maintab.state = #{entity.state}
+            </if>
+        </where>
+        GROUP BY tmp_date.date
+        ORDER BY tmp_date.date
+    </select>
+    <!--获取总校友数-->
+    <select id="getAllSmSchoolmate" resultType="java.lang.Integer">
+        select count(1) from sm_schoolmate where flag = #{entity.flag}
+    </select>
+    <!--获取活跃校友数-->
+    <select id="getloginSignSchoolmate" resultType="java.lang.Integer">
+        select  count(distinct(user_id)) count from point_login_sign maintab
+        where
+	    maintab.flag = #{entity.flag}
+        <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+            <if test="entity.chartStartDate != null">
+                and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.create_date,'%Y-%m')
+            </if>
+            <if test="entity.chartEndDate!= null" >
+                and   DATE_FORMAT(maintab.create_date,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+            </if>
+        </if>
+    </select>
+    <!--捐赠校友数-->
+    <select id="getDonationSchoolmate" resultType="java.lang.Integer">
+        select  count(distinct(user_id)) count from don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        where
+	    maintab.flag = #{entity.flag}
+	    and maintab.user_id is not null
+        <if test="entity.projectType  != null and entity.projectType != ''">
+            and don_pro.type =#{entity.projectType}
+        </if>
+        <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+            <if test="entity.chartStartDate != null">
+                and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+            </if>
+            <if test="entity.chartEndDate!= null" >
+                and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+            </if>
+        </if>
+    </select>
+    <!--捐赠成功数-->
+    <select id="getDonationSuccessSchoolmate" resultType="java.lang.Integer">
+        select  count(distinct(user_id)) count from don_record maintab
+        left join don_project don_pro on maintab.don_project_id =don_pro.id and don_pro.flag =#{entity.FLAG_NORMAL}
+        where
+	    maintab.flag = #{entity.flag}
+	    and maintab.user_id is not null
+	    and maintab.state = #{entity.state}
+        <if test="entity.projectType  != null and entity.projectType != ''">
+            and don_pro.type =#{entity.projectType}
+        </if>
+        <if test='entity.chartStartDate  != null and entity.chartEndDate != null'>
+            <if test="entity.chartStartDate != null">
+                and   DATE_FORMAT(#{entity.chartStartDate},'%Y-%m')  &lt;= DATE_FORMAT(maintab.time,'%Y-%m')
+            </if>
+            <if test="entity.chartEndDate!= null" >
+                and   DATE_FORMAT(maintab.time,'%Y-%m')  &lt;=  DATE_FORMAT(#{entity.chartEndDate},'%Y-%m')
+            </if>
+        </if>
+    </select>
+    <!--捐赠人金额排行-->
+    <select id="getDonationMoney" resultType="java.util.HashMap">
+    select sm_s.name name  ,sum(maintable.money) field  from
+    don_record maintable left join sm_schoolmate sm_s on maintable.user_id = sm_s.user_id
+    where
+        maintable.flag = 'NORMAL'
+        and sm_s.flag ='NORMAL'
+        and  sm_s.name is not null
+        and maintable.money is not null
+    <if test="entity.donRecord !=null  ">
+
+        <if test="entity.donRecord.state !=null and entity.donRecord.state !='' ">
+           and maintable.state =#{entity.donRecord.state}
+        </if>
+    </if>
+    group by
+        sm_s.name
+    <if test="entity.field !=null and entity.field != ''  ">
+        order by
+        ${entity.field }
+    </if>
+    <if test="entity.field !=null and entity.field != '' and entity.type != null and entity.type != ''">
+          ${entity.type}
+    </if>
+    </select>
+    <!--捐赠人次数排行-->
+    <select id="getDonationCount" resultType="java.util.HashMap">
+    select sm_s.name name  ,count(maintable.money) field  from
+    don_record maintable left join sm_schoolmate sm_s on maintable.user_id = sm_s.user_id
+    where
+        maintable.flag = 'NORMAL'
+        and sm_s.flag ='NORMAL'
+        and  sm_s.name is not null
+        and maintable.money is not null
+    <if test="entity.donRecord !=null  ">
+
+        <if test="entity.donRecord.state !=null and entity.donRecord.state !='' ">
+           and maintable.state =#{entity.donRecord.state}
+        </if>
+    </if>
+    group by
+        sm_s.name
+    <if test="entity.field !=null and entity.field != ''  ">
+        order by
+        ${entity.field }
+    </if>
+        <if test="entity.field !=null and entity.field != '' and entity.type != null and entity.type != ''">
+             ${entity.type}
+        </if>
+    </select>
+    <!--捐赠项目金额排行-->
+    <select id="getDonationProject" resultType="java.util.HashMap">
+        select don_pro.name name  ,count(maintable.money) field  from
+        don_record maintable
+        left join don_project don_pro on maintable.don_project_id = don_pro.id
+        where
+        maintable.flag = 'NORMAL'
+        AND maintable.state ='NORMAL'
+        and don_pro.flag ='NORMAL'
+        and  don_pro.name is not null
+        and maintable.money is not null
+        <if test="entity.donRecord !=null  ">
+
+            <if test="entity.donRecord.state !=null and entity.donRecord.state !='' ">
+                and maintable.state =#{entity.donRecord.state}
+            </if>
+        </if>
+        group by
+        don_pro.name
+        <if test="entity.field !=null and entity.field != ''  ">
+            order by
+            ${entity.field }
+        </if>
+        <if test="entity.field !=null and entity.field != '' and entity.type != null and entity.type != ''">
+            ${entity.type}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,133 @@
+{
+  "pages": [
+    "pages/tabbar/index/index",
+    "pages/tabbar/don/don",
+    "pages/tabbar/service/service",
+    "pages/tabbar/act/act",
+    "pages/tabbar/mine/mine",
+    "pages/login/regist",
+    "pages/login/info",
+    "pages/login/authrule",
+    "pages/login/invite",
+    "pages/login/identifyResult",
+    "pages/login/barcode",
+    "pages/login/cardstatusAuthing",
+    "pages/login/cardstatusFail",
+    "pages/login/cardstatusSuccess",
+    "pages/login/nocard",
+    "pages/login/login",
+    "pages/login/updatePass",
+    "pages/login/confirmInfo",
+    "pages/login/camera",
+    "pages/don/donDetail",
+    "pages/don/donPersons",
+    "pages/don/launchTeamDon",
+    "pages/don/ImmediateDon",
+    "pages/don/payResult",
+    "pages/don/donPay",
+    "pages/act/actDetail",
+    "pages/act/actResult",
+    "pages/act/backSchoolDetail",
+    "pages/act/backSchoolInfo",
+    "pages/act/launchBackSchool",
+    "pages/act/backSchoolResult",
+    "pages/act/partakeAct",
+    "pages/index/news/newsDetail",
+    "pages/index/news/newsList",
+    "pages/index/association/association",
+    "pages/tabbar/index/mediaMessage/mediaMessage"
+  ],
+  "subPackages": [
+    {
+      "root": "pages_mine",
+      "pages": [
+        "message/message",
+        "infomation/base/base",
+        "infomation/edu/edu",
+        "infomation/edu/eduDetail",
+        "infomation/hisEdu/hisEdu",
+        "infomation/hisEdu/hisEduDetail",
+        "infomation/addr/addr",
+        "infomation/addr/addrDetail",
+        "infomation/contact/contact",
+        "infomation/contact/contactDetail",
+        "infomation/social/social",
+        "infomation/social/socialDetail",
+        "infomation/honor/honor",
+        "infomation/honor/honorDetail",
+        "infomation/profession/profession",
+        "infomation/profession/professionDetail",
+        "myCard/myCard",
+        "myCard/cardRank",
+        "myCard/shareRank",
+        "myCard/proveRank",
+        "myCard/donRank",
+        "myDon/myDon",
+        "myDon/myCertificate",
+        "myAct/myAct",
+        "myAssociation/myAssociationDetail",
+        "myAssociation/myAssociation",
+        "myAssociation/memberDetail",
+        "myAssociation/schoolMember",
+        "setting/setting",
+        "setting/changeMobile",
+        "setting/changePwd",
+        "infomation/info/info"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "校友卡小程序",
+    "navigationBarBackgroundColor": "#272d3d",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "color": "#8F8F94",
+    "selectedColor": "#CBA770",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/index/index",
+        "iconPath": "static/img/tabbar/home.png",
+        "selectedIconPath": "static/img/tabbar/homeactive.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabbar/don/don",
+        "iconPath": "static/img/tabbar/donate.png",
+        "selectedIconPath": "static/img/tabbar/donateactive.png",
+        "text": "回馈"
+      },
+      {
+        "pagePath": "pages/tabbar/service/service",
+        "iconPath": "static/img/tabbar/service.png",
+        "selectedIconPath": "static/img/tabbar/serviceactive.png",
+        "text": "服务"
+      },
+      {
+        "pagePath": "pages/tabbar/act/act",
+        "iconPath": "static/img/tabbar/act.png",
+        "selectedIconPath": "static/img/tabbar/actactive.png",
+        "text": "活动"
+      },
+      {
+        "pagePath": "pages/tabbar/mine/mine",
+        "iconPath": "static/img/tabbar/me.png",
+        "selectedIconPath": "static/img/tabbar/meactive.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "preloadRule": {
+    "pages/tabbar/mine/mine": {
+      "network": "all",
+      "packages": [
+        "pages_mine"
+      ]
+    }
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap20.json"
+}

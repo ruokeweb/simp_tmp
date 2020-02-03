@@ -1,0 +1,212 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* 字体颜色 */
+.money_2 {
+  padding: 20rpx 30rpx 20rpx 30rpx;
+  overflow: hidden;
+}
+.mon_1 {
+  width: 146rpx;
+  height: 65rpx;
+  border: 1rpx solid #eaeaea;
+  float: left;
+  text-align: center;
+  line-height: 65rpx;
+  font-size: 26rpx;
+  color: #444444;
+  /* font-weight: bold; */
+  position: relative;
+  margin-bottom: 10rpx;
+  border-radius: 10rpx;
+}
+.mon_2 {
+  margin-right: 30rpx;
+}
+.active {
+  color: #FFFFFF !important;
+  background-color: #272D3D !important;
+}
+.smType {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.action-row-center {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  color: #fff;
+  background-color: #999999;
+  height: 60rpx;
+  line-height: 60rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 24rpx;
+  z-index: 9999;
+}
+.action-row-right {
+  color: #007aff;
+  padding-top: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+.content {
+  background-color: #F2F2F2;
+  /* padding-bottom: 20upx; */
+}
+.content_view {
+  background-color: #FFFFFF;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+.content_view_item {
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10rpx 20rpx;
+}
+.content_view_item:last-child {
+  border: none;
+}
+.text_reg {
+  /* width: 15%; */
+  font-size: 28rpx;
+  display: inline-block;
+  color: #333;
+  /* padding-left: 20upx; */
+  position: relative;
+}
+.input_reg {
+  width: 60% !important;
+  float: right;
+  text-align: right;
+}
+.btn-verify {
+  width: 174rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  background-color: #e2b352 !important;
+  font-size: 26rpx;
+  color: #fff;
+  padding: 0;
+  display: inline-block;
+  position: absolute;
+  top: 0rpx;
+  right: 0rpx;
+  z-index: 1000;
+}
+.switch {
+  float: right;
+  padding-top: 10rpx;
+}
+.primary {
+  width: 90%;
+  padding-bottom: 20rpx;
+}
+.uni-input {
+  text-align: right;
+  position: relative;
+  bottom: 10rpx;
+  padding-right: 0;
+}
+.ring {
+  width: 27rpx;
+  height: 32rpx;
+  position: relative;
+  top: 12rpx;
+  right: 16rpx;
+}
+.con_view {
+  margin-top: 53rpx;
+}
+.btn-verify {
+  top: 18rpx;
+  right: 15rpx;
+}
+.but-view {
+  background: #FFFFFF;
+}
+.primary.btn_dark.bottom-but {
+  position: absolute;
+  width: 90%;
+  bottom: 100rpx;
+  left: 5%;
+}
+.tis-image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 100%;
+  margin: -37rpx 0rpx;
+}
+.text_font {
+  color: #FFFFFF;
+}
+.placeholderStyle {
+  color: #ccc;
+}
+

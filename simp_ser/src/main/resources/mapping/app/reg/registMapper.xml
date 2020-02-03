@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.reg.mapper.RegistMapper">
+	<!-- 基础返回值定义 -->
+	<resultMap id="UserResultMap"
+		type="com.mpri.aio.system.model.SysUser">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="safecode" jdbcType="VARCHAR" property="safecode" />
+		<result column="virtual_name" jdbcType="VARCHAR" property="virtualName" />
+		<result column="idcard" jdbcType="VARCHAR" property="idcard" />
+		<result column="virtual_photo" jdbcType="VARCHAR" property="virtualPhoto" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="user_type" jdbcType="VARCHAR" property="userType" />
+		<result column="user_source" jdbcType="VARCHAR" property="userSource" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="flag" jdbcType="VARCHAR" property="flag" />
+		<result column="create_date" jdbcType="VARCHAR" property="createDate" />
+	</resultMap>
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="SchoolmateResultMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="complete" jdbcType="INTEGER" property="complete" />
+			<result column="mark_ids" jdbcType="VARCHAR" property="markIds" />
+			<result column="pos_lat" jdbcType="VARCHAR" property="posLat" />
+			<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+			<result column="marks" jdbcType="VARCHAR" property="marks" />
+			<result column="pos_long" jdbcType="VARCHAR" property="posLong" />
+			<result column="don_fee" jdbcType="DECIMAL" property="donFee" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="remark" jdbcType="VARCHAR" property="remark" />
+			<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+			<result column="eg_name" jdbcType="VARCHAR" property="egName" />
+			<result column="nation" jdbcType="VARCHAR" property="nation" />
+			<result column="sex" jdbcType="VARCHAR" property="sex" />
+			<result column="card_id" jdbcType="VARCHAR" property="cardId" />
+			<result column="flag" jdbcType="VARCHAR" property="flag" />
+			<result column="openid" jdbcType="VARCHAR" property="openid" />
+			<result column="status" jdbcType="VARCHAR" property="status" />
+			<result column="card_num" jdbcType="VARCHAR" property="cardNum" />
+			<result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+			<result column="true_photo" jdbcType="VARCHAR" property="truePhoto" />
+			<result column="card_status" jdbcType="VARCHAR" property="cardStatus" />
+			<result column="is_show" jdbcType="VARCHAR" property="isShow" />
+			<result column="point" jdbcType="INTEGER" property="point" />
+			<result column="type" jdbcType="VARCHAR" property="type" />
+			<result column="card_type" jdbcType="VARCHAR" property="cardType" />
+			<result column="level" jdbcType="INTEGER" property="level" />
+			<result column="pos_city" jdbcType="VARCHAR" property="posCity" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+			<association property="smEducation" javaType="com.mpri.aio.schoolmate.model.SmEducation">
+				<id column="smEdu_id" jdbcType="VARCHAR" property="id" />
+				<result column="edu_model" jdbcType="VARCHAR" property="eduModel" />
+				<result column="school" jdbcType="VARCHAR" property="school" />
+				<result column="college" jdbcType="VARCHAR" property="college" />
+				<result column="series" jdbcType="VARCHAR" property="series" />
+				<result column="specialty" jdbcType="VARCHAR" property="specialty" />
+				<result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+				<result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+				<result column="degree_type" jdbcType="VARCHAR" property="degreeType" />
+				<result column="temp_specialty" jdbcType="VARCHAR" property="tempSpecialty" />
+				<result column="classes" jdbcType="VARCHAR" property="classes" />
+				<result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+				<result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+				<result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+				<result column="temp_series" jdbcType="VARCHAR" property="tempSeries" />
+				<result column="schoollen" jdbcType="VARCHAR" property="schoollen" />
+				<result column="degree" jdbcType="VARCHAR" property="degree" />	
+			</association>					
+			<association property="sysUser"
+				javaType="com.mpri.aio.system.model.SysUser">
+			    <id column="sysUserId" jdbcType="VARCHAR" property="id" />
+			    <result column="username" jdbcType="VARCHAR" property="username" />
+			    <result column="password" jdbcType="VARCHAR" property="password" />
+			    <result column="safecode" jdbcType="VARCHAR" property="safecode" />
+			    <result column="virtual_name" jdbcType="VARCHAR" property="virtualName" />
+			    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+			    <result column="virtual_photo" jdbcType="VARCHAR" property="virtualPhoto" />
+			    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+			    <result column="email" jdbcType="VARCHAR" property="email" />
+			    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+			    <result column="user_source" jdbcType="VARCHAR" property="userSource" />
+			    <result column="remark" jdbcType="VARCHAR" property="remark" />
+			    <result column="flag" jdbcType="VARCHAR" property="flag" />
+			</association>
+			<association property="smProfession" javaType="com.mpri.aio.schoolmate.model.SmProfession">			
+				<id column="smPro_id" jdbcType="VARCHAR" property="id" />
+				<result column="smPro_type" jdbcType="VARCHAR" property="type" />
+				<result column="workplace" jdbcType="VARCHAR" property="workplace" />
+			</association>													
+	</resultMap>
+	
+	<!-- 根据UserId获取卡状态 -->
+	<select id ="getCardStatusByUserId" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="SchoolmateResultMap">
+		select 
+			id,card_status
+		from 
+			sm_schoolmate
+			where user_id = #{userId} and flag=#{FLAG_NORMAL}
+	</select>
+	
+	<!-- 根据username查询对象 -->
+	<select id="getUserByUserName"
+		parameterType="com.mpri.aio.system.model.SysUser"
+		resultMap="UserResultMap">
+		select
+		id,username,password,safecode
+		from sys_user a
+		where username = #{username,jdbcType=VARCHAR} and flag=#{FLAG_NORMAL}
+	</select>
+
+	<!-- 获取校友基本信息 -->
+	<select id="getSchoolmateBaseInfo" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="SchoolmateResultMap">
+		SELECT
+				sm_s.id ,sm_s.name ,sm_s.user_id ,sm_s.sex,sm_s.type,sm_s.card_status,sm_s.point,sm_s.true_photo,sm_s.complete,sm_s.create_date,sm_s.true_photo,
+				sys_u.username,sys_u.virtual_name,sys_u.virtual_photo, sys_u.user_type ,
+				sm_edu.id As smEdu_id, sm_edu.degree_type, sm_edu.temp_specialty, sm_edu.edu_model, sm_edu.school, sm_edu.edu_record, sm_edu.schoollen, sm_edu.edu_type, sm_edu.series, sm_edu.classes, 
+				sm_edu.enddate, sm_edu.specialty, sm_edu.college, sm_edu.startdate, sm_edu.student_no, sm_edu.degree, sm_edu.temp_series,
+				sm_pro.id As smPro_id,sm_pro.workplace,sm_pro.type As smPro_type
+		from sm_schoolmate sm_s
+		left JOIN sys_user sys_u on sys_u.id = sm_s.user_id 
+		left join sm_education sm_edu on sm_edu.user_id = sm_s.user_id and sm_edu.is_default = #{smEducation.isDefault} and sm_edu.flag=#{FLAG_NORMAL}
+		left join sm_profession sm_pro on sm_pro.user_id = sm_s.user_id and sm_pro.type = #{smProfession.type} and sm_pro.flag = #{FLAG_NORMAL}
+		
+		where sm_s.user_id = #{userId} and sm_s.flag=#{FLAG_NORMAL}		
+	</select>
+	
+		<!-- 获取校友基本信息 -->
+	<select id="getConfirmSmInfo" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="SchoolmateResultMap">
+		SELECT
+				sm_s.id ,sm_s.user_id,sm_s.name ,sm_s.sex,sm_s.type,sm_s.card_type,sm_s.card_num,sm_s.is_show,sm_s.true_photo,sm_s.complete,sm_s.create_date,
+				sys_u.username,sys_u.virtual_name,sys_u.virtual_photo,sys_u.user_type ,
+				sm_edu.id As smEdu_id, sm_edu.degree_type, sm_edu.temp_specialty, sm_edu.edu_model, sm_edu.school, sm_edu.edu_record, sm_edu.schoollen, sm_edu.edu_type, sm_edu.series, sm_edu.classes, 
+				sm_edu.enddate, sm_edu.specialty, sm_edu.college, sm_edu.startdate, sm_edu.student_no, sm_edu.degree, sm_edu.temp_series,
+				sm_pro.id As smPro_id,sm_pro.workplace,sm_pro.type As smPro_type
+		from sm_schoolmate sm_s
+		left JOIN sys_user sys_u on sys_u.id = sm_s.user_id 
+		left join sm_education sm_edu on sm_edu.user_id = sm_s.user_id and sm_edu.is_default = #{smEducation.isDefault} and sm_edu.flag=#{FLAG_NORMAL}
+		left join sm_profession sm_pro on sm_pro.user_id = sm_s.user_id and sm_pro.type = #{smProfession.type} and sm_pro.flag = #{FLAG_NORMAL}
+		where
+        <if test="userId != null and userId!='' ">
+               sm_s.user_id = #{userId} 
+        </if> 
+        <if test="id != null and id!='' ">
+               sm_s.id = #{id} 
+        </if> 				
+		and sm_s.flag=#{FLAG_NORMAL}		
+	</select>
+	
+	
+	<!-- 查询该用户是否存在 -->
+    <select id="existThisUser" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS 
+		(select 1 from sys_user 
+		where username  = #{username} and flag = "NORMAL" )    
+  	</select>
+	<!-- 查询该用户是否存在 -->
+    <select id="existSysUser" parameterType="java.lang.String" resultType="java.lang.Boolean" >
+		SELECT EXISTS
+		(select 1 from sys_user
+		where username  = #{username} and flag = "NORMAL" and user_type  <![CDATA[!= ]]> "NORMAL" )
+  	</select>
+
+  	<!-- 更新用户名 -->
+	<update id="updataUsernameById" parameterType="com.mpri.aio.system.model.SysUser">
+	   update sys_user set username = #{username} where id = #{id,jdbcType=VARCHAR}
+	</update>
+  	
+  	<!-- 取消联系方式所有默认 -->
+	<update id="updataSmconIsNotDef" parameterType="com.mpri.aio.schoolmate.model.SmContact">
+	   update sm_contact set is_default = 'NOT_DEFAULT' where user_id = #{userId,jdbcType=VARCHAR}
+	</update>  	
+	
+  	<!-- 取消职业经历所有默认 -->
+	<update id="updateSmProIsNotDef" parameterType="com.mpri.aio.schoolmate.model.SmContact">
+	   update sm_profession set type = 'NOT_DEFAULT' where user_id = #{userId,jdbcType=VARCHAR}
+	</update>  	
+	
+  	<!-- 取消院系专业方式所有默认 -->
+	<update id="updateSmEduIsNotDef" parameterType="com.mpri.aio.schoolmate.model.SmContact">
+	   update sm_education set is_default = 'NOT_DEFAULT' where user_id = #{userId,jdbcType=VARCHAR}
+	</update>  			
+	
+	
+  	
+  	<!--更新校友卡状态  -->
+	<update id="updateSmCardStatus" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+	   update sm_schoolmate set card_status = #{cardStatus,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=VARCHAR}
+	</update>  	
+  	<!--更新校友真实头像到校友表  -->
+	<update id="updateSmTruePhoto" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+	   update sm_schoolmate set true_photo = #{truePhoto,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=VARCHAR}
+	</update>    	
+	
+  	<!-- 智能审核-->
+  	<select id="findSmByAuthInfo" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" resultMap="SchoolmateResultMap">
+		select 
+			distinct 
+				sm_s.id ,sm_s.name ,sm_s.user_id,sm_s.sex,sm_s.type,sm_s.card_status,sm_s.point,sm_s.create_date,sm_s.complete,sm_s.create_date,
+				sys_u.id as sysUserId, sys_u.username,sys_u.virtual_name,sys_u.virtual_photo,sys_u.safecode,
+				sm_edu.id As smEdu_id, sm_edu.degree_type, sm_edu.temp_specialty, sm_edu.edu_model, sm_edu.school, sm_edu.edu_record, sm_edu.schoollen, sm_edu.edu_type, sm_edu.series, sm_edu.classes, 
+				sm_edu.enddate, sm_edu.specialty, sm_edu.college, sm_edu.startdate, sm_edu.student_no, sm_edu.degree, sm_edu.temp_series
+		from sm_schoolmate sm_s
+		LEFT JOIN sm_education sm_edu on sm_s.user_id = sm_edu.user_id and sm_edu.flag = #{FLAG_NORMAL}
+		LEFT JOIN sys_user sys_u on sys_u.id = sm_s.user_id and sys_u.flag = #{FLAG_NORMAL}
+		<where>
+			<include refid="compare_query_where" />
+			and sm_s.flag = #{FLAG_NORMAL}
+		</where>
+		ORDER BY sm_s.create_date DESC  		
+  	</select>
+  	
+	<sql id="compare_query_where">
+		<!-- 设置老数据状态及用户来源用来区分是否是刚刚注册的还是原来注册的 -->
+		<!-- and card_status = 'NORMAL' -->
+		and user_source= 'HISTORY_DATA'	
+			
+		<if test="name!=null and name !='' ">and name = #{name}</if>
+		<if test="sex != null and sex !='' ">and sex=#{sex}</if>
+		<if test="cardNum != null and cardNum !='' ">and card_num=#{cardNum}</if>
+		<if test="smEducation != null">
+			<if test="smEducation.school != null and smEducation.school !='' ">and school=#{smEducation.school}</if>
+			<if test="smEducation.college != null and smEducation.college !='' ">and college=#{smEducation.college}</if>
+			<if test="smEducation.specialty != null and smEducation.specialty !='' ">and specialty=#{smEducation.specialty}</if>
+			<if test="smEducation.series != null and smEducation.series !='' ">and series=#{smEducation.series}</if>
+			<if test="smEducation.startdate != null ">and date_format(startdate ,'%Y')= (select DATE_FORMAT(#{smEducation.startdate},'%Y'))</if>				
+		</if>
+	</sql>	
+</mapper>

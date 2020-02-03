@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.message.mapper.MesGroupUserMapper">
+
+  	<!-- 基础返回值定义 -->
+	<resultMap id="BaseResultMap" type="com.mpri.aio.message.model.MesGroupUser">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="group_id" jdbcType="VARCHAR" property="groupId" />
+			<result column="user_id" jdbcType="VARCHAR" property="userId" />
+	</resultMap>
+	
+		<!-- 基础字段定义 -->
+	<sql id="Sm_Column_List">
+		sm_s.id, sm_s.sys_user_id, sm_s.username, sm_s.card_id,
+		sm_s.card_status,
+		sm_s.openid, sm_s.name, sm_s.pinyin,
+		sm_s.sex,pos_city, pos_lat, pos_long,
+		sm_s.true_photo, sm_s.birthday, sm_s.card_num, sm_s.card_type,
+		sm_s.type, level, point, don_fee,nation, complete, sm_s.create_date,sm_s.is_show,
+		sm_s.remark, sm_s.flag ,sm_s.marks,sm_s.markIds
+	</sql>
+	
+    <!-- 基础字段定义 -->
+	<sql id="Base_Column_List">
+    	group_id, id, user_id
+	</sql>
+
+	<!-- 查询条件定义 -->
+	<sql id="query_where">
+		<if test="entity!=null">
+			<if test="entity.groupId != null and entity.groupId!='' ">
+        		and group_id=#{entity.groupId}
+      		</if>	      	
+			<if test="entity.id != null and entity.id!='' ">
+        		and id=#{entity.id}
+      		</if>	      	
+			<if test="entity.userId != null and entity.userId!='' ">
+        		and user_id=#{entity.userId}
+      		</if>	      	
+		</if>
+	</sql>
+	
+  	<!-- 根据id查询 -->
+  	<select id="get" parameterType="com.mpri.aio.message.model.MesGroupUser" resultMap="BaseResultMap">
+   	    select 
+    		<include refid="Base_Column_List" />
+    	from mes_group_user
+    	where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+  	</select>
+ 
+ 	<!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.message.model.MesGroupUser" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_group_user 
+    	<where>
+	  		<include refid="query_where"></include>
+    	</where>
+    	order by create_date DESC
+  	</select>
+
+ 	<!-- 分页查询 -->
+    <select id="loadSmByPage" parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate" 
+    			resultType="com.mpri.aio.schoolmate.model.SmSchoolmate" >
+    	select
+    		<include refid="Sm_Column_List" />
+    	from mes_group_user m_g_u
+    		left join sm_schoolmate sm_s  on m_g_u.user_id = sm_s.sys_user_id
+    	<where>
+	  		m_g_u.group_id = #{paramA}
+			<if test="name!=null and name!='' ">
+				and name LIKE concat('%', #{name},'%') 
+			</if>
+    	</where>
+  	</select>	
+
+  	<!-- 依照条件查询所有对象 -->
+  	<select id="loadAllListBy"  parameterType="com.mpri.aio.message.model.MesGroupUser" resultMap="BaseResultMap" >
+    	select
+    		<include refid="Base_Column_List" />
+    	from mes_group_user 
+		<where>
+	  		<include refid="query_where"></include>
+    	</where>
+  	</select>
+
+	<!-- 删除对象 -->
+  	<update id="delete" parameterType="com.mpri.aio.message.model.MesGroupUser">
+    	update mes_group_user set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<!-- 插入数据 -->
+  	<insert id="insert" parameterType="com.mpri.aio.message.model.MesGroupUser">
+		insert into mes_group_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	   		<if test="groupId != null">
+	    		group_id,
+	  		</if>   			
+	   		<if test="id != null">
+	    		id,
+	  		</if>   			
+	   		<if test="userId != null">
+	    		user_id,
+	  		</if>   			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	   		<if test="groupId != null">
+	   			#{groupId,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="id != null">
+	   			#{id,jdbcType=VARCHAR},
+	  		</if>   			
+	   		<if test="userId != null">
+	   			#{userId,jdbcType=VARCHAR},
+	  		</if>   			
+		</trim>
+  	</insert>
+
+  	<!-- 更新数据 -->
+  	<update id="update" parameterType="com.mpri.aio.message.model.MesGroupUser">
+    	update mes_group_user
+    	<set>
+			<if test="groupId != null">
+	   			group_id = #{groupId,jdbcType=VARCHAR},
+	  		</if>  
+			<if test="userId != null">
+	   			user_id = #{userId,jdbcType=VARCHAR},
+	  		</if>  
+    	</set>
+    	where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.app.mine.mapper.AppHisInfomationmapper">
+    <!-- 基础返回值定义 -->
+    <resultMap id="BaseResultMap" type="com.mpri.aio.app.mine.vo.HisInfomationVo">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="virtual_name" jdbcType="VARCHAR" property="virtualName" />
+        <result column="virtual_photo" jdbcType="VARCHAR" property="virtualPhoto" />
+        <result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+        <result column="edu_record" jdbcType="VARCHAR" property="eduRecord" />
+        <result column="college" jdbcType="VARCHAR" property="college" />
+        <result column="series" jdbcType="VARCHAR" property="series" />
+        <result column="specialty" jdbcType="VARCHAR" property="specialty" />
+        <result column="classes" jdbcType="VARCHAR" property="classes" />
+    </resultMap>
+
+    <!-- 带校友信息的基础返回值定义 -->
+    <resultMap id="SchoolMateResultMap" type="com.mpri.aio.app.mine.vo.HisDonVo">
+        <id column="don_id" jdbcType="VARCHAR" property="id"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <!-- 基础字段定义 -->
+  <sql id="Base_Column_List">
+    a.id,  a.username, a.password, a.safecode, a.virtual_name, a.idcard, a.virtual_photo, a.mobile, a.email,a.user_type,a.user_source, a.create_date,
+    a.remark, a.flag
+  </sql>
+  
+  <!-- 基础字段定义 -->
+  <sql id="Column_List">
+    a.id,  a.username, a.virtual_name,a.virtual_photo, a.mobile, a.email,a.user_type,a.user_source, a.create_date,
+    a.remark, a.flag
+  </sql>
+  
+  <!-- 查询条件定义 -->
+  <sql id="query_where" >
+    <if test="entity!=null">
+       <if test="entity.id!=null and entity.id!='' ">
+           and id=#{entity.id}
+       </if>
+       <if test="entity.username!=null and entity.username!='' ">
+           and username=#{entity.username}
+       </if>
+       <if test="entity.password!=null and entity.password!='' ">
+           and password=#{entity.password}
+       </if>
+       <if test="entity.virtualName!=null and entity.virtualName!='' ">
+           and virtual_name LIKE concat('%', #{entity.virtualName},'%')
+       </if>
+       <if test="entity.idcard!=null and entity.idcard!='' ">
+           and idcard=#{entity.idcard}
+       </if>
+       <if test="entity.mobile!=null and entity.mobile!='' ">
+           and mobile=#{entity.mobile}
+       </if>
+       <if test="entity.email!=null and entity.email!='' ">
+           and email=#{entity.email}
+       </if>
+       <if test="entity.queryBeginDate!=null and entity.queryBeginDate!=''">
+           and create_date &gt;= #{queryBeginDate}  
+       </if>
+	     <if test="entity.queryEndDate!=null and entity.queryEndDate!='' ">
+           and create_date &lt;= #{queryEndDate}  
+       </if>
+       <if test="entity.userType!=null and entity.userType!='' ">
+           and user_type=#{entity.userType}
+       </if>
+       <if test="entity.userSource!=null and entity.userSource!='' ">
+           and user_source=#{entity.user_source}
+       </if>
+           and flag= #{entity.FLAG_NORMAL}
+	</if>
+  </sql>
+  
+   <!-- 查询条件分页定义 -->
+  <sql id="query_where_page" >
+    <if test="entity!=null">
+       <if test="entity.id!=null and entity.id!='' ">
+           and id=#{entity.id}
+       </if>
+       <if test="entity.username!=null and entity.username!='' ">
+           and username=#{entity.username}
+       </if>
+       <if test="entity.password!=null and entity.password!='' ">
+           and password=#{entity.password}
+       </if>
+       <if test="entity.virtualName!=null and entity.virtualName!='' ">
+           and virtual_name LIKE concat('%', #{entity.virtualName},'%') 
+       </if>
+       <if test="entity.idcard!=null and entity.idcard!='' ">
+           and idcard=#{entity.idcard}
+       </if>
+       <if test="entity.mobile!=null and entity.mobile!='' ">
+           and mobile=#{entity.mobile}
+       </if>
+       <if test="entity.email!=null and entity.email!='' ">
+           and email=#{entity.email}
+       </if>
+       <if test="entity.queryBeginDate!=null and entity.queryBeginDate!=''">
+           and create_date &gt;= #{queryBeginDate}  
+       </if>
+	     <if test="entity.queryEndDate!=null and entity.queryEndDate!='' ">
+           and create_date &lt;= #{queryEndDate}  
+       </if>
+       <if test="entity.userType!=null and entity.userType!='' ">
+           and user_type=#{entity.userType}
+       </if>
+       <if test="entity.userSource!=null and entity.userSource!='' ">
+           and user_source=#{entity.userSource}
+       </if>
+        <if test="entity.asId!=null and entity.asId!='' ">
+           <!-- and sua.as_id in (SELECT as_a.id FROM as_association as_a WHERE find_in_set(#{entity.asId}, as_a.parent_ids) or as_a.id = #{entity.asId}) -->
+           and sua.as_id in (SELECT as_a.id FROM as_association as_a WHERE as_a.id = #{entity.asId})
+       </if>
+           and flag= #{entity.FLAG_NORMAL}
+	</if>
+  </sql>
+    <!-- 根据id查询对象-->
+    <select id="getHisInfomation" parameterType="com.mpri.aio.system.model.SysUser" resultMap="BaseResultMap">
+        select
+            s_u.id,
+            s_u.virtual_name,
+            s_u.virtual_photo,
+            sm_e.startdate,
+            sm_e.edu_record,
+            sm_e.college,
+            sm_e.series,
+            sm_e.specialty,
+            sm_e.classes
+        from sys_user s_u
+        left join sm_education sm_e on s_u.id=sm_e.user_id
+        where s_u.id = #{id,jdbcType=VARCHAR} and s_u.flag = #{FLAG_NORMAL} and sm_e.flag = #{FLAG_NORMAL}
+        ORDER BY sm_e.create_date DESC LIMIT 1
+    </select>
+    <select id="getDonRecordOne"  resultMap="SchoolMateResultMap">
+        select don.id don_id, d_r.money , don.name ,d_r.time from don_record  d_r
+        left join don_project don on d_r.don_project_id = don.id
+        where d_r.user_id = #{userId,jdbcType=VARCHAR} and state = 'NORMAL'
+        ORDER BY
+        d_r.time
+        desc
+        LIMIT 1
+    </select>
+
+</mapper>

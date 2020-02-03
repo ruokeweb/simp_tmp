@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "信息审核",
+  "usingComponents": {
+    "uni-steps": "/components/uni-steps/uni-steps",
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}

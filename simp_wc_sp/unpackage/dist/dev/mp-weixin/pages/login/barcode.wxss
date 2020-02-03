@@ -1,0 +1,40 @@
+
+Page {
+    background: #f2f2f2;
+}
+.content {
+    padding: 100rpx 20rpx;
+}
+.head {
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 70rpx;
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 40rpx;
+    left: 40rpx;
+}
+.area {
+    width: 690rpx;
+    height: 670rpx;
+    background: #fff;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 20rpx;
+    margin-top: 120rpx;
+}
+.tip {
+    font-size: 24rpx;
+    color: #666;
+    margin-top: 20rpx;
+    text-align: center;
+}
+.code {
+    width: 460rpx;
+    height: 460rpx;
+    margin: 0 auto;
+    position: relative;
+    top: 120rpx;
+}
+

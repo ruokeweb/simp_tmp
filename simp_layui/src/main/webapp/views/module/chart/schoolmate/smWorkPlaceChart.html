@@ -1,0 +1,381 @@
+<html>
+<head>
+    <title>校友工作地点（热力地图）</title>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/L7/maps.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/L7/L7-min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+    <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+</head>
+<style type="text/css">
+    .childrenBody {
+        height: 95% !important;
+    }
+    .layui-fluid {
+        margin: 1.5rem !important;
+    }
+
+    ::-webkit-scrollbar{display:none;}html,body{overflow:hidden;margin:0;}
+    #map { position:absolute; top:100px; bottom:0; width:100%; }
+    .infolegend {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px
+    }
+    .infolegend h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+    .legend {
+        line-height: 30px;
+        color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+</style>
+<body class="childrenBody">
+<div class="layui-fluid" style="">
+    <div class="layui-row layui-form layui-col-xs12" style="position: absolute;background: #fff;z-index: 15; ">
+        <div class="magb15 layui-col-md2 layui-col-xs12">
+            <label class="layui-form-label">校友类型：</label>
+            <div class="layui-input-block">
+                <select id="type" lay-filter="sm_type">
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md3 layui-col-xs12" id="departDiv">
+            <label class="layui-form-label">院系/专业：</label>
+            <div class="layui-input-block">
+                <input type="text" id="department" lay-filter="department" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-md3 layui-col-xs12">
+            <label class="layui-form-label">校友会</label>
+            <div class="layui-input-block">
+                <select class="layui-form" name='association' id="association">
+                </select>
+            </div>
+        </div>
+        <div class="magb15 layui-col-md1 layui-col-xs12">
+            <a class="layui-btn" lay-submit="" class="layui-btn search_btn" id="search">查询</a>
+        </div>
+    </div>
+    <div class="layui-row" id="map">
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    layui.config({
+        base: "../../../../static/js/"
+    }).extend({
+        "application": "application",
+        "publicUtil": "publicUtil",
+        "treeSelect": "treeSelect",
+        "dateUtils"  : "dateUtils"
+    })
+    layui.use(['layer', 'application', "publicUtil", 'application', 'jquery', 'treeSelect','form','dateUtils'], function() {
+        layer = parent.layer,
+            application = layui.application,
+            publicUtil = layui.publicUtil,
+            form = layui.form,
+            dateUtils = layui.dateUtils,
+            treeSelect = layui.treeSelect;
+        $ = layui.jquery;
+
+        // var treeSelect;
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            check: {
+                enable: true,
+                chkStyle: "radio",
+                radioType: "all"
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "parentId"
+                }
+            }
+        }
+
+
+        initFormSelect();
+        //获取单位性质的Array
+        var dict=sessionStorage.getItem("dictCache");
+        //抓取相关字段属性
+        var company_data=JSON.parse(dict)['COMPANY_TPYE'];
+        var companyArray=[];
+        companyArray[0]="其它";
+        for(var i =0;i<company_data.length;i++){
+            companyArray[i+1]=company_data[i].label;
+        }
+        form.on('select(sm_type)', function(data) {
+            if(data.value != 'STUDENT'&&data.value != 'GRADUATE'&&data.value != ''){
+                $("#departDiv").css("display","none");
+                $("#department").val("");
+            }else{
+                $("#departDiv").css("display","block");
+            }
+        })
+
+        $("#search").click(function() {
+                var department = $("#department").val();
+            $.getJSON({
+                url:  "../../../../static/js/L7/map.json",
+                success: function(city) {
+                    $.ajax({
+                        url: application.SERVE_URL + "/chart/schoolmate/smWorkPlaceChart",
+                        data:{
+                            paramB: department,
+                            type: $("#type").val(),
+                            orgId: $("#association").val()
+                        },
+                        success: function(data) {
+                            for (var i =0 ;i<city.features.length;i++){
+                                city.features[i].properties.count=0;
+                                for (var j=0 ;j<data.length;j++){
+                                    if(data[j].province==city.features[i].properties.adcode){
+                                        city.features[i].properties.count=data[j].count;
+                                    }
+                                }
+                            }
+                            var scene = new L7.Scene({
+                                id: 'map',
+                                mapStyle: 'light', // 样式URL
+                                center: [104.838088, 34.075889],
+                                pitch: 0,
+                                zoom: 4.4
+
+                            });
+                            window.scene = scene;
+                            scene.setStatus({
+                                dragEnable: true,
+                                keyboardEnable: false,
+                                doubleClickZoom: false,
+                                zoomEnable: false,
+                                rotateEnable: false
+                            });
+                            scene.on('loaded', function() {
+                                scene.PolygonLayer().source(city).color('#000000').shape('line').style({
+                                    opacity: 10
+                                }).render();
+                                var colors = ["#D1FFE6", "#95FFA2", "#65FF74", "#44F259", "#00F230"];
+                                var layer =scene.PolygonLayer().source(city)
+                                    .color('count', function(p) {
+                                        if (p > 15*application.CHART_MAPS_NUMBER) {
+                                            return colors[4];
+                                        } else if (p >= 10*application.CHART_MAPS_NUMBER) {
+                                            return colors[3];
+                                        } else if (p >= 5*application.CHART_MAPS_NUMBER) {
+                                            return colors[2];
+                                        } else if (p >= 1*application.CHART_MAPS_NUMBER) {
+                                            return colors[1];
+                                        } else {
+                                            return colors[0];
+                                        }
+                                    }).shape('fill').active(true).style({
+                                        opacity: 1
+                                    }).render();
+                                var popup = new L7.Popup();
+                                layer.on('mousemove', function(e) {
+                                    var lnglat = e.lnglat,
+                                        feature = e.feature;
+
+                                    var html = '<p>工作地址 ' + feature.properties.name + '</p><p>人数 ' + feature.properties.count + '</p>';
+                                    popup.setLnglat([lnglat.lng, lnglat.lat]).setHTML(html).addTo(scene);
+                                });
+
+                                var legend = new L7.Control.Base({
+                                    position: 'bottomright'
+                                });
+                                legend.onAdd = function() {
+                                    var el = document.createElement('div');
+                                    el.className = 'infolegend legend';
+                                    var grades = [0, 1*application.CHART_MAPS_NUMBER, 5*application.CHART_MAPS_NUMBER, 10*application.CHART_MAPS_NUMBER, 15*application.CHART_MAPS_NUMBER];
+                                    for (var i = 0; i < grades.length; i++) {
+                                        el.innerHTML += '<i style="background:' + colors[i] + ';opacity:1"></i> ' + grades[i] + (grades[i + 1] ? '–' + grades[i + 1] + '<br>' : '+');
+                                    }
+                                    return el;
+                                };
+                                legend.addTo(scene);
+                            });
+                        }
+                    });
+                }
+            })
+        })
+
+        function initFormSelect() {
+            treeSelect.render({
+                // 选择器
+                elem: '#department',
+                // 数据
+                data: application.SERVE_URL + '/settings/settingDepartment/tree',
+                type: 'post',
+                // 占位符
+                placeholder: '请选院系/专业',
+                // 是否开启搜索功能：true/false，默认false
+                search: false,
+                setting: setting,
+                // 点击回调
+                click: function(d) {
+                    document.getElementById("department").value = d.current.id;
+                },
+                check: function(d) {
+                    var value = "";
+                    for (var i = 0; i < d.current.length; i++) {
+                        value += d.current[i].id;
+                        if (i < d.current.length - 1) {
+                            value += ","
+                        }
+                    }
+                    document.getElementById("department").value = value;
+                },
+                // 加载完成后的回调函数
+                success: function(d) {
+                    var treeObj = treeSelect.zTree('department');
+                }
+            })
+        }
+        initBarChart();
+        initAssoSelect("association");
+        //加载校友会下拉列表
+        function initAssoSelect(selectid) {
+            $.ajax({
+                url: application.SERVE_URL + '/as/asAssociation/loadAllListBy', //ajax请求地址
+                success: function(res) {
+                    var assocList = res.data;
+                    $("#" + selectid).empty();
+                    $("#" + selectid).append('<option  value="" >' + "请选择" + ' </option>');
+                    for (var i = 0; i < assocList.length; i++) {
+                        $("#" + selectid).append('<option  value="' + assocList[i].id + '">' + assocList[i].name +
+                            '</option>'); //往下拉菜单里添加元素
+                    }
+                    form.render(); //菜单渲染 把内容加载进去
+                }
+            });
+            //初始化校友类型
+            publicUtil.selectBase(application.SERVE_URL + "/sys/sysdict/getByTypeCode", {
+                'typeCode': 'SCHOOLEMATE_TYPE'
+            }, "type", true);
+        }
+
+        function initBarChart() {
+            var loadingindex = layer.msg("数据获取中", {
+                icon: 16,
+                shade: 0.3,
+                time: 1000
+            });
+            var department = $("#department").val();
+
+            $.getJSON({
+                url:  "../../../../static/js/L7/map.json",
+                success: function(city) {
+                    $.ajax({
+                        url: application.SERVE_URL + "/chart/schoolmate/smWorkPlaceChart",
+                        data:{
+                            paramB: department,
+                            type: $("#type").val(),
+                            orgId: $("#association").val()
+                        },
+                        success: function(data) {
+                            for (var i =0 ;i<city.features.length;i++){
+                                city.features[i].properties.count=0;
+                                for (var j=0 ;j<data.length;j++){
+                                    if(data[j].province==city.features[i].properties.adcode){
+                                        city.features[i].properties.count=data[j].count;
+                                    }
+                                }
+                            }
+                            var scene = new L7.Scene({
+                                id: 'map',
+                                mapStyle: 'light', // 样式URL
+                                center: [104.838088, 34.075889],
+                                pitch: 0,
+                                zoom: 4.4
+                            });
+                            window.scene = scene;
+                            scene.setStatus({
+                                dragEnable: true,
+                                keyboardEnable: false,
+                                doubleClickZoom: false,
+                                zoomEnable: false,
+                                rotateEnable: false
+                            });
+                            var colors = ["#D1FFE6", "#95FFA2", "#65FF74", "#44F259", "#00F230"];
+                            scene.on('loaded', function() {
+                                scene.PolygonLayer().source(city).color('#000000').shape('line').style({
+                                    opacity: 10
+                                }).render();
+                                var layer =scene.PolygonLayer().source(city)
+                                    .color('count', function(p) {
+                                        if (p > 15*application.CHART_MAPS_NUMBER) {
+                                            return colors[4];
+                                        } else if (p >= 10*application.CHART_MAPS_NUMBER) {
+                                            return colors[3];
+                                        } else if (p >= 5*application.CHART_MAPS_NUMBER) {
+                                            return colors[2];
+                                        } else if (p >= 1*application.CHART_MAPS_NUMBER) {
+                                            return colors[1];
+                                        } else {
+                                            return colors[0];
+                                        }
+                                    }).shape('fill').active(true).style({
+                                        opacity: 20
+                                    }).render();
+
+
+
+
+                                layer.style({
+                                    fill:'red',
+                                    opacity:0.8,
+                                    stroke:'white'
+                                })
+                                var popup = new L7.Popup();
+                                layer.on('mousemove', function(e) {
+                                    var lnglat = e.lnglat,
+                                        feature = e.feature;
+
+                                    var html = '<p>工作地址 ' + feature.properties.name + '</p><p>人数 ' + feature.properties.count + '</p>';
+                                    popup.setLnglat([lnglat.lng, lnglat.lat]).setHTML(html).addTo(scene);
+                                });
+
+                                var legend = new L7.Control.Base({
+                                    position: 'bottomright'
+                                });
+                                legend.onAdd = function() {
+                                    var el = document.createElement('div');
+                                    el.className = 'infolegend legend';
+                                    var grades = [0, 1*application.CHART_MAPS_NUMBER, 5*application.CHART_MAPS_NUMBER, 10*application.CHART_MAPS_NUMBER, 15*application.CHART_MAPS_NUMBER];
+                                    for (var i = 0; i < grades.length; i++) {
+                                        el.innerHTML += '<i style="background:' + colors[i] + ';opacity:1"></i> ' + grades[i] + (grades[i + 1] ? '–' + grades[i + 1] + '<br>' : '+');
+                                    }
+                                    return el;
+                                };
+                                legend.addTo(scene);
+
+                              /*  scene.PolygonLayer().source(city).color('#000000').shape('line').style({
+                                    opacity: 20
+                                }).render();*/
+                            });
+                        }
+                    });
+                }
+            })
+        }
+    });
+
+</script>
+</html>

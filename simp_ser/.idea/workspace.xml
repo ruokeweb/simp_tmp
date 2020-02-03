@@ -1,0 +1,1939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="71b4b3b8-11d0-4ef5-8f46-bc32104fd793" name="Default Changelist" comment="修改合并校友 mergeSmInfo 的判断逻辑">
+      <change beforePath="$PROJECT_DIR$/../simp_layui/src/main/webapp/static/js/header_base.js" beforeDir="false" afterPath="$PROJECT_DIR$/../simp_layui/src/main/webapp/static/js/header_base.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simp_layui/src/main/webapp/static/js/modules/message/mesMessage/mesMessageAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/../simp_layui/src/main/webapp/static/js/modules/message/mesMessage/mesMessageAdd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/BackUpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/BackUpController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/JsonOper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/JsonOper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mpri/aio/gen/GenTemplateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mpri/aio/gen/GenTemplateTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mpri/aio/schoolmate/SmSchoolmateMergeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mpri/aio/schoolmate/SmSchoolmateMergeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mpri/aio/updatepassword/UpdatePassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mpri/aio/updatepassword/UpdatePassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simp_wc_sp/common/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../simp_wc_sp/common/app.js" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="15" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MysqlExport.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="475">
+              <caret line="52" column="17" lean-forward="true" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#723#724#0" expanded="true" />
+                <element signature="e#765#766#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MongodbExport.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="429">
+              <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="356">
+              <caret line="172" column="27" selection-start-line="172" selection-start-column="27" selection-end-line="172" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/license/controller/SysLicenseController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="593" column="23" selection-start-line="593" selection-start-column="12" selection-end-line="593" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/licensefile/service/LicenseFileService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="584">
+              <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/app/mine/controller/AppSchoomateBaseInfoController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="711">
+              <caret line="90" column="31" lean-forward="true" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/service/BackService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="700">
+              <caret line="28" column="31" lean-forward="true" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/mpri/aio/back/BackTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>list</find>
+      <find>loadAllListBy</find>
+      <find>RequiresAuthentication</find>
+      <find>changePwd</find>
+      <find>system</find>
+      <find>system.out</find>
+      <find>12</find>
+      <find>27017</find>
+      <find>sendSmCardMesReceive</find>
+      <find>constructor</find>
+      <find>9092</find>
+      <find>backup</find>
+      <find>MD_PATH</find>
+      <find>mdpath</find>
+      <find>getWilDoByPage===list</find>
+      <find>System.out.println</find>
+      <find>json.oper.filename</find>
+      <find>back</find>
+      <find>back.mysql.mdpath</find>
+      <find>stmt</find>
+      <find>getTableInsertStatement</find>
+      <find>addIfNotExists</find>
+      <find>mongo</find>
+      <find>driverName</find>
+      <find>mongodb</find>
+      <find>licensefile</find>
+      <find>file</find>
+      <find>sqlFileName</find>
+      <find>pack</find>
+      <find>generatedZipFile</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>pointedId</replace>
+      <replace>pointed_id</replace>
+      <replace>eventId</replace>
+      <replace>private String</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>E:\workspace\simp\simp_ser\src\</dir>
+      <dir>E:\workspace\simp\simp_ser\src\main\java\com\mpri\aio\system\utils</dir>
+      <dir>E:\workspace\simp\simp_ser</dir>
+      <dir>E:\workspace\simp\simp_ser\src\main\resources\mapping\settings</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/chart/service/ActivityChartService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/chart/controller/ActivityChartController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/chart/ActivityChartMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/chart/service/DonationChartService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/service/SysUserService.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/message/MesMessageMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/chart/DonationChartMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/test.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mysql.cnf" />
+        <option value="$PROJECT_DIR$/src/main/resources/backup.json" />
+        <option value="$PROJECT_DIR$/src/test/java/com/mpri/aio/gen/GenTemplateTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/SysHistoryPasswordController.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/mpri/aio/updatepassword/UpdatePassword.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/system/SysHistoryPasswordMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/service/SysHistoryPasswordService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/mapper/SysHistoryPasswordMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/model/SysUser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/model/SysHistoryPassword.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/vo/UpdatePasswordVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/vo/LoginVo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/app/reg/service/RegistService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/app/reg/mapper/RegistMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/app/reg/registMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/app/reg/controller/RegistController.java" />
+        <option value="$PROJECT_DIR$/opt/1577260131317/1577260131317.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/LoginController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/SysUserController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/system/SysUserMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/common/GlobalStr.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/service/SysMenuService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/mapper/SysMenuMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/system/SysMenuMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/service/SysRoleService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/mapper/SysRoleMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mapping/system/SysRoleMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/SysRoleController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/SysMenuController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/sendEmail.ftl" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/MysqlOper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/BackUpController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/JsonOper.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/model/Resource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MysqlUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/model/MySqlInfo.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/mpri/aio/back/BackTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/controller/BackMysql.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/service/BackService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MongodbExport.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MysqlExport.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="E:\maven\apache-maven-3.2.5\repository_xiaoyou" />
+        <option name="mavenHome" value="E:/maven/apache-maven-3.2.5" />
+        <option name="userSettingsFile" value="E:\maven\apache-maven-3.2.5\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="simp_ser" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="simp_ser" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="706" />
+    <option name="y" value="144" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="association" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="association" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="back" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="back" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="back" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="back" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="back" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="mapping" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="act" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="back" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="simp_ser" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aio" type="462c0819:PsiDirectoryNode" />
+              <item name="gen" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="simp_ser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/mpri/aio/app/wxdata/controller" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.mpri.aio.back.model" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.mpri.aio.app.wxdata.controller" />
+      <recent name="com.mpri.aio.untils.template" />
+      <recent name="com.mpri.aio.app.utils.service" />
+      <recent name="com.mpri.aio.act.utils" />
+      <recent name="com.mpri.aio" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\workspace\simp\simp_ser\src\main\resources\mapping\chart" />
+      <recent name="E:\workspace\simp\simp_ser\src\main\java\com\mpri\aio\chart\service" />
+      <recent name="E:\workspace\simp\simp_ser\src\main\java\com\mpri\aio\system\common" />
+      <recent name="E:\workspace\simp\simp_ser\src\main\resources" />
+      <recent name="E:\workspace\simp\simp_ser\src\main\java\com\mpri\aio\webber" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mpri.aio.back" />
+      <recent name="com.mpri.aio.chart.service" />
+      <recent name="com.mpri.aio.chart.mapper" />
+      <recent name="com.mpri.aio.chart.controller" />
+      <recent name="com.mpri.aio.chart.vo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\workspace\simp\simp_ser\src\main\resources\mapping\app\wxdata" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.BackTest.testLoadContent">
+    <configuration name="GlobalStr" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mpri.aio.system.common.GlobalStr" />
+      <module name="simp_ser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mpri.aio.system.common.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LoginController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mpri.aio.system.controller.LoginController" />
+      <module name="simp_ser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mpri.aio.system.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BackTest.testLoadContent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="simp_ser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mpri.aio.back.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mpri.aio.back" />
+      <option name="MAIN_CLASS_NAME" value="com.mpri.aio.back.BackTest" />
+      <option name="METHOD_NAME" value="testLoadContent" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChartTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="simp_ser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mpri.aio.chart.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mpri.aio.chart" />
+      <option name="MAIN_CLASS_NAME" value="com.mpri.aio.chart.ChartTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GenTemplateTest.creat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="simp_ser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mpri.aio.gen.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mpri.aio.gen" />
+      <option name="MAIN_CLASS_NAME" value="com.mpri.aio.gen.GenTemplateTest" />
+      <option name="METHOD_NAME" value="creat" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="simp_ser" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mpri.aio.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.GlobalStr" />
+      <item itemvalue="Application.LoginController" />
+      <item itemvalue="JUnit.ChartTest.test" />
+      <item itemvalue="JUnit.GenTemplateTest.creat" />
+      <item itemvalue="JUnit.BackTest.testLoadContent" />
+      <item itemvalue="Spring Boot.Application" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.BackTest.testLoadContent" />
+        <item itemvalue="Application.LoginController" />
+        <item itemvalue="Application.GlobalStr" />
+        <item itemvalue="JUnit.GenTemplateTest.creat" />
+        <item itemvalue="JUnit.ChartTest.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71b4b3b8-11d0-4ef5-8f46-bc32104fd793" name="Default Changelist" comment="" />
+      <created>1555593749732</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1555593749732</updated>
+      <workItem from="1555593752424" duration="297000" />
+      <workItem from="1555636292602" duration="19328000" />
+      <workItem from="1555894161757" duration="7272000" />
+      <workItem from="1555910047139" duration="21659000" />
+      <workItem from="1555982551836" duration="1239000" />
+      <workItem from="1556023983446" duration="3000" />
+      <workItem from="1556066561715" duration="2431000" />
+      <workItem from="1556092290608" duration="189000" />
+      <workItem from="1556093661924" duration="10424000" />
+      <workItem from="1556155583962" duration="3128000" />
+      <workItem from="1556240928056" duration="8164000" />
+      <workItem from="1556412222385" duration="6659000" />
+      <workItem from="1556450292783" duration="3259000" />
+      <workItem from="1556501924970" duration="5516000" />
+      <workItem from="1556523661184" duration="3480000" />
+      <workItem from="1557018883114" duration="2401000" />
+      <workItem from="1558938418678" duration="14055000" />
+      <workItem from="1559006285518" duration="17658000" />
+      <workItem from="1559092264815" duration="21573000" />
+      <workItem from="1559178223981" duration="19202000" />
+      <workItem from="1559210460334" duration="8163000" />
+      <workItem from="1559264733267" duration="23236000" />
+      <workItem from="1559523157504" duration="24599000" />
+      <workItem from="1559611837343" duration="19904000" />
+      <workItem from="1559652502927" duration="55000" />
+      <workItem from="1559710675668" duration="13212000" />
+      <workItem from="1559783618640" duration="24798000" />
+      <workItem from="1560130243532" duration="13146000" />
+      <workItem from="1560148498394" duration="12629000" />
+      <workItem from="1560214240396" duration="26998000" />
+      <workItem from="1560300939565" duration="16906000" />
+      <workItem from="1560342320453" duration="670000" />
+      <workItem from="1560387838627" duration="2025000" />
+      <workItem from="1560409586328" duration="15016000" />
+      <workItem from="1560474566889" duration="16975000" />
+      <workItem from="1560734255323" duration="1886000" />
+      <workItem from="1560758968477" duration="758000" />
+      <workItem from="1560819208541" duration="3473000" />
+      <workItem from="1560905930160" duration="14558000" />
+      <workItem from="1560992879677" duration="11766000" />
+      <workItem from="1561079339202" duration="1442000" />
+      <workItem from="1561084968102" duration="10588000" />
+      <workItem from="1561165564653" duration="713000" />
+      <workItem from="1561340703937" duration="7813000" />
+      <workItem from="1561424802413" duration="18773000" />
+      <workItem from="1561510804494" duration="17243000" />
+      <workItem from="1561599901448" duration="13911000" />
+      <workItem from="1561684371765" duration="16038000" />
+      <workItem from="1561941654592" duration="13774000" />
+      <workItem from="1562029297225" duration="11426000" />
+      <workItem from="1562116148507" duration="11308000" />
+      <workItem from="1562202107919" duration="21380000" />
+      <workItem from="1562289400622" duration="7136000" />
+      <workItem from="1562304083059" duration="8661000" />
+      <workItem from="1562374186531" duration="7479000" />
+      <workItem from="1562548759176" duration="4921000" />
+      <workItem from="1562576693667" duration="606000" />
+      <workItem from="1562654120168" duration="4510000" />
+      <workItem from="1562720885231" duration="4987000" />
+      <workItem from="1562739634866" duration="7435000" />
+      <workItem from="1562808460555" duration="20433000" />
+      <workItem from="1562895914653" duration="624000" />
+      <workItem from="1562902724611" duration="1008000" />
+      <workItem from="1563170048591" duration="7882000" />
+      <workItem from="1563239172131" duration="5983000" />
+      <workItem from="1563267971871" duration="2537000" />
+      <workItem from="1563341511818" duration="5000000" />
+      <workItem from="1563411802170" duration="21385000" />
+      <workItem from="1563498553948" duration="13485000" />
+      <workItem from="1563582823393" duration="1913000" />
+      <workItem from="1563843791778" duration="21133000" />
+      <workItem from="1563930172366" duration="15420000" />
+      <workItem from="1564015846288" duration="37532000" />
+      <workItem from="1564286508617" duration="2250000" />
+      <workItem from="1564364477787" duration="7011000" />
+      <workItem from="1564448284311" duration="14926000" />
+      <workItem from="1564535232560" duration="2611000" />
+      <workItem from="1564549551773" duration="3450000" />
+      <workItem from="1564621642485" duration="8161000" />
+      <workItem from="1564711888362" duration="6000" />
+      <workItem from="1564733136962" duration="129000" />
+      <workItem from="1564748640299" duration="30539000" />
+      <workItem from="1564990568769" duration="27629000" />
+      <workItem from="1565258315417" duration="1679000" />
+      <workItem from="1565314032908" duration="13478000" />
+      <workItem from="1565782671097" duration="1706000" />
+      <workItem from="1565832843094" duration="8048000" />
+      <workItem from="1565948711996" duration="14599000" />
+      <workItem from="1566262778101" duration="5366000" />
+      <workItem from="1566291522076" duration="4858000" />
+      <workItem from="1566350166489" duration="21908000" />
+      <workItem from="1566438363158" duration="23015000" />
+      <workItem from="1566783705056" duration="12807000" />
+      <workItem from="1566867562263" duration="10976000" />
+      <workItem from="1566886364769" duration="164000" />
+      <workItem from="1566886543172" duration="22483000" />
+      <workItem from="1566954197368" duration="4415000" />
+      <workItem from="1566959200812" duration="752000" />
+      <workItem from="1566960361495" duration="615000" />
+      <workItem from="1566960992094" duration="17695000" />
+      <workItem from="1567041621627" duration="21933000" />
+      <workItem from="1567152749631" duration="24803000" />
+      <workItem from="1567427281165" duration="2000" />
+      <workItem from="1567472198503" duration="10356000" />
+      <workItem from="1567502114052" duration="9063000" />
+      <workItem from="1567559175484" duration="1580000" />
+      <workItem from="1567568233240" duration="26149000" />
+      <workItem from="1567990112577" duration="62755000" />
+      <workItem from="1568250553960" duration="15991000" />
+      <workItem from="1568596131088" duration="84094000" />
+      <workItem from="1568946244187" duration="3209000" />
+      <workItem from="1569217247195" duration="637000" />
+      <workItem from="1569302094136" duration="147000" />
+      <workItem from="1569302586214" duration="2579000" />
+      <workItem from="1569307049828" duration="1939000" />
+      <workItem from="1569313091155" duration="13472000" />
+      <workItem from="1569391786865" duration="56000" />
+      <workItem from="1569392765897" duration="51228000" />
+      <workItem from="1569639809531" duration="14544000" />
+      <workItem from="1569720399850" duration="1250000" />
+      <workItem from="1569721686131" duration="1020000" />
+      <workItem from="1569723468601" duration="2596000" />
+      <workItem from="1569733477467" duration="4710000" />
+      <workItem from="1569810640303" duration="129000" />
+      <workItem from="1569810833919" duration="777000" />
+      <workItem from="1570497071739" duration="1647000" />
+      <workItem from="1570516288559" duration="57000" />
+      <workItem from="1570586582492" duration="2048000" />
+      <workItem from="1570591037245" duration="5061000" />
+      <workItem from="1570599366544" duration="10712000" />
+      <workItem from="1570616361608" duration="2456000" />
+      <workItem from="1570685767327" duration="164000" />
+      <workItem from="1570701344643" duration="3453000" />
+      <workItem from="1570770299374" duration="88000" />
+      <workItem from="1571039837598" duration="1350000" />
+      <workItem from="1571045289927" duration="3636000" />
+      <workItem from="1571052524320" duration="3415000" />
+      <workItem from="1571214277692" duration="1803000" />
+      <workItem from="1571375405471" duration="60000" />
+      <workItem from="1571709765166" duration="5000" />
+      <workItem from="1571712345341" duration="816000" />
+      <workItem from="1571732577336" duration="7000" />
+      <workItem from="1571736770803" duration="354000" />
+      <workItem from="1571900617691" duration="8842000" />
+      <workItem from="1572247616506" duration="5676000" />
+      <workItem from="1572260320266" duration="5478000" />
+      <workItem from="1572498811340" duration="1681000" />
+      <workItem from="1572517407235" duration="597000" />
+      <workItem from="1572595261614" duration="1194000" />
+      <workItem from="1572833381030" duration="598000" />
+      <workItem from="1572867387701" duration="80579000" />
+      <workItem from="1573179933528" duration="142000" />
+      <workItem from="1573180264139" duration="18000" />
+      <workItem from="1573180859860" duration="99000" />
+      <workItem from="1573180988893" duration="6269000" />
+      <workItem from="1573197559873" duration="142000" />
+      <workItem from="1573197765116" duration="5765000" />
+      <workItem from="1573434374798" duration="3751000" />
+      <workItem from="1573452916327" duration="80000" />
+      <workItem from="1573453272044" duration="2924000" />
+      <workItem from="1573474824558" duration="897000" />
+      <workItem from="1573520935471" duration="1909000" />
+      <workItem from="1573529580040" duration="642000" />
+      <workItem from="1573546522389" duration="1008000" />
+      <workItem from="1573626741556" duration="1211000" />
+      <workItem from="1574133543325" duration="2399000" />
+      <workItem from="1574145236018" duration="1356000" />
+      <workItem from="1574151562105" duration="3466000" />
+      <workItem from="1574163714597" duration="699000" />
+      <workItem from="1574220939556" duration="11969000" />
+      <workItem from="1574249556669" duration="598000" />
+      <workItem from="1574320337078" duration="8083000" />
+      <workItem from="1574335582385" duration="18831000" />
+      <workItem from="1574509694862" duration="5000" />
+      <workItem from="1574558239860" duration="5175000" />
+      <workItem from="1574644247084" duration="23000" />
+      <workItem from="1574645614640" duration="3286000" />
+      <workItem from="1575250384134" duration="3407000" />
+      <workItem from="1575263798731" duration="5833000" />
+      <workItem from="1575273354478" duration="7737000" />
+      <workItem from="1575335499238" duration="42634000" />
+      <workItem from="1575508200836" duration="14958000" />
+      <workItem from="1575595169378" duration="14483000" />
+      <workItem from="1575854250403" duration="19554000" />
+      <workItem from="1575939800452" duration="19773000" />
+      <workItem from="1576026445033" duration="44246000" />
+      <workItem from="1576483943116" duration="135000" />
+      <workItem from="1576484712168" duration="1329000" />
+      <workItem from="1576489996260" duration="68000" />
+      <workItem from="1576493314161" duration="2780000" />
+      <workItem from="1576571179244" duration="2387000" />
+      <workItem from="1576650755281" duration="36000" />
+      <workItem from="1576836006453" duration="235000" />
+      <workItem from="1576836343438" duration="343000" />
+      <workItem from="1576838286209" duration="1234000" />
+      <workItem from="1577089119175" duration="1105000" />
+      <workItem from="1577171053882" duration="8884000" />
+      <workItem from="1577189386823" duration="1462000" />
+      <workItem from="1577236564540" duration="994000" />
+      <workItem from="1577237630758" duration="32452000" />
+      <workItem from="1577409114277" duration="6987000" />
+      <workItem from="1577438486192" duration="2116000" />
+      <workItem from="1577580731299" duration="23582000" />
+      <workItem from="1577927502265" duration="1605000" />
+      <workItem from="1577932434567" duration="1209000" />
+      <workItem from="1577946879182" duration="9674000" />
+      <workItem from="1578272627530" duration="18523000" />
+      <workItem from="1578445701863" duration="26882000" />
+      <workItem from="1578885593562" duration="791000" />
+      <workItem from="1578886767640" duration="1764000" />
+      <workItem from="1578894728059" duration="10896000" />
+      <workItem from="1579052080737" duration="911000" />
+      <workItem from="1579395838889" duration="45307000" />
+      <workItem from="1579569056497" duration="6988000" />
+    </task>
+    <task id="LOCAL-00017" summary="首页热门活动将已经结束的去掉">
+      <created>1561629207588</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1561629207588</updated>
+    </task>
+    <task id="LOCAL-00018" summary="活动状态新增定时任务">
+      <created>1561692502687</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1561692502687</updated>
+    </task>
+    <task id="LOCAL-00019" summary="校友会下的校友列表搜索">
+      <created>1561701263847</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1561701263847</updated>
+    </task>
+    <task id="LOCAL-00020" summary="后台校友祝福列表顺序修改，按照创建时间排">
+      <created>1561704016151</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1561704016152</updated>
+    </task>
+    <task id="LOCAL-00021" summary="新增通讯地址sql异常">
+      <created>1561708813623</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1561708813623</updated>
+    </task>
+    <task id="LOCAL-00022" summary="值年返校后台列表加上按照创建时间排序">
+      <created>1561947832374</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1561947832375</updated>
+    </task>
+    <task id="LOCAL-00023" summary="活动已经报名的列表排序按照报名时间">
+      <created>1561985838711</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1561985838711</updated>
+    </task>
+    <task id="LOCAL-00024" summary="新增校友会出现undefined 处理">
+      <created>1562058895765</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1562058895765</updated>
+    </task>
+    <task id="LOCAL-00025" summary="小程序教育经历列表接口调整">
+      <created>1562149491415</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1562149491415</updated>
+    </task>
+    <task id="LOCAL-00026" summary="他的个人信息的加入校友会接口调整">
+      <created>1562208520069</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1562208520069</updated>
+    </task>
+    <task id="LOCAL-00027" summary="更换后台捐赠记录接口">
+      <created>1562222633909</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1562222633909</updated>
+    </task>
+    <task id="LOCAL-00028" summary="管理端捐赠记录">
+      <created>1562222705657</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1562222705657</updated>
+    </task>
+    <task id="LOCAL-00029" summary="捐赠状态定时任务">
+      <created>1562232394441</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1562232394441</updated>
+    </task>
+    <task id="LOCAL-00030" summary="兰州理工测试类修改密码">
+      <created>1562311572992</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1562311572992</updated>
+    </task>
+    <task id="LOCAL-00031" summary="一起捐审核时发送模板">
+      <created>1564033049872</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1564033049872</updated>
+    </task>
+    <task id="LOCAL-00032" summary="点击注册时保存模板消息，用于审核发送通知">
+      <created>1564042898806</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1564042898806</updated>
+    </task>
+    <task id="LOCAL-00033" summary="管理端新注册校友审核成功">
+      <created>1564376549212</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1564376549212</updated>
+    </task>
+    <task id="LOCAL-00034" summary="基础数据增加userId">
+      <created>1564566423637</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1564566423638</updated>
+    </task>
+    <task id="LOCAL-00035" summary="迁移存库">
+      <created>1564990596507</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1564990596507</updated>
+    </task>
+    <task id="LOCAL-00036" summary="CodeReview">
+      <created>1565253928573</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1565253928573</updated>
+    </task>
+    <task id="LOCAL-00037" summary="小程序个人基本信息接口新增政治面貌">
+      <created>1566292836943</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1566292836943</updated>
+    </task>
+    <task id="LOCAL-00038" summary="修改职业经历getProList接口">
+      <created>1566300864267</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1566300864267</updated>
+    </task>
+    <task id="LOCAL-00039" summary="小程序教育经历接口修改">
+      <created>1566358340377</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1566358340377</updated>
+    </task>
+    <task id="LOCAL-00040" summary="校友其他信息和并新增查询接口">
+      <created>1566438495996</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1566438495996</updated>
+    </task>
+    <task id="LOCAL-00041" summary="pom修改 编译版本为12">
+      <created>1566438561477</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1566438561477</updated>
+    </task>
+    <task id="LOCAL-00042" summary="交大校友数据合并 功能开发">
+      <created>1566464177097</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1566464177097</updated>
+    </task>
+    <task id="LOCAL-00043" summary="数据合并">
+      <created>1566464276461</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1566464276461</updated>
+    </task>
+    <task id="LOCAL-00044" summary="交大老数据社会经历合并">
+      <created>1566464765296</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1566464765296</updated>
+    </task>
+    <task id="LOCAL-00045" summary="修改合并校友 mergeSmInfo 的判断逻辑">
+      <created>1566466703831</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1566466703831</updated>
+    </task>
+    <task id="LOCAL-00046" summary="根据手机号查询校友">
+      <created>1568184148834</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1568184148834</updated>
+    </task>
+    <task id="LOCAL-00047" summary="修改活动表单管理端bug">
+      <created>1569476112601</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1569476112601</updated>
+    </task>
+    <task id="LOCAL-00048" summary="统计性别问题处理">
+      <created>1569752872970</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1569752872970</updated>
+    </task>
+    <task id="LOCAL-00049" summary="组件通用捐赠接口修改">
+      <created>1571048309186</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1571048309186</updated>
+    </task>
+    <task id="LOCAL-00050" summary="地图统计接口修改">
+      <created>1573477043246</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1573477043246</updated>
+    </task>
+    <task id="LOCAL-00051" summary="群组测试发送短信或校友卡消息时，设置了群组条件，但是发送时找不到对应人员 ,产生原因院系专业switch没有break">
+      <created>1574140103417</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1574140103418</updated>
+    </task>
+    <task id="LOCAL-00052" summary="删除值年返校小程序还能查到bug修改">
+      <created>1574321798650</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1574321798651</updated>
+    </task>
+    <task id="LOCAL-00053" summary="共同献爱心订阅消息服务端">
+      <created>1574329295855</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1574329295855</updated>
+    </task>
+    <task id="LOCAL-00054" summary="值年返校订阅消息">
+      <created>1574392513883</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1574392513884</updated>
+    </task>
+    <task id="LOCAL-00055" summary="值年返校报名定时任务">
+      <created>1574402946812</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1574402946812</updated>
+    </task>
+    <task id="LOCAL-00056" summary="将活动和值年返校定时任务合并在一起">
+      <created>1574410161834</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1574410161834</updated>
+    </task>
+    <task id="LOCAL-00057" summary="校友新增人数统计时，当没有数据时柱状图显示不明">
+      <created>1575340566647</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1575340566648</updated>
+    </task>
+    <task id="LOCAL-00058" summary="校友政治面貌统计时无数据时图表显示存在问题">
+      <created>1575341045604</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1575341045604</updated>
+    </task>
+    <task id="LOCAL-00059" summary="单位性质统计修改">
+      <created>1575350589173</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1575350589173</updated>
+    </task>
+    <task id="LOCAL-00060" summary="小程序捐赠列表接口权限">
+      <created>1575367009740</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1575367009740</updated>
+    </task>
+    <task id="LOCAL-00061" summary="修改bug&#10;校友工作地点统计时人数和筛选出来的人数不对应，有点校友有多个工作经历时会统计2遍">
+      <created>1575874483977</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1575874483978</updated>
+    </task>
+    <task id="LOCAL-00062" summary="活动表名问题修改&#10;多个表单活动id没有存库">
+      <created>1576045818405</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1576045818406</updated>
+    </task>
+    <task id="LOCAL-00063" summary="统计捐赠项目类型空指针">
+      <created>1576490051037</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1576490051037</updated>
+    </task>
+    <task id="LOCAL-00064" summary="统计接口bug修改&#10;1、捐赠详情汇总中的数据和后台数据对不上">
+      <created>1577177189053</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1577177189054</updated>
+    </task>
+    <task id="LOCAL-00065" summary="将密码过期时间迁移到sys_setting 中">
+      <created>1578299195960</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1578299195961</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="GenTemplateTest_creat - 2019.12.26 at 11h 02m 28s.xml">
+      <configuration name="GenTemplateTest.creat" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 10h 49m 22s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 13h 25m 10s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 13h 32m 55s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 13h 34m 01s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 13h 40m 31s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 13h 55m 45s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 14h 09m 53s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.20 at 20h 55m 00s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BackTest_testLoadContent - 2020.01.21 at 10h 56m 35s.xml">
+      <configuration name="BackTest.testLoadContent" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1985312000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20704375" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Web" order="7" side_tool="true" />
+      <window_info id="Alibaba Cloud Explorer" order="8" weight="0.32977587" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7945571" weight="0.14705883" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.9434365" weight="0.29411766" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32897604" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.7017076" weight="0.22657952" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32897604" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.29829243" side_tool="true" weight="0.91721135" />
+      <window_info anchor="bottom" id="Spring" order="12" weight="0.32897604" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49946696" weight="0.4030501" />
+      <window_info anchor="bottom" id="Java Enterprise" order="14" weight="0.32897604" />
+      <window_info anchor="bottom" id="Alibaba Cloud View" order="15" show_stripe_button="false" weight="0.03267974" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24919957" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.23745997" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" sideWeight="0.4977169" weight="0.016008537" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Database" order="8" weight="0.32959402" />
+      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.5022831" side_tool="true" weight="0.016008537" />
+      <window_info anchor="right" id="Bean Validation" order="10" weight="0.32230523" />
+      <window_info anchor="right" id="Alibaba Function Compute" order="11" />
+      <window_info anchor="right" id="Alibaba Log Console" order="12" weight="0.32977587" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14247599" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Web" order="7" side_tool="true" />
+      <window_info id="Alibaba Cloud Explorer" order="8" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7945571" weight="0.58061004" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.9434365" visible="true" weight="0.03267974" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32897604" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.7017076" weight="0.22657952" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32897604" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.29829243" side_tool="true" weight="0.91721135" />
+      <window_info anchor="bottom" id="Spring" order="12" weight="0.32897604" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49946696" weight="0.4030501" />
+      <window_info anchor="bottom" id="Java Enterprise" order="14" weight="0.32897604" />
+      <window_info anchor="bottom" id="Alibaba Cloud View" order="15" show_stripe_button="false" weight="0.03267974" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24919957" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.23745997" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" sideWeight="0.4977169" weight="0.016008537" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Database" order="8" weight="0.32959402" />
+      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.5022831" side_tool="true" weight="0.016008537" />
+      <window_info anchor="right" id="Bean Validation" order="10" weight="0.32230523" />
+      <window_info anchor="right" id="Alibaba Function Compute" order="11" />
+      <window_info anchor="right" id="Alibaba Log Console" order="12" weight="0.32977587" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="pom修改 编译版本为12" />
+    <MESSAGE value="交大校友数据合并 功能开发" />
+    <MESSAGE value="数据合并" />
+    <MESSAGE value="交大老数据社会经历合并" />
+    <MESSAGE value="修改合并校友 mergeSmInfo 的判断逻辑" />
+    <MESSAGE value="根据手机号查询校友" />
+    <MESSAGE value="修改活动表单管理端bug" />
+    <MESSAGE value="统计性别问题处理" />
+    <MESSAGE value="组件通用捐赠接口修改" />
+    <MESSAGE value="地图统计接口修改" />
+    <MESSAGE value="群组测试发送短信或校友卡消息时，设置了群组条件，但是发送时找不到对应人员 ,产生原因院系专业switch没有break" />
+    <MESSAGE value="删除值年返校小程序还能查到bug修改" />
+    <MESSAGE value="共同献爱心订阅消息服务端" />
+    <MESSAGE value="值年返校订阅消息" />
+    <MESSAGE value="值年返校报名定时任务" />
+    <MESSAGE value="将活动和值年返校定时任务合并在一起" />
+    <MESSAGE value="校友新增人数统计时，当没有数据时柱状图显示不明" />
+    <MESSAGE value="校友政治面貌统计时无数据时图表显示存在问题" />
+    <MESSAGE value="单位性质统计修改" />
+    <MESSAGE value="小程序捐赠列表接口权限" />
+    <MESSAGE value="修改bug&#10;校友工作地点统计时人数和筛选出来的人数不对应，有点校友有多个工作经历时会统计2遍" />
+    <MESSAGE value="活动表名问题修改&#10;多个表单活动id没有存库" />
+    <MESSAGE value="统计捐赠项目类型空指针" />
+    <MESSAGE value="统计接口bug修改&#10;1、捐赠详情汇总中的数据和后台数据对不上" />
+    <MESSAGE value="将密码过期时间迁移到sys_setting 中" />
+    <option name="LAST_COMMIT_MESSAGE" value="将密码过期时间迁移到sys_setting 中" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/commons-io/commons-io/2.6/commons-io-2.6-sources.jar!/org/apache/commons/io/FileUtils.java</url>
+          <line>1821</line>
+          <properties />
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/commons-io/commons-io/2.6/commons-io-2.6-sources.jar!/org/apache/commons/io/FileUtils.java</url>
+          <line>1804</line>
+          <properties />
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/commons-io/commons-io/2.6/commons-io-2.6-sources.jar!/org/apache/commons/io/FileUtils.java</url>
+          <line>1805</line>
+          <properties />
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/BackUpController.java</url>
+          <line>40</line>
+          <properties />
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://D:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/Writer.java</url>
+          <line>180</line>
+          <properties />
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="dapartMap" />
+        <watch expression="map" />
+        <watch expression="((String[])((Collections.UnmodifiableMap.UnmodifiableEntrySet.UnmodifiableEntry)((org.apache.catalina.util.ParameterMap)parameterMap).entrySet().toArray()[4]).getValue())[0]" custom="java.util.Collections.UnmodifiableMap.UnmodifiableEntrySet.UnmodifiableEntry,org.apache.catalina.util.ParameterMap,java.lang.String[]" />
+        <watch expression="this.sig1" language="JAVA" />
+        <watch expression="((TransactionInfo)txInfo).joinpointIdentification" custom="org.springframework.transaction.interceptor.TransactionAspectSupport.TransactionInfo" />
+        <watch expression="smSchoolmateVo.fuzzySearchFiled" />
+        <watch expression="list.get(0).smContacts" />
+        <watch expression="((org.apache.catalina.util.ParameterMap)parameterMap).entrySet().toArray()[1]" custom="org.apache.catalina.util.ParameterMap" />
+        <watch expression="donSchoolmateInfoVo.sex" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/simp_ser$ChartTest_test.ic" NAME="ChartTest.test Coverage Results" MODIFIED="1573194869957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.mpri.aio.chart.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/simp_ser$Application.ic" NAME="Application Coverage Results" MODIFIED="1576130748086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/SysRoleController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/SysMenuController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="71" column="26" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2535#2544#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/system/service/SysRoleService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/system/mapper/SysRoleMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1025">
+          <caret line="49" column="37" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapping/system/SysRoleMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4150">
+          <caret line="166" column="35" selection-start-line="166" selection-start-column="35" selection-end-line="166" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/sendEmail.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/message/controller/MesMessageController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="97" column="10" lean-forward="true" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mysql.cnf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/activiti/service/ActivitiService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="58" column="9" lean-forward="true" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret column="22" lean-forward="true" selection-start-column="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/springframework/spring-webmvc/5.2.1.RELEASE/spring-webmvc-5.2.1.RELEASE.jar!/org/springframework/web/servlet/mvc/method/AbstractHandlerMethodAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/backup.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="2" lean-forward="true" selection-start-column="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/dictionary.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="48" column="4" lean-forward="true" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/src/main/resources/lib/aio_core-1.0-SNAPSHOT.jar!/com/mpri/aio/common/exception/ExceptionResult.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/commons-io/commons-io/2.6/commons-io-2.6-sources.jar!/org/apache/commons/io/FileUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="1804" column="43" selection-start-line="1804" selection-start-column="43" selection-end-line="1804" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/com/alibaba/fastjson/1.2.58/fastjson-1.2.58.jar!/com/alibaba/fastjson/JSON.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="374" column="24" selection-start-line="374" selection-start-column="24" selection-end-line="374" selection-end-column="24" />
+          <folding>
+            <element signature="e#15341#15342#0" expanded="true" />
+            <element signature="e#15388#15389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/MysqlOper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="21" column="31" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="31" />
+          <folding>
+            <element signature="e#509#531#1" expanded="true" />
+            <element signature="e#575#599#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/springframework/spring-webmvc/5.2.1.RELEASE/spring-webmvc-5.2.1.RELEASE.jar!/org/springframework/web/servlet/DispatcherServlet.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="511" selection-start-line="511" selection-end-line="511" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/IOException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="38" column="6" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/Writer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="144" column="75" lean-forward="true" selection-start-line="144" selection-start-column="75" selection-end-line="144" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/FileOutputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="193" column="11" selection-start-line="193" selection-start-column="11" selection-end-line="193" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/springframework/spring-webmvc/5.2.1.RELEASE/spring-webmvc-5.2.1.RELEASE.jar!/org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="784">
+          <caret line="567" column="40" selection-start-line="567" selection-start-column="40" selection-end-line="567" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/springframework/spring-webmvc/5.2.1.RELEASE/spring-webmvc-5.2.1.RELEASE.jar!/org/springframework/web/servlet/mvc/method/annotation/ServletInvocableHandlerMethod.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/springframework/spring-web/5.2.1.RELEASE/spring-web-5.2.1.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/zeroturnaround/zt-zip/1.12/zt-zip-1.12.pom">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/model/Resource.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/association/service/AsAssociationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="52" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/apache/ant/ant/1.7.0/ant-1.7.0.jar!/org/apache/tools/ant/taskdefs/SQLExec.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/JsonOper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/runners/model/FrameworkMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1025">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#1657#1658#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="321" column="52" selection-start-line="321" selection-start-column="45" selection-end-line="321" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/system/controller/BackUpController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="41" column="9" selection-start-line="41" selection-end-line="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/back/MongoOper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="786">
+          <caret line="63" column="15" selection-start-line="63" selection-start-column="15" selection-end-line="63" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MysqlUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="20" column="116" selection-start-line="20" selection-start-column="78" selection-end-line="20" selection-end-column="116" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/model/MySqlInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="36" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/controller/BackMysql.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="1" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/wordExport.ftl">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mpri/aio/gen/GenTemplateTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/service/BackService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="28" column="31" lean-forward="true" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mpri/aio/back/BackTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="172" column="27" selection-start-line="172" selection-start-column="27" selection-end-line="172" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/license/controller/SysLicenseController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="593" column="23" selection-start-line="593" selection-start-column="12" selection-end-line="593" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/licensefile/service/LicenseFileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/untils/file/model/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1650">
+          <caret line="110" column="5" lean-forward="true" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/app/mine/controller/AppSchoomateBaseInfoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="711">
+          <caret line="90" column="31" lean-forward="true" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/mongodb/bson/3.11.2/bson-3.11.2.jar!/org/bson/Document.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4550">
+          <caret line="264" selection-end-line="264" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_131/src.zip!/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="148" column="13" selection-start-line="148" selection-start-column="13" selection-end-line="148" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MongodbExport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="19" column="16" lean-forward="true" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/maven/apache-maven-3.2.5/repository_xiaoyou/org/zeroturnaround/zt-zip/1.12/zt-zip-1.12.jar!/org/zeroturnaround/zip/ZipUtil.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="531" column="70" selection-start-line="531" selection-start-column="66" selection-end-line="531" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mpri/aio/back/utils/MysqlExport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="52" column="17" lean-forward="true" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#723#724#0" expanded="true" />
+            <element signature="e#765#766#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>simp_ser</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Web (simp_ser)|Web</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>simp_ser</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>lib</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

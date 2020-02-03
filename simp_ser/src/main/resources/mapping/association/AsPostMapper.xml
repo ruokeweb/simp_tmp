@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mpri.aio.association.mapper.AsPostMapper">
+
+    <!-- 带校友信息的-->
+    <resultMap id="SchoolmateResultMap" type="com.mpri.aio.association.model.AsPost">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="leave_date" jdbcType="TIMESTAMP" property="leaveDate"/>
+        <result column="post_date" jdbcType="TIMESTAMP" property="postDate"/>
+        <result column="posociation_id" jdbcType="VARCHAR" property="associationId"/>
+        <result column="post_num" jdbcType="INTEGER" property="postNum"/>
+       <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="role_type" jdbcType="VARCHAR" property="roleType"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="is_posting" jdbcType="VARCHAR" property="isPosting"/>
+        <!--<association property="smSchoolmate" column="user_id" select="getSchoolmate"/>-->
+        <collection property="smSchoolmate" javaType="com.mpri.aio.schoolmate.model.SmSchoolmate">
+            <result column="amid" jdbcType="INTEGER" property="id"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="SchoolmateMap" type="com.mpri.aio.schoolmate.model.SmSchoolmate">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <select id ="getSchoolmate"  parameterType="com.mpri.aio.schoolmate.model.SmSchoolmate"  resultMap="SchoolmateMap">
+           select  id,name  from  sm_schoolmate where user_id =#{userId}
+    </select>
+
+    <!-- 基础返回值定义 -->
+    <resultMap id="BaseResultMap" type="com.mpri.aio.association.model.AsPost">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="leave_date" jdbcType="TIMESTAMP" property="leaveDate"/>
+        <result column="post_date" jdbcType="TIMESTAMP" property="postDate"/>
+        <result column="post_num" jdbcType="INTEGER" property="postNum"/>
+        <result column="association_id" jdbcType="VARCHAR" property="associationId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="role_type" jdbcType="VARCHAR" property="roleType"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="is_posting" jdbcType="VARCHAR" property="isPosting"/>
+    </resultMap>
+    
+    
+    
+
+
+    <!-- 基础字段定义 -->
+    <sql id="Base_Column_List">
+    	id, leave_date, post_date, post_num, association_id, remark, create_date, role_type, flag, user_id, is_posting
+	</sql>
+
+    <sql id="SchoolmateBase_Column_List">
+    	  id , complete, mark_ids, pos_lat, marks, pos_long, don_fee, name,  birthday, eg_name,
+    	nation, sex, card_id, openid, status, card_num, pinyin, true_photo, card_status,
+    	point, type, card_type, level, pos_city, user_id
+	</sql>
+
+
+    <!-- 查询条件定义 -->
+    <sql id="query_where">
+        <if test="entity!=null">
+            <if test="entity.id != null and entity.id!='' ">
+                and id=#{entity.id}
+            </if>
+            <if test="entity.leaveDate != null and entity.leaveDate!='' ">
+                and leave_date=#{entity.leaveDate}
+            </if>
+            <if test="entity.postDate != null and entity.postDate!='' ">
+                and post_date=#{entity.postDate}
+            </if>
+            <if test="entity.postNum != null and entity.postNum!='' ">
+                and post_num=#{entity.postNum}
+            </if>
+            <if test="entity.associationId != null and entity.associationId!='' ">
+                and association_id=#{entity.associationId}
+            </if>
+            <if test="entity.remark != null and entity.remark!='' ">
+                and remark=#{entity.remark}
+            </if>
+            <if test="entity.createDate != null and entity.createDate!='' ">
+                and create_date=#{entity.createDate}
+            </if>
+            <if test="entity.roleType != null and entity.roleType!='' ">
+                and role_type=#{entity.roleType}
+            </if>
+            <if test="entity.flag != null and entity.flag!='' ">
+                and flag= #{entity.FLAG_NORMAL}
+            </if>
+            <if test="entity.userId != null and entity.userId!='' ">
+                and user_id=#{entity.userId}
+            </if>
+            <if test="entity.isPosting != null and entity.isPosting!='' ">
+                and is_posting=#{entity.isPosting}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="get" parameterType="com.mpri.aio.association.model.AsPost" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from as_post
+        where id = #{id,jdbcType=VARCHAR} and flag = #{FLAG_NORMAL}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="loadByPage" parameterType="com.mpri.aio.association.model.AsPost" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from as_post
+        <where>
+            <include refid="query_where"></include>
+            order by create_date DESC
+        </where>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="loadSchoolByPage" parameterType="com.mpri.aio.association.model.AsPost" resultMap="SchoolmateResultMap">
+        SELECT DISTINCT
+        sm_s.name,sm_s.id AS amid  , sua.*
+        FROM
+        sm_schoolmate sm_s
+        LEFT JOIN as_post sua ON sua.user_id = sm_s.user_id
+
+        <where>
+        	sm_s.flag = 'NORMAL'
+            <if test="entity.flag!=null and entity.flag !='' ">
+                AND  sua.flag=#{entity.flag}
+            </if>
+            <if test="entity.associationId!=null and entity.associationId !='' ">
+                AND sua.association_id=#{entity.associationId}
+            </if>
+
+            <if test="entity.paramA!=null and entity.paramA !='' ">
+               AND (sm_s.name like   replace (#{entity.paramA},'*','%%')
+                OR sm_s.name like concat('%', #{entity.paramA},'%'))
+            </if>
+
+        </where>
+        ORDER BY sua.create_date DESC
+
+    </select>
+
+    <!-- 依照条件查询所有对象 -->
+    <select id="loadAllListBy" parameterType="com.mpri.aio.association.model.AsPost" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from as_post
+        <where>
+            <include refid="query_where"></include>
+        </where>
+        order by create_date DESC
+    </select>
+
+    <!-- 删除对象 -->
+    <update id="delete" parameterType="com.mpri.aio.association.model.AsPost">
+    	update as_post set flag = #{FLAG_HOLD} where id = #{id,jdbcType=VARCHAR}
+  	</update>
+
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.mpri.aio.association.model.AsPost">
+        insert into as_post
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="leaveDate != null">
+                leave_date,
+            </if>
+            <if test="postDate != null">
+                post_date,
+            </if>
+            <if test="postNum != null">
+                post_num,
+            </if>
+            <if test="associationId != null">
+                association_id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="roleType != null">
+                role_type,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="isPosting != null">
+                is_posting,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="leaveDate != null">
+                #{leaveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="postDate != null">
+                #{postDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="postNum != null">
+                #{postNum,jdbcType=INTEGER},
+            </if>
+            <if test="associationId != null">
+                #{associationId,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="roleType != null">
+                #{roleType,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="isPosting != null">
+                #{isPosting,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新数据 -->
+    <update id="update" parameterType="com.mpri.aio.association.model.AsPost">
+        update as_post
+        <set>
+            <if test="leaveDate != null">
+                leave_date = #{leaveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="postDate != null">
+                post_date = #{postDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="postNum != null">
+                post_num = #{postNum,jdbcType=INTEGER},
+            </if>
+            <if test="associationId != null">
+                association_id = #{associationId,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="roleType != null">
+                role_type = #{roleType,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="isPosting != null">
+                is_posting = #{isPosting,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

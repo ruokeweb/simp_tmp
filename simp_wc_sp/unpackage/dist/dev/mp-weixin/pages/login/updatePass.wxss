@@ -1,0 +1,93 @@
+
+.title {
+    font-size: 52rpx;
+    position: relative;
+    z-index: 1;
+}
+.title:after {
+    content: " ";
+    background: #fbc351;
+    height: 12rpx;
+    width: 100%;
+    position: absolute;
+    bottom: 2rpx;
+    left: 0;
+    z-index: -1;
+}
+.content {
+    padding: 120rpx 70rpx;
+}
+.primary {
+    height: 90rpx;
+    line-height: 90rpx;
+    border-radius: 45rpx;
+}
+.btn_dark {
+    background: #272d3d !important;
+}
+.line {
+    background: #fff !important;
+    color: #3c4250 !important;
+    border: 2rpx solid #000;
+}
+.input_login {
+    
+    height: 2rem;
+}
+.input-group {
+    margin-top: 150rpx;
+}
+.input-row {
+    margin-top: 40rpx;border-bottom: 1px solid #e6e6e6;
+}
+.action-row-center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+.action-row-right {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+}
+.action-row navigator {
+    color: #999999;
+    padding-top: 10rpx;
+}
+.input-row button {}
+.btn-verify {
+    width: 174rpx;
+    height: 64rpx;
+    line-height: 64rpx;
+    background-color: #e2b352 !important;
+    font-size: 26rpx;
+    color: #fff;
+    padding: 0;
+    display: inline-block;
+    position: absolute;
+    top: 0rpx;
+    right: 0rpx;
+    z-index: 1000;
+}
+.placeholderStyle{color: #ccc;}
+

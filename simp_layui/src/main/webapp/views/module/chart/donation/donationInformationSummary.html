@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>捐赠项目次数统计</title>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_base.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="../../../../static/js/header_com.js"></script>
+        <script src="../../../../static/js/g2/data-set.min.js"></script>
+        <script src="../../../../static/js/g2/g2.min.js"></script>
+        <link rel="stylesheet" href="../../../../static/css/metroStyle/metroGreen.css" media="all" />
+    </head>
+    <style type="text/css">
+        .childrenBody {
+            height: 88% !important;
+        }
+        .layui-fluid {
+            margin: 1.5rem !important;
+        }
+        .layui-card-body {
+            position: relative;
+            padding: 10px 5px;
+            line-height: 24px;
+        }
+    </style>
+    <body class="childrenBody" style="width: 99%;">
+        <div style="padding: 20px 0px 20px 0px;  background-color: #F2F2F2;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">捐赠人金额排行</div>
+                        <div class="layui-card-body" >
+                            <table id="donationMoney" lay-filter="donationMoney"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">捐赠人次数排行</div>
+                        <div class="layui-card-body">
+                            <table id="donationCount" lay-filter="donationCount"></table>
+                        </div>
+                    </div>
+                </div>
+             <!--   <div class="layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">捐赠人年龄排行</div>
+                        <div class="layui-card-body">
+                            <table id="donationAge" lay-filter="donationAge"></table>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">捐赠项目笔数排行</div>
+                        <div class="layui-card-body">
+                            <table id="donationProject" lay-filter="donationProject"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/javascript" src="../../../../static/js/modules/chart/donationInformationSummary.js"></script>
+    </body>
+
+</html>
