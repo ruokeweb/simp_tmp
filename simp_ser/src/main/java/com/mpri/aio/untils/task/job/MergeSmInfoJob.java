@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.mpri.aio.schoolmate.service.MergeSchoolmateInfoService;
 
 /**
- * 排名数据收集
+ * 定时任务合并校友的个人相似信息
  */
 @Component(value="MergeSmInfoJob")
 public class MergeSmInfoJob implements Job {
