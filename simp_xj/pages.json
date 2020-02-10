@@ -32,6 +32,10 @@
             "path" : "pages/index/news/newsContent",
             "style" : {}
         }
+        ,{
+            "path" : "pages/register/introReg",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#C0C4CC",
@@ -40,23 +44,30 @@
 		"backgroundColor": "#ffffff",
 		"list": [{
 			"pagePath": "pages/index/index",
-			// "iconPath": "static/img/tabBar/home.png",
-			// "selectedIconPath": "static/img/tabBar/home-on.png",
+			"iconPath": "static/img/tabbar/home.png",
+			"selectedIconPath": "static/img/tabbar/homeactive.png",
 			"text": "首页"
 		},{
+			"pagePath": "pages/asso/asso",
+			"iconPath": "static/img/tabbar/donate.png",
+			"selectedIconPath": "static/img/tabbar/donateactive.png",
+			"text": "校友会"
+		}
+		,{
 			"pagePath": "pages/card/card",
-			// "iconPath": "static/img/tabBar/category.png",
-			// "selectedIconPath": "static/img/tabBar/category-on.png",
+			"iconPath": "static/img/tabbar/service.png",
+			"selectedIconPath": "static/img/tabbar/serviceactive.png",
 			"text": "校友卡"
 		},{
-			"pagePath": "pages/asso/asso",
-			// "iconPath": "static/img/tabBar/cart.png",
-			// "selectedIconPath": "static/img/tabBar/cart-on.png",
-			"text": "校友会"
-		},{
+			"pagePath": "pages/activity/activity",
+			"iconPath": "static/img/tabbar/act.png",
+			"selectedIconPath": "static/img/tabbar/actactive.png",
+			"text": "活动"
+		},
+		{
 			"pagePath": "pages/mine/mine",
-			// "iconPath": "static/img/tabBar/user.png",
-			// "selectedIconPath": "static/img/tabBar/user-on.png",
+			"iconPath": "static/img/tabbar/me.png",
+			"selectedIconPath": "static/img/tabbar/meactive.png",
 			"text": "个人"
 		}]
 	},

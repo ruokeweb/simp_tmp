@@ -737,7 +737,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7065,7 +7065,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7086,14 +7086,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7169,7 +7169,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -7594,9 +7594,9 @@ module.exports = g;
 
 /***/ }),
 /* 4 */
-/*!***************************************!*\
-  !*** D:/workspace/simp_xj/pages.json ***!
-  \***************************************/
+/*!************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/pages.json ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8501,20 +8501,20 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 
 /***/ }),
 /* 7 */
-/*!********************************************************!*\
-  !*** D:/workspace/simp_xj/pages.json?{"type":"style"} ***!
-  \********************************************************/
+/*!*****************************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/pages.json?{"type":"style"} ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/card/card": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/asso/asso": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/activity/activity": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/mine/mine": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/news/newsList": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/news/newsContent": { "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarBackgroundColor": "#0081ff", "navigationBarTitleText": "交大校友", "navigationStyle": "custom", "navigationBarTextStyle": "white" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/card/card": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/asso/asso": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/activity/activity": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/mine/mine": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/news/newsList": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/news/newsContent": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/register/introReg": { "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarBackgroundColor": "#0081ff", "navigationBarTitleText": "交大校友", "navigationStyle": "custom", "navigationBarTextStyle": "white" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
-/*!*******************************************************!*\
-  !*** D:/workspace/simp_xj/pages.json?{"type":"stat"} ***!
-  \*******************************************************/
+/*!****************************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/pages.json?{"type":"stat"} ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8526,9 +8526,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /* 10 */,
 /* 11 */,
 /* 12 */
-/*!******************************************!*\
-  !*** D:/workspace/simp_xj/common/app.js ***!
-  \******************************************/
+/*!***************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/common/app.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8625,9 +8625,9 @@ var MENU_PAGE = {
 
 /***/ }),
 /* 13 */
-/*!*******************************************!*\
-  !*** D:/workspace/simp_xj/common/init.js ***!
-  \*******************************************/
+/*!****************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/common/init.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8713,9 +8713,9 @@ module.exports = {
 
 /***/ }),
 /* 14 */
-/*!*******************************************!*\
-  !*** D:/workspace/simp_xj/common/util.js ***!
-  \*******************************************/
+/*!****************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/common/util.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9083,9 +9083,9 @@ module.exports = {
 
 /***/ }),
 /* 15 */
-/*!*********************************************!*\
-  !*** D:/workspace/simp_xj/common/crypto.js ***!
-  \*********************************************/
+/*!******************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/common/crypto.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9765,9 +9765,9 @@ module.exports = CryptoJS;
 
 /***/ }),
 /* 16 */
-/*!*******************************************!*\
-  !*** D:/workspace/simp_xj/store/index.js ***!
-  \*******************************************/
+/*!****************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/store/index.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10878,9 +10878,9 @@ function normalizeComponent (
 /* 25 */,
 /* 26 */,
 /* 27 */
-/*!**********************************************!*\
-  !*** D:/workspace/simp_xj/common/request.js ***!
-  \**********************************************/
+/*!*******************************************************!*\
+  !*** D:/workspace/simp_tmp/simp_xj/common/request.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

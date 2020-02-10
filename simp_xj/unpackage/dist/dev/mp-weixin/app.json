@@ -7,7 +7,8 @@
     "pages/mine/mine",
     "pages/login/login",
     "pages/index/news/newsList",
-    "pages/index/news/newsContent"
+    "pages/index/news/newsContent",
+    "pages/register/introReg"
   ],
   "subPackages": [],
   "window": {
@@ -24,18 +25,32 @@
     "list": [
       {
         "pagePath": "pages/index/index",
+        "iconPath": "static/img/tabbar/home.png",
+        "selectedIconPath": "static/img/tabbar/homeactive.png",
         "text": "首页"
       },
       {
-        "pagePath": "pages/card/card",
-        "text": "校友卡"
-      },
-      {
         "pagePath": "pages/asso/asso",
+        "iconPath": "static/img/tabbar/donate.png",
+        "selectedIconPath": "static/img/tabbar/donateactive.png",
         "text": "校友会"
       },
       {
+        "pagePath": "pages/card/card",
+        "iconPath": "static/img/tabbar/service.png",
+        "selectedIconPath": "static/img/tabbar/serviceactive.png",
+        "text": "校友卡"
+      },
+      {
+        "pagePath": "pages/activity/activity",
+        "iconPath": "static/img/tabbar/act.png",
+        "selectedIconPath": "static/img/tabbar/actactive.png",
+        "text": "活动"
+      },
+      {
         "pagePath": "pages/mine/mine",
+        "iconPath": "static/img/tabbar/me.png",
+        "selectedIconPath": "static/img/tabbar/meactive.png",
         "text": "个人"
       }
     ]

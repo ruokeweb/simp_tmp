@@ -3,14 +3,20 @@
         <!--导航头 -->
         <cu-custom bgColor="bg-red" :isBack="false"><block slot="content">交大校友</block></cu-custom>
         
-        <!--头部滚动通知 
-		<uni-notice-bar v-if="infoMessage!=null" scrollable="true" 
-		@getmore="disotherImage" :show-get-more="true"  show-icon="true" more-text="查看详情>" single="true" 
-		:text="infoMessage.title" ></uni-notice-bar>-->
-        
+        <!-- 轮播-祝福-->
+        <swiper :indicator-dots="false" :circular="true" :autoplay="true" vertical="true" interval="3000" duration="500" 
+			class="margin-sm" style="height:60upx;min-width:40%; position:absolute;z-index:1024;right: 0;">
+        	<swiper-item v-for="(item,index) in swiperList" :key="index" style="background-color:rgba(0,0,0,0.1);" class="flex justify-start round  bg-brown align-center">
+        		<view class="flex align-center">
+					<image src="/static/img/index/flower.png" mode="scaleToFill" style="height:50upx;width:50upx"></image>
+				</view>
+				<view class="text-cut">一二三四五六七八九十一二{{index}}</view>
+        	</swiper-item>
+        </swiper>
+		
 		<!-- 轮播图-当前为课程-->
-		<swiper class="screen-swiper solid-bottom lines-red" :class="dotStyle?'square-dot':'square-dot'" :indicator-dots="true" 
-        :circular="true" :autoplay="true" interval="3000" duration="500">
+		<swiper class="screen-swiper" :class="dotStyle?'square-dot':'square-dot'" :indicator-dots="true" 
+			:circular="true" :autoplay="true" interval="3500" duration="500">
 			<swiper-item v-for="(item,index) in swiperList" :key="index">
 				<image :src="item.pic" mode="aspectFill"></image>
 			</swiper-item>
@@ -20,16 +26,25 @@
 		<view class="solid-bottom solid-top lines-red"></view>
 		
 		<!-- 领卡与快捷功能区-->
-		<view  class="flex justify-center margin" v-if='isLogin'>
-			
+		<view class="margin-top margin-left margin-right"  v-if='isLogin'>
+			<view class="grid col-4 grid-square ">
+				<view class="bg-img" v-for="(item,index) in cardSer" :key="index" :style="[{ backgroundImage:'url(' + cardSer[index] + ')' }]"></view>
+			</view>
 		</view>
 		<view  class="flex justify-arround bg-img margin" style="background-image: url('/static/img/index/reg_card.png');background-size:100% 100%; height:250upx;" v-else>
 			<view class="basis-lg margin-left">
 				<view class="flex justify-center margin-top text-lg text-brown text-bold">10位</view> 
 				<view class="flex justify-center margin-top-sm text-sm text-brown">校友已领取校友卡,你在等什么?</view> 
-				<view class="flex justify-center margin-top padding-top-sm solid-top lines-white text-white text-cut">土木工程专业的张三已经领取</view>
-			</view> 
-			<view class="flex basis-sm justify-center align-center" >
+				<swiper :indicator-dots="false" :circular="false" :autoplay="true" vertical="true" interval="4000"
+				 style="height: 100%" class="flex justify-center margin-top padding-top-sm solid-top lines-white text-white">
+					<swiper-item v-for="(item,index) in swiperList" :key="index" >
+						<view class="text-cut"><text class="lg cuIcon-notice"></text>
+							土木工程专业的张三已经领111111取{{index}}
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+			<view class="flex basis-sm justify-center align-center"  @tap="toPage('/pages/register/introReg')">
 				<view class="text-white text-lg">立即领卡</view> 
 			</view>
 		</view>
@@ -50,7 +65,6 @@
 					<image src="/static/tmp/index/index1.jpg" mode="aspectFill"></image>
 					<view class="desc">
 						<view class="text-gray text-lg text-bold text-cut" style="max-width:400upx">测试新闻1测试测试新闻1测试测试新闻1测试测试新闻1测试测试新闻1测试测试新闻1测试</view>
-						
 						<view class="text-content "> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
 						<view class="flex justify-end">
 							<view class="cu-tag bg-green light sm round">2019-09-13</view>
@@ -64,7 +78,7 @@
 					<view class="desc">
 						<view class="text-gray text-lg text-bold text-cut" style="max-width:400upx">测试新闻1测试测试新闻1测试测试新闻1测试测试新闻1测试测试新闻1测试测试新闻1测试</view>
 						
-						<view class="text-content "> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
+						<view class="text-content">折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
 						<view class="flex justify-end">
 							<view class="cu-tag bg-green light sm round">2019-09-12</view>
 						</view>
@@ -78,8 +92,7 @@
 					<image src="/static/tmp/index/index3.jpg" mode="aspectFill"></image>
 					<view class="desc">
 						<view class="text-gray text-lg text-bold text-cut" style="max-width:400upx">活动测试活动测试</view>
-						
-						<view class="text-content"> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
+						<view class="text-content">折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
 						<view class="flex justify-between">
 							<view class="cu-tag bg-red light sm round">校友总会</view>
 							<view class="text-sm text-gray"><text class="text-red">10</text>人已报名</view>
@@ -134,7 +147,6 @@
 					}
 				],
 				tabCur: 'news',
-
                 show_mes:false,
 				openid:'',
 				code: '',
@@ -182,6 +194,7 @@
 		},
 		methods: {
             toPage(url){
+				console.log("“url==========》"+url);
                 util.toPage(url);
             },
 			tabSelect(e) {
