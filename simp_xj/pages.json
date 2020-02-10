@@ -1,0 +1,69 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {}
+		}
+        ,{
+            "path" : "pages/card/card",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/asso/asso",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/activity/activity",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/mine/mine",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/login/login",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/news/newsList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/news/newsContent",
+            "style" : {}
+        }
+    ],
+	"tabBar": {
+		"color": "#C0C4CC",
+		"selectedColor": "#1cbbb4",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			// "iconPath": "static/img/tabBar/home.png",
+			// "selectedIconPath": "static/img/tabBar/home-on.png",
+			"text": "首页"
+		},{
+			"pagePath": "pages/card/card",
+			// "iconPath": "static/img/tabBar/category.png",
+			// "selectedIconPath": "static/img/tabBar/category-on.png",
+			"text": "校友卡"
+		},{
+			"pagePath": "pages/asso/asso",
+			// "iconPath": "static/img/tabBar/cart.png",
+			// "selectedIconPath": "static/img/tabBar/cart-on.png",
+			"text": "校友会"
+		},{
+			"pagePath": "pages/mine/mine",
+			// "iconPath": "static/img/tabBar/user.png",
+			// "selectedIconPath": "static/img/tabBar/user-on.png",
+			"text": "个人"
+		}]
+	},
+	"globalStyle": {
+	    "navigationBarBackgroundColor": "#0081ff",
+	    "navigationBarTitleText": "交大校友",
+	    "navigationStyle": "custom",
+	    "navigationBarTextStyle": "white"
+	}
+}
