@@ -16,6 +16,14 @@
             "path" : "pages/activity/activity",
             "style" : {}
         }
+		,{
+		    "path" : "pages/activity/actDetail",
+		    "style" : {}
+		}
+		,{
+		    "path" : "pages/activity/actSign",
+		    "style" : {}
+		}
         ,{
             "path" : "pages/mine/mine",
             "style" : {}

@@ -91,7 +91,7 @@
 				<view class="content margin-top align-center">
 					<image src="/static/tmp/index/index3.jpg" mode="aspectFill"></image>
 					<view class="desc">
-						<view class="text-gray text-lg text-bold text-cut" style="max-width:400upx" @tap="toPage('/pages/activity/activity')">1活动测试活动测试</view>
+						<view class="text-gray text-lg text-bold text-cut" style="max-width:400upx" @tap="toPage('/pages/activity/actDetail')">1活动测试活动测试</view>
 						<view class="text-content">折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
 						<view class="flex justify-between">
 							<view class="cu-tag bg-red light sm round">校友总会</view>
