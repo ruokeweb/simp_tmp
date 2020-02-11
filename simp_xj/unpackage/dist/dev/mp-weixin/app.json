@@ -57,5 +57,6 @@
   },
   "usingComponents": {
     "cu-custom": "/components/cu-custom/cu-custom"
-  }
+  },
+  "sitemapLocation": "sitemap23.json"
 }
